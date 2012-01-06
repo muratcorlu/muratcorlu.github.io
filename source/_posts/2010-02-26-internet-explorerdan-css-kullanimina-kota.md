@@ -2,6 +2,7 @@
 layout: post
 title: "Internet Explorer'dan CSS Kullanımına Kota"
 date: 2010-02-26 00:02
+published: false
 comments: true
 categories: 
 tags: [internet explorer, css]
