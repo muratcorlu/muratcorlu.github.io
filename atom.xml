@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Web geliştirme notları]]></title>
+  <link href="http://muratcorlu.com/atom.xml" rel="self"/>
+  <link href="http://muratcorlu.com/"/>
+  <updated>2012-01-06T14:13:36+02:00</updated>
+  <id>http://muratcorlu.com/</id>
+  <author>
+    <name><![CDATA[Murat Çorlu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Yerimizi bilelim]]></title>
+    <link href="http://muratcorlu.com/yazi/yerimizi-bilelim/"/>
+    <updated>2012-01-06T01:57:00+02:00</updated>
+    <id>http://muratcorlu.com/yazi/yerimizi-bilelim</id>
+    <content type="html"><![CDATA[<p>Blog yazmaya başladığım yaklaşık 6 yıl öncesinden itibaren, blogumun kişisel ve teknik içeriğinin bir arada sunuluyor olmasından rahatsızlık duymuşumdur. Zira websayfamda yazdıklarımı takip etmek isteyenlerin bir kısmı çalışma arkadaşlarım veya ilgilendiğim teknik mevzularla ilgisi olan yazılımcı topluluğu iken, diğer bir kısmı ise, ailem, okul arkadaşlarım, değişik hobiler vesilesiyle tanıştığım kişiler veya bir şekilde internet ortamında beni tanıyanlardan oluşuyor. Hal böyle olunca, siteye teknik bir yazı eklediğimde teknik mevzulara uzak bir çok takipçi için gereksiz ve manasız bir içerik önlerine düşüyor. Tam tersi şekilde, sanatla veya gündem mevzularıyla ilgili düşüncelerimi yazdığımda ise, bir çok teknik takipçim &#8220;hep böyle şeyler yazacaksan beni yorma&#8221; diye düşünüyorlardır muhakkak.</p>
+
+<p>Bu problem aslında bir alanda kendini gösteren herkesin sosyal mecraları kullanması konusunda kendini gösteriyor. Bir fotoğrafçı, Twitter&#8217;da yazarken, kendisini takip eden binlerce fotoğraf severin baskısıyla, bir Fenerbahçe-Galatasaray eleştirisi yazmaktan çekinebiliyor. Veya tanıdık bir firmanın genel müdürü olarak tanınan ve takip edilen birinin, hesabından yemek izlenimlerini paylaşması, takipçileri arasında homurdanmaya sebebiyet verebiliyor. Aslında bu probleme Google+ &#8220;çevreler&#8221; özelliğiyle hatırı sayılır bir çözüm üretmiş durumda. Ancak konuyu dağıtmamak için ona girmiyorum.</p>
+
+<p>Velhasıl-ı kelam, ben de artık yazacağım yazılarımı iki farklı siteye bölmeye karar verdim. Bundan böyle <a href="http://muratcorlu.com">muratcorlu.com</a> sitesinden teknik bir içerik sunmaya çalışacağım. Şimdiye kadar varolan ve kişisel içeriklere de sahip olan sitemi de bundan böyle <a href="http://muratcorlu.net">muratcorlu.net</a> adresimden yayınlamaya başlayacağım.</p>
+
+<p>Bunun tüm takipçilerimi(böyle yazınca karizmatik oluyor ama aslında onlar 3 kişiden ibaretler) mutlu edeceğini ümid ediyorum.</p>
+]]></content>
+  </entry>
+  
+</feed>
