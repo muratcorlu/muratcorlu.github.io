@@ -1,14 +1,14 @@
 <ul class="subscription" data-subscription="rss{% if site.subscribe_email %} email{% endif %}">
-  <li><a href="{{ site.subscribe_rss }}" rel="subscribe-rss" title="RSS ile takip et">RSS</a></li>
+  <li><a href="{{ site.subscribe_rss }}" rel="subscribe-rss" title="Subscribe with RSS">RSS</a></li>
   {% if site.subscribe_email %}
-    <li><a href="{{ site.subscribe_email }}" rel="subscribe-email" title="E-posta ile takip et">E-posta</a></li>
+    <li><a href="{{ site.subscribe_email }}" rel="subscribe-email" title="Subscribe with e-mail">E-mail</a></li>
   {% endif %}
 </ul>
   {% if site.simple_search %}
 <form action="{{ site.simple_search }}" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:{{ site.url | shorthand_url }}" />
-    <input class="search" type="text" name="q" results="0" placeholder="Google ile ara"/>
+    <input class="search" type="text" name="q" results="0" placeholder="Search with Google"/>
   </fieldset>
 </form>
   {% endif %}

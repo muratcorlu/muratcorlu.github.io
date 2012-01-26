@@ -3,7 +3,7 @@ layout: post
 title: "Yerimizi bilelim"
 date: 2012-01-06 01:57
 comments: true
-categories: genel
+categories: ["turkish"] 
 ---
 
 Blog yazmaya başladığım yaklaşık 6 yıl öncesinden itibaren, blogumun kişisel ve teknik içeriğinin bir arada sunuluyor olmasından rahatsızlık duymuşumdur. Zira websayfamda yazdıklarımı takip etmek isteyenlerin bir kısmı çalışma arkadaşlarım veya ilgilendiğim teknik mevzularla ilgisi olan yazılımcı topluluğu iken, diğer bir kısmı ise, ailem, okul arkadaşlarım, değişik hobiler vesilesiyle tanıştığım kişiler veya bir şekilde internet ortamında beni tanıyanlardan oluşuyor. Hal böyle olunca, siteye teknik bir yazı eklediğimde teknik mevzulara uzak bir çok takipçi için gereksiz ve manasız bir içerik önlerine düşüyor. Tam tersi şekilde, sanatla veya gündem mevzularıyla ilgili düşüncelerimi yazdığımda ise, bir çok teknik takipçim "hep böyle şeyler yazacaksan beni yorma" diye düşünüyorlardır muhakkak.
