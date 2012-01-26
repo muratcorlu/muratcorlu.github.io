@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[web development notes]]></title>
-  <link href="http://muratcorlu.github.com/atom.xml" rel="self"/>
-  <link href="http://muratcorlu.github.com/"/>
-  <updated>2012-01-26T14:56:08+02:00</updated>
-  <id>http://muratcorlu.github.com/</id>
+  <link href="http://muratcorlu.com/atom.xml" rel="self"/>
+  <link href="http://muratcorlu.com/"/>
+  <updated>2012-01-26T15:01:14+02:00</updated>
+  <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Dropbox'ı FTP gibi kullanmak]]></title>
-    <link href="http://muratcorlu.github.com/post/dropbox-i-ftp-gibi-kullanmak/"/>
+    <link href="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/"/>
     <updated>2012-01-26T10:43:00+02:00</updated>
-    <id>http://muratcorlu.github.com/post/dropbox-i-ftp-gibi-kullanmak</id>
+    <id>http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak</id>
     <content type="html"><![CDATA[<p><a href="http://db.tt/1ImfZir">Dropbox</a> birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox&#8217;a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.</p>
 
 <p>Bu tür teknoloji aslında yeni sayılmaz. Uzak disklerin bilgisayara bağlanması ve bu disk üzerinde çalışmak daha önce de kullanılan bir yöntemdi ancak Dropbox işi oldukça kolaylaştırdı. Aynı dosyalara web tarayıcısı üzerinden, <a href="http://itunes.apple.com/us/app/dropbox/id327630330?mt=8">iPhone</a> ve <a href="https://market.android.com/details?id=com.dropbox.android">Android</a> uygulamaları sayesinde mobilden de erişebilmek de Dropbox&#8217;ı temel ihtiyaç maddesine dönüştürebiliyor.</p>
@@ -71,9 +71,9 @@
   
   <entry>
     <title type="html"><![CDATA[Yerimizi bilelim]]></title>
-    <link href="http://muratcorlu.github.com/post/yerimizi-bilelim/"/>
+    <link href="http://muratcorlu.com/post/yerimizi-bilelim/"/>
     <updated>2012-01-06T01:57:00+02:00</updated>
-    <id>http://muratcorlu.github.com/post/yerimizi-bilelim</id>
+    <id>http://muratcorlu.com/post/yerimizi-bilelim</id>
     <content type="html"><![CDATA[<p>Blog yazmaya başladığım yaklaşık 6 yıl öncesinden itibaren, blogumun kişisel ve teknik içeriğinin bir arada sunuluyor olmasından rahatsızlık duymuşumdur. Zira websayfamda yazdıklarımı takip etmek isteyenlerin bir kısmı çalışma arkadaşlarım veya ilgilendiğim teknik mevzularla ilgisi olan yazılımcı topluluğu iken, diğer bir kısmı ise, ailem, okul arkadaşlarım, değişik hobiler vesilesiyle tanıştığım kişiler veya bir şekilde internet ortamında beni tanıyanlardan oluşuyor. Hal böyle olunca, siteye teknik bir yazı eklediğimde teknik mevzulara uzak bir çok takipçi için gereksiz ve manasız bir içerik önlerine düşüyor. Tam tersi şekilde, sanatla veya gündem mevzularıyla ilgili düşüncelerimi yazdığımda ise, bir çok teknik takipçim &#8220;hep böyle şeyler yazacaksan beni yorma&#8221; diye düşünüyorlardır muhakkak.</p>
 
 <p>Bu problem aslında bir alanda kendini gösteren herkesin sosyal mecraları kullanması konusunda kendini gösteriyor. Bir fotoğrafçı, Twitter&#8217;da yazarken, kendisini takip eden binlerce fotoğraf severin baskısıyla, bir Fenerbahçe-Galatasaray eleştirisi yazmaktan çekinebiliyor. Veya tanıdık bir firmanın genel müdürü olarak tanınan ve takip edilen birinin, hesabından yemek izlenimlerini paylaşması, takipçileri arasında homurdanmaya sebebiyet verebiliyor. Aslında bu probleme Google+ &#8220;çevreler&#8221; özelliğiyle hatırı sayılır bir çözüm üretmiş durumda. Ancak konuyu dağıtmamak için ona girmiyorum.</p>
