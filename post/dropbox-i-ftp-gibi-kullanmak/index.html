@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>web development notes</title>
+  <title>Dropbox'ı FTP gibi kullanmak - web development notes</title>
   <meta name="author" content="Murat Çorlu">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://muratcorlu.com">
+  <link rel="canonical" href="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -75,15 +75,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox&#8217;ı FTP Gibi Kullanmak</a></h1>
+      <h1 class="entry-title">Dropbox'ı FTP Gibi Kullanmak</h1>
     
     
       <p class="meta">
@@ -107,33 +104,65 @@
   </header>
 
 
-  <div class="entry-content"><p><a href="http://db.tt/1ImfZir">Dropbox</a> birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox&#8217;a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.</p>
+<div class="entry-content"><p><a href="http://db.tt/1ImfZir">Dropbox</a> birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox&#8217;a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.</p>
 
 <p>Bu tür teknoloji aslında yeni sayılmaz. Uzak disklerin bilgisayara bağlanması ve bu disk üzerinde çalışmak daha önce de kullanılan bir yöntemdi ancak Dropbox işi oldukça kolaylaştırdı. Aynı dosyalara web tarayıcısı üzerinden, <a href="http://itunes.apple.com/us/app/dropbox/id327630330?mt=8">iPhone</a> ve <a href="https://market.android.com/details?id=com.dropbox.android">Android</a> uygulamaları sayesinde mobilden de erişebilmek de Dropbox&#8217;ı temel ihtiyaç maddesine dönüştürebiliyor.</p>
 
 <p>Bense bu yazıda size Dropbox&#8217;ın <a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">komut satırı istemcisi</a>nin sağladığı bir nimetten bahsetmek istiyorum.</p>
 
+<!--more-->
+
+
+<h2>Ne gerek var?</h2>
+
+<p>Kişisel sanal sunucu ihtiyacım için yıllardır <a href="http://www.linode.com/?r=c2c44c598b1a93f61a9aadc7eb9c1396b8456d08">Linode</a>&#8216;u kullanıyorum. Sunucunun sistemini kendim yönetebilmek adına herhangi bir sunucu yönetim uygulaması(Plesk vs.) da kullanmıyorum. Sunucumdan yer verdiğim birkaç kişiye sitelerinin dosyalarını değiştirebilme imkanı vermem gerekiyor. FTP kurmak ve bunun güvenliğini sağlamak meşakkatli bir iş. Her FTP kullanıcısı için bir sistem kullanıcısı açmak falan&#8230; İşte bu konuda imdadıma Dropbox CLI yetişiyor.</p>
+
+<p><a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">Dropbox CLI</a> sayesinde sunucuma da Dropbox kurabiliyorum. Arkadaşıma dosyalarını değiştirme imkanı vereceğim sitenin dosyalarını Dropbox klasörüne sembolik link yaparak ekliyorum. Sonra Dropbox yönetim panelinden arkadaşım ile bu klasörü paylaşıyorum(onun da Dropbox hesabı olması gerekiyor). Bu andan itibaren arkadaşımın bilgisayarında da sitenin dosyalarının bir kopyası oluyor. Her iki tarafta yapılan değişiklikler senkronize ediliyor. Böylece kişi siteyi kendi bilgisayarında düzenliyor, dosyayı kaydettikten sonra saniyeler içerisinde site de güncellenmiş oluyor.</p>
+
+<p>Bu kullanımın bir diğer avantajı da Dropbox&#8217;ın dosyalarınızı versiyonlaması. Dropbox&#8217;da bulunan dosyalarınızın ilk oluşturulduğu tarihe kadar bütün versiyonlarına Dropbox yönetici panelinden erişebiliyorsunuz. Bu da yanlışlıkla silinebilecek veya bozulacak dosyalar için büyük bir güven kaynağı oluyor.</p>
+
+<p>Aynı klasör aynı anda birçok dropbox kullanıcısıyla paylaşılabiliyor. Böylece bir ekipte sitede herhangi bir değişiklik yapıldığında ekipteki herkes haberdar olabiliyor.</p>
+
+<h2>Avantajlar</h2>
+
+<p>FTP yerine Dropbox kullanmanın sağlayacağı avantajları maddelersek:</p>
+
+<ol>
+<li>FTP&#8217;den çok daha basit bir kullanım şansı veriyor.</li>
+<li>Dosyalar otomatik olarak versiyonlanıyor ve yedekleniyor.</li>
+<li>Birden fazla kullanıcı ortak kullanabiliyor.</li>
+</ol>
+
+
+<h2>Dezavantajlar</h2>
+
+<p>FTP yerine Dropbox kullanmanın dezavantajları da yok değil:</p>
+
+<ol>
+<li>Dropbox CLI sistemde hatırı sayılır bir hafıza tüketiyor. İhtiyaç olmadığında uygulama durdurulabilir.</li>
+<li>Dosya izinleri taşınmıyor. Dolayısıyla bir dosyaya örneğin 777 izni vermek gerekirse, bunu elle sunucuya girip yapmak gerekir.</li>
+<li>Dropbox klasörlerine şifre koyma şansı yok. Dolayısıyla sitenin dosyaları bilgisayarda açıkda duruyor olacaklar. Ortak kullanılan bilgisayarlarda riskli olabilir.</li>
+</ol>
+
+
+<h2>Sonuç</h2>
+
+<p>FTP olarak kullanmak elbette ki Dropbox&#8217;ın temel amacı değil ve Dropbox, bu amaç için kullanılmasa da oldukça faydalı. Ben bir özellik olarak sunulmayan ancak şartların kendiliğinden doğurduğu ve benim de faydalandığım böyle bir imkandan haberdar etmek istedim.</p>
+
+<p>Dropbox&#8217;a üye olmayanlar için de aşağıdaki referans bağlantımla üye olmalarını tavsiye ederim. Referansım ile 250MB fazladan alan kazanacaksınız.</p>
+
+<p><a href="http://db.tt/1ImfZir">http://db.tt/1ImfZir</a></p>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/post/dropbox-i-ftp-gibi-kullanmak/">Continue reading &rarr;</a>
-    </footer>
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/post/yerimizi-bilelim/">Yerimizi Bilelim</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Yazar <span class="fn">Murat Çorlu</span></span>
+
+      
 
 
 
@@ -146,40 +175,53 @@
 
 
 
-<time datetime="2012-01-06T01:57:00+02:00" pubdate data-updated="true">06.01.2012</time>
-        
-      </p>
+<time datetime="2012-01-26T10:43:00+02:00" pubdate data-updated="true">26.01.2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/language/turkish/'>turkish</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>Blog yazmaya başladığım yaklaşık 6 yıl öncesinden itibaren, blogumun kişisel ve teknik içeriğinin bir arada sunuluyor olmasından rahatsızlık duymuşumdur. Zira websayfamda yazdıklarımı takip etmek isteyenlerin bir kısmı çalışma arkadaşlarım veya ilgilendiğim teknik mevzularla ilgisi olan yazılımcı topluluğu iken, diğer bir kısmı ise, ailem, okul arkadaşlarım, değişik hobiler vesilesiyle tanıştığım kişiler veya bir şekilde internet ortamında beni tanıyanlardan oluşuyor. Hal böyle olunca, siteye teknik bir yazı eklediğimde teknik mevzulara uzak bir çok takipçi için gereksiz ve manasız bir içerik önlerine düşüyor. Tam tersi şekilde, sanatla veya gündem mevzularıyla ilgili düşüncelerimi yazdığımda ise, bir çok teknik takipçim &#8220;hep böyle şeyler yazacaksan beni yorma&#8221; diye düşünüyorlardır muhakkak.</p>
-
-<p>Bu problem aslında bir alanda kendini gösteren herkesin sosyal mecraları kullanması konusunda kendini gösteriyor. Bir fotoğrafçı, Twitter&#8217;da yazarken, kendisini takip eden binlerce fotoğraf severin baskısıyla, bir Fenerbahçe-Galatasaray eleştirisi yazmaktan çekinebiliyor. Veya tanıdık bir firmanın genel müdürü olarak tanınan ve takip edilen birinin, hesabından yemek izlenimlerini paylaşması, takipçileri arasında homurdanmaya sebebiyet verebiliyor. Aslında bu probleme Google+ &#8220;çevreler&#8221; özelliğiyle hatırı sayılır bir çözüm üretmiş durumda. Ancak konuyu dağıtmamak için ona girmiyorum.</p>
-
-<p>Velhasıl-ı kelam, ben de artık yazacağım yazılarımı iki farklı siteye bölmeye karar verdim. Bundan böyle <a href="http://muratcorlu.com">muratcorlu.com</a> sitesinden teknik bir içerik sunmaya çalışacağım. Şimdiye kadar varolan ve kişisel içeriklere de sahip olan sitemi de bundan böyle <a href="http://muratcorlu.net">muratcorlu.net</a> adresimden yayınlamaya başlayacağım.</p>
-
-<p>Bunun tüm takipçilerimi(böyle yazınca karizmatik oluyor ama aslında onlar 3 kişiden ibaretler) mutlu edeceğini ümid ediyorum.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/post/yerimizi-bilelim/" title="Önceki yazı: Yerimizi bilelim">&laquo; Yerimizi bilelim</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/post/archieve/">Archieve</a>
-    
-  </div>
+  <section>
+    <h1>Yorumlar</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     
 <section>
   <h1>Latest tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -196,11 +238,11 @@
 <section>
   <h1>Github repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Loading&#8230;</li>
+    <li class="loading">Loading...</li>
   </ul>
   
   <a href="https://github.com/muratcorlu">@muratcorlu</a> on Github
-  &#8221;
+  "
   <script type="text/javascript">
     $.domReady(function(){
         if (!window.jXHR){
@@ -227,7 +269,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox&#8217;ı FTP gibi kullanmak</a>
+        <a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox'ı FTP gibi kullanmak</a>
       </li>
     
       <li class="post">
@@ -243,6 +285,7 @@
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -257,7 +300,10 @@
       var disqus_shortname = 'muratcorlu';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/';
+        var disqus_url = 'http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
