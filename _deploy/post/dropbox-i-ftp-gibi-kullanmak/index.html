@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dropbox'ı FTP gibi kullanmak - web development notes</title>
+  <meta name="author" content="Murat Çorlu">
+
+  
+  <meta name="description" content="Dropbox birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="web development notes" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono&subset=latin-ext' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-790007-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">web development notes</a></h1>
+  
+    <h2>by Murat Çorlu</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="Subscribe with RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:muratcorlu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search with Google"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/post/archieve/">Archieve</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Dropbox'ı FTP Gibi Kullanmak</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-01-26T10:43:00+02:00" pubdate data-updated="true">26.01.2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://db.tt/1ImfZir">Dropbox</a> birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox&#8217;a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.</p>
+
+<p>Bu tür teknoloji aslında yeni sayılmaz. Uzak disklerin bilgisayara bağlanması ve bu disk üzerinde çalışmak daha önce de kullanılan bir yöntemdi ancak Dropbox işi oldukça kolaylaştırdı. Aynı dosyalara web tarayıcısı üzerinden, <a href="http://itunes.apple.com/us/app/dropbox/id327630330?mt=8">iPhone</a> ve <a href="https://market.android.com/details?id=com.dropbox.android">Android</a> uygulamaları sayesinde mobilden de erişebilmek de Dropbox&#8217;ı temel ihtiyaç maddesine dönüştürebiliyor.</p>
+
+<p>Bense bu yazıda size Dropbox&#8217;ın <a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">komut satırı istemcisi</a>nin sağladığı bir nimetten bahsetmek istiyorum.</p>
+
+<!--more-->
+
+
+<h2>Ne gerek var?</h2>
+
+<p>Kişisel sanal sunucu ihtiyacım için yıllardır <a href="http://www.linode.com/?r=c2c44c598b1a93f61a9aadc7eb9c1396b8456d08">Linode</a>&#8216;u kullanıyorum. Sunucunun sistemini kendim yönetebilmek adına herhangi bir sunucu yönetim uygulaması(Plesk vs.) da kullanmıyorum. Sunucumdan yer verdiğim birkaç kişiye sitelerinin dosyalarını değiştirebilme imkanı vermem gerekiyor. FTP kurmak ve bunun güvenliğini sağlamak meşakkatli bir iş. Her FTP kullanıcısı için bir sistem kullanıcısı açmak falan&#8230; İşte bu konuda imdadıma Dropbox CLI yetişiyor.</p>
+
+<p><a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">Dropbox CLI</a> sayesinde sunucuma da Dropbox kurabiliyorum. Arkadaşıma dosyalarını değiştirme imkanı vereceğim sitenin dosyalarını Dropbox klasörüne sembolik link yaparak ekliyorum. Sonra Dropbox yönetim panelinden arkadaşım ile bu klasörü paylaşıyorum(onun da Dropbox hesabı olması gerekiyor). Bu andan itibaren arkadaşımın bilgisayarında da sitenin dosyalarının bir kopyası oluyor. Her iki tarafta yapılan değişiklikler senkronize ediliyor. Böylece kişi siteyi kendi bilgisayarında düzenliyor, dosyayı kaydettikten sonra saniyeler içerisinde site de güncellenmiş oluyor.</p>
+
+<p>Bu kullanımın bir diğer avantajı da Dropbox&#8217;ın dosyalarınızı versiyonlaması. Dropbox&#8217;da bulunan dosyalarınızın ilk oluşturulduğu tarihe kadar bütün versiyonlarına Dropbox yönetici panelinden erişebiliyorsunuz. Bu da yanlışlıkla silinebilecek veya bozulacak dosyalar için büyük bir güven kaynağı oluyor.</p>
+
+<p>Aynı klasör aynı anda birçok dropbox kullanıcısıyla paylaşılabiliyor. Böylece bir ekipte sitede herhangi bir değişiklik yapıldığında ekipteki herkes haberdar olabiliyor.</p>
+
+<h2>Avantajlar</h2>
+
+<p>FTP yerine Dropbox kullanmanın sağlayacağı avantajları maddelersek:</p>
+
+<ol>
+<li>FTP&#8217;den çok daha basit bir kullanım şansı veriyor.</li>
+<li>Dosyalar otomatik olarak versiyonlanıyor ve yedekleniyor.</li>
+<li>Birden fazla kullanıcı ortak kullanabiliyor.</li>
+</ol>
+
+
+<h2>Dezavantajlar</h2>
+
+<p>FTP yerine Dropbox kullanmanın dezavantajları da yok değil:</p>
+
+<ol>
+<li>Dropbox CLI sistemde hatırı sayılır bir hafıza tüketiyor. İhtiyaç olmadığında uygulama durdurulabilir.</li>
+<li>Dosya izinleri taşınmıyor. Dolayısıyla bir dosyaya örneğin 777 izni vermek gerekirse, bunu elle sunucuya girip yapmak gerekir.</li>
+<li>Dropbox klasörlerine şifre koyma şansı yok. Dolayısıyla sitenin dosyaları bilgisayarda açıkda duruyor olacaklar. Ortak kullanılan bilgisayarlarda riskli olabilir.</li>
+</ol>
+
+
+<h2>Sonuç</h2>
+
+<p>FTP olarak kullanmak elbette ki Dropbox&#8217;ın temel amacı değil ve Dropbox, bu amaç için kullanılmasa da oldukça faydalı. Ben bir özellik olarak sunulmayan ancak şartların kendiliğinden doğurduğu ve benim de faydalandığım böyle bir imkandan haberdar etmek istedim.</p>
+
+<p>Dropbox&#8217;a üye olmayanlar için de aşağıdaki referans bağlantımla üye olmalarını tavsiye ederim. Referansım ile 250MB fazladan alan kazanacaksınız.</p>
+
+<p><a href="http://db.tt/1ImfZir">http://db.tt/1ImfZir</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Yazar <span class="fn">Murat Çorlu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-01-26T10:43:00+02:00" pubdate data-updated="true">26.01.2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/language/turkish/'>turkish</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/post/yerimizi-bilelim/" title="Önceki yazı: Yerimizi bilelim">&laquo; Yerimizi bilelim</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Yorumlar</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>Latest tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("muratcorlu", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/muratcorlu" class="twitter-follow-button" data-show-count="false">Follow @muratcorlu</a>
+  
+</section>
+
+
+<section>
+  <h1>Github repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Loading...</li>
+  </ul>
+  
+  <a href="https://github.com/muratcorlu">@muratcorlu</a> on Github
+  "
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'muratcorlu',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+  <h1>Recent posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox'ı FTP gibi kullanmak</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/yerimizi-bilelim/">Yerimizi bilelim</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Murat Çorlu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'muratcorlu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/';
+        var disqus_url = 'http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
