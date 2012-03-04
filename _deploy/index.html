@@ -9,7 +9,7 @@
   <meta name="author" content="Murat Çorlu">
 
   
-  <meta name="description" content="Dropbox birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi &hellip;">
+  <meta name="description" content="Mac OS Snow Leopard sürümünde Macports yardımıyla kolayca kurup kullandığımız(port install sshfs) sshfs uygulamasını Lion&#8217;da kullanmakta &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://muratcorlu.github.com">
+  <link rel="canonical" href="http://muratcorlu.com">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -62,7 +62,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:muratcorlu.github.com" />
+    <input type="hidden" name="q" value="site:muratcorlu.com" />
     <input class="search" type="text" name="q" results="0" placeholder="Search with Google"/>
   </fieldset>
 </form>
@@ -77,6 +77,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/post/mac-osx-lionda-sshfs-kullanimi/">Mac OSX Lion&#8217;da SSHFS Kullanımı</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-03-04T19:28:00+02:00" pubdate data-updated="true">04.03.2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mac OS Snow Leopard sürümünde Macports yardımıyla kolayca kurup kullandığımız(port install sshfs) sshfs uygulamasını Lion&#8217;da kullanmakta sıkıntılar yaşıyoruz zira sshfs&#8217;in kullandığı MacFUSE uygulamasının Lion uyumlu bir versiyonu çıkmadı. Lion&#8217;da sshfs ile uzak bir noktayı bilgisayarınıza mount etmek istediğinizde aşağıdaki hatayı alıyorsanız, az sonra ileteceğim çözüm sizin de işinizi görecektir:</p>
+
+<pre><code>this MacFUSE library version is incompatible with the MacFUSE kernel extension
+</code></pre>
+
+<p>SSHFS&#8217;i Lion&#8217;da sorunsuz olarak kullanabilmek için MacFUSE&#8217;un varisi Fuse for OSX&#8217;i kullanabilirsiniz. <a href="http://osxfuse.github.com/">Kendi sayfasından</a> son versiyonunu indireceğiniz Fuse for OSX uygulamasını kurduktan sonra, SSHFS&#8217;in Fuse for OSX ile kullanabileceğiniz versiyonunun paketini <a href="https://github.com/osxfuse/sshfs/downloads">github&#8217;daki downloads sayfasından</a> indirip kurarak sorunsuz şekilde kullanabilirsiniz.</p>
+
+<p>Faydası olması dileğiyle&#8230;</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -225,6 +269,10 @@
 <section>
   <h1>Recent posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/post/mac-osx-lionda-sshfs-kullanimi/">Mac OSX Lion&#8217;da SSHFS kullanımı</a>
+      </li>
     
       <li class="post">
         <a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox&#8217;ı FTP gibi kullanmak</a>
