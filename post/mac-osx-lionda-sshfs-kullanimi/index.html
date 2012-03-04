@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Yazı arşivi - web development notes</title>
+  <title>Mac OSX Lion'da SSHFS kullanımı - web development notes</title>
   <meta name="author" content="Murat Çorlu">
 
   
-  <meta name="description" content="Yazı Arşivi 2012 Dropbox&#8217;ı FTP gibi kullanmak
-Jan 26 2012 Yerimizi bilelim
-Jan 06 2012 Latest tweets Status updating... $.domReady(function &hellip;">
+  <meta name="description" content="Mac OS Snow Leopard sürümünde Macports yardımıyla kolayca kurup kullandığımız(port install sshfs) sshfs uygulamasını Lion&#8217;da kullanmakta &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Jan 06 2012 Latest tweets Status updating... $.domReady(function &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://muratcorlu.com/yazi/arsiv">
+  <link rel="canonical" href="http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -78,42 +76,102 @@ Jan 06 2012 Latest tweets Status updating... $.domReady(function &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Yazı Arşivi</h1>
+    
+      <h1 class="entry-title">Mac OSX Lion'da SSHFS Kullanımı</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-03-04T19:28:00+02:00" pubdate data-updated="true">04.03.2012</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>Mac OS Snow Leopard sürümünde Macports yardımıyla kolayca kurup kullandığımız(port install sshfs) sshfs uygulamasını Lion&#8217;da kullanmakta sıkıntılar yaşıyoruz zira sshfs&#8217;in kullandığı MacFUSE uygulamasının Lion uyumlu bir versiyonu çıkmadı. Lion&#8217;da sshfs ile uzak bir noktayı bilgisayarınıza mount etmek istediğinizde aşağıdaki hatayı alıyorsanız, az sonra ileteceğim çözüm sizin de işinizi görecektir:</p>
 
-  
-  <h2>2012</h2>
+<pre><code>this MacFUSE library version is incompatible with the MacFUSE kernel extension
+</code></pre>
 
-<article>
-  
-<h1><a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox&#8217;ı FTP gibi kullanmak</a></h1>
-<time datetime="2012-01-26T10:43:00+02:00" pubdate><span class='month'>Jan</span> <span class='day'>26</span> <span class='year'>2012</span></time>
+<p>SSHFS&#8217;i Lion&#8217;da sorunsuz olarak kullanabilmek için MacFUSE&#8217;un varisi Fuse for OSX&#8217;i kullanabilirsiniz. <a href="http://osxfuse.github.com/">Kendi sayfasından</a> son versiyonunu indireceğiniz Fuse for OSX uygulamasını kurduktan sonra, SSHFS&#8217;in Fuse for OSX ile kullanabileceğiniz versiyonunun paketini <a href="https://github.com/osxfuse/sshfs/downloads">github&#8217;daki downloads sayfasından</a> indirip kurarak sorunsuz şekilde kullanabilirsiniz.</p>
 
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/post/yerimizi-bilelim/">Yerimizi bilelim</a></h1>
-<time datetime="2012-01-06T01:57:00+02:00" pubdate><span class='month'>Jan</span> <span class='day'>06</span> <span class='year'>2012</span></time>
-
-
-</article>
-
+<p>Faydası olması dileğiyle&#8230;</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Yazar <span class="fn">Murat Çorlu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2012-03-04T19:28:00+02:00" pubdate data-updated="true">04.03.2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/language/turkish/'>turkish</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/post/dropbox-i-ftp-gibi-kullanmak/" title="Önceki yazı: Dropbox'ı FTP gibi kullanmak">&laquo; Dropbox'ı FTP gibi kullanmak</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Yorumlar</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -171,6 +229,10 @@ Jan 06 2012 Latest tweets Status updating... $.domReady(function &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/post/mac-osx-lionda-sshfs-kullanimi/">Mac OSX Lion'da SSHFS kullanımı</a>
+      </li>
+    
+      <li class="post">
         <a href="/post/dropbox-i-ftp-gibi-kullanmak/">Dropbox'ı FTP gibi kullanmak</a>
       </li>
     
@@ -202,7 +264,10 @@ Jan 06 2012 Latest tweets Status updating... $.domReady(function &hellip;">
       var disqus_shortname = 'muratcorlu';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/';
+        var disqus_url = 'http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

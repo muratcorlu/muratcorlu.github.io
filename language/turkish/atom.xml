@@ -4,7 +4,7 @@
   <title><![CDATA[Language: turkish | web development notes]]></title>
   <link href="http://muratcorlu.com/language/turkish/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-01-26T14:39:14+02:00</updated>
+  <updated>2012-03-04T20:01:33+02:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -12,6 +12,22 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OSX Lion'da SSHFS kullanımı]]></title>
+    <link href="http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/"/>
+    <updated>2012-03-04T19:28:00+02:00</updated>
+    <id>http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi</id>
+    <content type="html"><![CDATA[<p>Mac OS Snow Leopard sürümünde Macports yardımıyla kolayca kurup kullandığımız(port install sshfs) sshfs uygulamasını Lion'da kullanmakta sıkıntılar yaşıyoruz zira sshfs'in kullandığı MacFUSE uygulamasının Lion uyumlu bir versiyonu çıkmadı. Lion'da sshfs ile uzak bir noktayı bilgisayarınıza mount etmek istediğinizde aşağıdaki hatayı alıyorsanız, az sonra ileteceğim çözüm sizin de işinizi görecektir:</p>
+
+<pre><code>this MacFUSE library version is incompatible with the MacFUSE kernel extension
+</code></pre>
+
+<p>SSHFS'i Lion'da sorunsuz olarak kullanabilmek için MacFUSE'un varisi Fuse for OSX'i kullanabilirsiniz. <a href="http://osxfuse.github.com/">Kendi sayfasından</a> son versiyonunu indireceğiniz Fuse for OSX uygulamasını kurduktan sonra, SSHFS'in Fuse for OSX ile kullanabileceğiniz versiyonunun paketini <a href="https://github.com/osxfuse/sshfs/downloads">github'daki downloads sayfasından</a> indirip kurarak sorunsuz şekilde kullanabilirsiniz.</p>
+
+<p>Faydası olması dileğiyle...</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dropbox'ı FTP gibi kullanmak]]></title>
