@@ -37,6 +37,8 @@ category_title_prefix: "Language: "
 markdown: rdiscount
 pygments: false # default python pygments have been replaced by pygments.rb
 
+tag_dir: tags
+
 paginate: 10          # Posts per page on the blog index
 pagination_dir: page  # Directory base for pagination URLs eg. /blog/page/2/
 recent_posts: 5       # Posts in the sidebar Recent Posts section
