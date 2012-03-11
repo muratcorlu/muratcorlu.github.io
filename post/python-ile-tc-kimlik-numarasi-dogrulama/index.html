@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Django geliştirme ortamı için basit statik sunucu - web development notes</title>
+  <title>Python ile TC Kimlik Numarası doğrulama - web development notes</title>
   <meta name="author" content="Murat Çorlu">
 
   
-  <meta name="description" content="Django&#8216;da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik &hellip;">
+  <meta name="description" content="Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara ulaştım: * 11 hanelidir.* Her hanesi rakamsal değer içerir.* İlk hane 0 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu">
+  <link rel="canonical" href="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -81,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">Django geliştirme ortamı için basit statik sunucu</h1>
+      <h1 class="entry-title">Python ile TC Kimlik Numarası doğrulama</h1>
     
     
       <p class="meta">
@@ -98,51 +98,65 @@
 
 
 
-<time datetime="2012-03-05T00:06:00+02:00" pubdate data-updated="true">05.03.2012</time>
+<time datetime="2012-03-11T22:48:00+02:00" pubdate data-updated="true">11.03.2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.djangoproject.com">Django</a>&#8216;da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python&#8217;un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
+<div class="entry-content"><p>Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara <a href="http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi">ulaştım</a>:</p>
 
-<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum
-</code></pre>
-
-<p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="n">SITE_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
-</span><span class='line'><span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SITE_ROOT</span><span class="p">,</span> <span class="s">&#39;static&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<blockquote><p>* 11 hanelidir.<br/>* Her hanesi rakamsal değer içerir.<br/>* İlk hane 0 olamaz.<br/>* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10&#8217;a bölümünden kalan, yani Mod10&#8217;u bize 10. haneyi verir.<br/>* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10&#8217;a bölümünden kalan, yani Mod10&#8217;u bize 11. haneyi verir.</p></blockquote>
 
 
-<p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
+<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
 
-<pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
-</code></pre>
+<div><script src='https://gist.github.com/2018156.js?file='></script>
+<noscript><pre><code># coding=utf-8
+&quot;&quot;&quot;
+Kurallar:
+* 11 hanelidir.
+* Her hanesi rakamsal değer içerir.
+* İlk hane 0 olamaz.
+* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
+* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/static/&#39;</span>
-</span><span class='line'><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/media/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+Kurallar http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi adresinden alınmıştır.
+
+&quot;&quot;&quot;
+def isValidTCID(value):
+    value = str(value)
+    
+    # 11 hanelidir.
+    if not len(value) == 11:
+        return False
+    
+    # Sadece rakamlardan olusur.
+    if not value.isdigit():
+        return False
+    
+    # Ilk hanesi 0 olamaz.
+    if int(value[0]) == 0:
+        return False
+    
+    digits = [int(d) for d in str(value)]
+    
+    # 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun
+    # 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
+    if not sum(digits[:10]) % 10 == digits[10]:
+        return False
+    
+    # 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında,
+    # elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
+    if not (((7 * sum(digits[:9][-1::-2])) - sum(digits[:9][-2::-2])) % 10) == digits[9]:
+        return False
+    
+    # Butun kontrollerden gecti.
+    return True</code></pre></noscript></div>
 
 
-<p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
-
-<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum &gt; ~/temp/static-server.log 2&gt;&amp;1 &amp;
-</code></pre>
-
-<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py&#8217;ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
-
-<p>Son olarak, bu yöntemi ağ üzerinden <a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html">dosya paylaşımı yapmak için</a> de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.</p>
+<p>Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.</p>
 </div>
 
 
@@ -166,7 +180,7 @@
 
 
 
-<time datetime="2012-03-05T00:06:00+02:00" pubdate data-updated="true">05.03.2012</time>
+<time datetime="2012-03-11T22:48:00+02:00" pubdate data-updated="true">11.03.2012</time>
       
 
 <span class="categories">
@@ -183,7 +197,7 @@
     tags:
   
   
-    <a class='tag' href='/tags/django/'>django</a>, <a class='tag' href='/tags/python/'>python</a>, <a class='tag' href='/tags/server/'>server</a>
+    <a class='tag' href='/tags/gist/'>gist</a>, <a class='tag' href='/tags/python/'>python</a>
   
 </span>
 
@@ -191,7 +205,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -202,10 +216,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/post/mac-osx-lionda-sshfs-kullanimi/" title="Önceki yazı: Mac OSX Lion'da SSHFS kullanımı">&laquo; Mac OSX Lion'da SSHFS kullanımı</a>
+        <a class="basic-alignment left" href="/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" title="Önceki yazı: Django geliştirme ortamı için basit statik sunucu">&laquo; Django geliştirme ortamı için basit statik sunucu</a>
       
-      
-        <a class="basic-alignment right" href="/post/python-ile-tc-kimlik-numarasi-dogrulama/" title="Sonraki yazı: Python ile TC Kimlik Numarası doğrulama">Python ile TC Kimlik Numarası doğrulama &raquo;</a>
       
     </p>
   </footer>
@@ -317,8 +329,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/';
-        var disqus_url = 'http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/';
+        var disqus_identifier = 'http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/';
+        var disqus_url = 'http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/';
         var disqus_script = 'embed.js';
       
     (function () {

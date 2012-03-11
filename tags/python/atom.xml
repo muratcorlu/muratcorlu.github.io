@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: python | web development notes]]></title>
+  <link href="http://muratcorlu.com/tags/python/atom.xml" rel="self"/>
+  <link href="http://muratcorlu.com/"/>
+  <updated>2012-03-12T00:00:20+02:00</updated>
+  <id>http://muratcorlu.com/</id>
+  <author>
+    <name><![CDATA[Murat Çorlu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python ile TC Kimlik Numarası doğrulama]]></title>
+    <link href="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/"/>
+    <updated>2012-03-11T22:48:00+02:00</updated>
+    <id>http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama</id>
+    <content type="html"><![CDATA[<p>Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara <a href="http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi">ulaştım</a>:</p>
+
+<p><blockquote><p>* 11 hanelidir.<br/>* Her hanesi rakamsal değer içerir.<br/>* İlk hane 0 olamaz.<br/>* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.<br/>* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.</p></blockquote></p>
+
+<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
+
+<p><div><script src='https://gist.github.com/2018156.js?file='></script>
+<noscript><pre><code># coding=utf-8
+&quot;&quot;&quot;
+Kurallar:
+* 11 hanelidir.
+* Her hanesi rakamsal değer içerir.
+* İlk hane 0 olamaz.
+* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
+* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
+
+Kurallar http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi adresinden alınmıştır.
+
+&quot;&quot;&quot;
+def isValidTCID(value):
+    value = str(value)
+    
+    # 11 hanelidir.
+    if not len(value) == 11:
+        return False
+    
+    # Sadece rakamlardan olusur.
+    if not value.isdigit():
+        return False
+    
+    # Ilk hanesi 0 olamaz.
+    if int(value[0]) == 0:
+        return False
+    
+    digits = [int(d) for d in str(value)]
+    
+    # 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun
+    # 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
+    if not sum(digits[:10]) % 10 == digits[10]:
+        return False
+    
+    # 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında,
+    # elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
+    if not (((7 * sum(digits[:9][-1::-2])) - sum(digits[:9][-2::-2])) % 10) == digits[9]:
+        return False
+    
+    # Butun kontrollerden gecti.
+    return True</code></pre></noscript></div>
+</p>
+
+<p>Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Django geliştirme ortamı için basit statik sunucu]]></title>
+    <link href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/"/>
+    <updated>2012-03-05T00:06:00+02:00</updated>
+    <id>http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu</id>
+    <content type="html"><![CDATA[<p><a href="http://www.djangoproject.com">Django</a>'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python'un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
+
+<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum
+</code></pre>
+
+<p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
+
+<p>``` python</p>
+
+<pre><code>import os
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
+STATIC_URL = 'http://127.0.0.1:9876/'
+</code></pre>
+
+<p>```</p>
+
+<p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
+
+<pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
+</code></pre>
+
+<p>``` python</p>
+
+<pre><code>STATIC_URL = 'http://127.0.0.1:9876/static/'
+MEDIA_URL = 'http://127.0.0.1:9876/media/'
+</code></pre>
+
+<p>```</p>
+
+<p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
+
+<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum &gt; ~/temp/static-server.log 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py'ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
+
+<p>Son olarak, bu yöntemi ağ üzerinden <a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html">dosya paylaşımı yapmak için</a> de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: django | web development notes]]></title>
+  <link href="http://muratcorlu.com/tags/django/atom.xml" rel="self"/>
+  <link href="http://muratcorlu.com/"/>
+  <updated>2012-03-12T00:00:20+02:00</updated>
+  <id>http://muratcorlu.com/</id>
+  <author>
+    <name><![CDATA[Murat Çorlu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Django geliştirme ortamı için basit statik sunucu]]></title>
+    <link href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/"/>
+    <updated>2012-03-05T00:06:00+02:00</updated>
+    <id>http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu</id>
+    <content type="html"><![CDATA[<p><a href="http://www.djangoproject.com">Django</a>'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python'un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
+
+<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum
+</code></pre>
+
+<p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
+
+<p>``` python</p>
+
+<pre><code>import os
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
+STATIC_URL = 'http://127.0.0.1:9876/'
+</code></pre>
+
+<p>```</p>
+
+<p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
+
+<pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
+</code></pre>
+
+<p>``` python</p>
+
+<pre><code>STATIC_URL = 'http://127.0.0.1:9876/static/'
+MEDIA_URL = 'http://127.0.0.1:9876/media/'
+</code></pre>
+
+<p>```</p>
+
+<p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
+
+<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum &gt; ~/temp/static-server.log 2&gt;&amp;1 &amp;
+</code></pre>
+
+<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py'ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
+
+<p>Son olarak, bu yöntemi ağ üzerinden <a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html">dosya paylaşımı yapmak için</a> de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.</p>
+]]></content>
+  </entry>
+  
+</feed>
