@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: fulltextsearch | web development notes]]></title>
   <link href="http://muratcorlu.com/tags/fulltextsearch/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-03-29T02:17:42+03:00</updated>
+  <updated>2012-03-29T02:22:29+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -25,7 +25,7 @@
 
 <p>Elasticsearch, <a href="http://lucene.apache.org">Apache Lucene</a> projesinin üzerine bina edilmiş, kendini arama konusuna adamış, açık kaynak, REST arayüzlü, dağıtık çalışabilen, şema bağımsız veri taşıyabilen, Java tabanlı oldukça başarılı bir arama motoru. Elasticsearch REST tabanlı olduğu için, herhangi bir programlama diliyle kolayca entegre edilebiliyor. Python için yazılmış istemcilere verilecek ilk örnekler <a href="http://github.com/aparo/pyes">pyes</a> ve <a href="http://github.com/rhec/pyelasticsearch">pyelasticsearch</a>.<a href="http://www.elasticsearch.org/guide/appendix/clients.html" title="Diğer diller için liste [İngilizce]">*</a></p>
 
-<p>Django-Haystack uygulaması ise, Django'da Elasticsearch ve benzeri bir çok arama motorunu kolayca kullanabilmek için oluşturulmuş bir ara katman. Haystack uygulamasını kullanarak seçtiğimiz veya ileride seçeceğimiz arama motorumuz ne olursa olsun, aynı metodları kullanarak işimizi görebiliyoruz. Aynı anda birden fazla arama motorunu kullanmaya imkan vermesi sayesinde de, uygulamamızın bir kısmında Solr kullanırken, diğer bölümünde Elasticsearch kullanabiliyoruz ve bunun için atılması düşünülen bir çok takladan kurtulmuş oluyoruz.</p>
+<p><a href="http://haystacksearch.org/">Django-Haystack</a> uygulaması ise, Django'da Elasticsearch ve benzeri bir çok arama motorunu kolayca kullanabilmek için oluşturulmuş bir ara katman. Haystack uygulamasını kullanarak seçtiğimiz veya ileride seçeceğimiz arama motorumuz ne olursa olsun, aynı metodları kullanarak işimizi görebiliyoruz. Aynı anda birden fazla arama motorunu kullanmaya imkan vermesi sayesinde de, uygulamamızın bir kısmında Solr kullanırken, diğer bölümünde Elasticsearch kullanabiliyoruz ve bunun için atılması düşünülen bir çok takladan kurtulmuş oluyoruz.</p>
 
 <p>Şimdi kolları sıvayıp, django-haystack ve elasticsearch ile küçük bir arama uygulaması yapalım.</p>
 
