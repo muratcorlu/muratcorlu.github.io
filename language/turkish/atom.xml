@@ -4,7 +4,7 @@
   <title><![CDATA[Language: turkish | web development notes]]></title>
   <link href="http://muratcorlu.com/language/turkish/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-04-03T11:01:32+03:00</updated>
+  <updated>2012-04-03T11:59:46+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Disqus yorumlarının görünür olduklarında yüklenmesi]]></title>
+    <link href="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/"/>
+    <updated>2012-04-03T11:26:00+03:00</updated>
+    <id>http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi</id>
+    <content type="html"><![CDATA[<p><a href="http://disqus.com">Disqus</a>, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen sayfalarda bile yorum yazılabilmesi imkanı verdiği için hayat kurtarıcı bir çözüm.</p>
+
+<p>Disqus'ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, <a href="http://jquery.com">jQuery</a> kütüphanesinden ve Mike Green'in <a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/">bir yazısı</a>ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5'in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:</p>
+
+<p><div><script src='https://gist.github.com/2290198.js?file='></script>
+<noscript><pre><code>/**
+ * Load disqus comments when visitor scroll down page to comments
+ * 
+ * Usage:
+ * Add a div with id &quot;disqus_thread&quot; and data attributes for every disqus parameter:
+ *
+ * &lt;div id=&quot;disqus_thread&quot; data-disqus-shortname=&quot;username&quot; data-disqus-url=&quot;http://example.com/post/post-name/&quot;&gt;&lt;/div&gt;
+ *
+ * @author: Murat Corlu
+ * @link: https://gist.github.com/gists/2290198
+ */
+$(function(){
+    var disqus_div = $(&quot;#disqus_thread&quot;);
+    if (disqus_div.size() &gt; 0 ) {
+        var ds_loaded = false,
+            top = disqus_div.offset().top, // WHERE TO START LOADING
+            disqus_data = disqus_div.data();
+
+        function check(){
+            if ( !ds_loaded &amp;&amp; $(window).scrollTop() + $(window).height() &gt; top ) {
+                ds_loaded = true;
+                for (key in disqus_data) {
+                    if (key.substr(0,6) == 'disqus') {
+                        window['disqus_' + key.replace('disqus','').toLowerCase()] = disqus_data[key];
+                    }
+                }
+
+                (function() {
+                    var dsq = document.createElement('script'); 
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = 'http://' + window.disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+
+        $(window).scroll(check);
+        check();
+    }
+});</code></pre></noscript></div>
+</p>
+
+<p>HTML5 ile gelen data attribute'ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute'ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7'nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.</p>
+
+<p>Bu çözümü şu anki blog üretme motorum olan <a href="http://octopress.org">Octopress</a>'de nasıl uyguladığımı görmek isterseniz Github'daki bu iş için yaptığım değişikliklerden ibaret olan <a href="https://github.com/muratcorlu/muratcorlu.github.com/commit/381b1eb24292db1436d83deeeacdceca836e901c">commitimi</a> inceleyebilirsiniz.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Django'da Haystack ve Elasticsearch ile arama]]></title>
@@ -308,62 +367,6 @@ MEDIA_URL = 'http://127.0.0.1:9876/media/'
 <p>SSHFS'i Lion'da sorunsuz olarak kullanabilmek için MacFUSE'un varisi Fuse for OSX'i kullanabilirsiniz. <a href="http://osxfuse.github.com/">Kendi sayfasından</a> son versiyonunu indireceğiniz Fuse for OSX uygulamasını kurduktan sonra, SSHFS'in Fuse for OSX ile kullanabileceğiniz versiyonunun paketini <a href="https://github.com/osxfuse/sshfs/downloads">github'daki downloads sayfasından</a> indirip kurarak sorunsuz şekilde kullanabilirsiniz.</p>
 
 <p>Faydası olması dileğiyle...</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dropbox'ı FTP gibi kullanmak]]></title>
-    <link href="http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/"/>
-    <updated>2012-01-26T10:43:00+02:00</updated>
-    <id>http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak</id>
-    <content type="html"><![CDATA[<p><a href="http://db.tt/1ImfZir">Dropbox</a> birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox'a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.</p>
-
-<p>Bu tür teknoloji aslında yeni sayılmaz. Uzak disklerin bilgisayara bağlanması ve bu disk üzerinde çalışmak daha önce de kullanılan bir yöntemdi ancak Dropbox işi oldukça kolaylaştırdı. Aynı dosyalara web tarayıcısı üzerinden, <a href="http://itunes.apple.com/us/app/dropbox/id327630330?mt=8">iPhone</a> ve <a href="https://market.android.com/details?id=com.dropbox.android">Android</a> uygulamaları sayesinde mobilden de erişebilmek de Dropbox'ı temel ihtiyaç maddesine dönüştürebiliyor.</p>
-
-<p>Bense bu yazıda size Dropbox'ın <a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">komut satırı istemcisi</a>nin sağladığı bir nimetten bahsetmek istiyorum.</p>
-
-<!--more-->
-
-
-<h2>Ne gerek var?</h2>
-
-<p>Kişisel sanal sunucu ihtiyacım için yıllardır <a href="http://www.linode.com/?r=c2c44c598b1a93f61a9aadc7eb9c1396b8456d08">Linode</a>'u kullanıyorum. Sunucunun sistemini kendim yönetebilmek adına herhangi bir sunucu yönetim uygulaması(Plesk vs.) da kullanmıyorum. Sunucumdan yer verdiğim birkaç kişiye sitelerinin dosyalarını değiştirebilme imkanı vermem gerekiyor. FTP kurmak ve bunun güvenliğini sağlamak meşakkatli bir iş. Her FTP kullanıcısı için bir sistem kullanıcısı açmak falan... İşte bu konuda imdadıma Dropbox CLI yetişiyor.</p>
-
-<p><a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">Dropbox CLI</a> sayesinde sunucuma da Dropbox kurabiliyorum. Arkadaşıma dosyalarını değiştirme imkanı vereceğim sitenin dosyalarını Dropbox klasörüne sembolik link yaparak ekliyorum. Sonra Dropbox yönetim panelinden arkadaşım ile bu klasörü paylaşıyorum(onun da Dropbox hesabı olması gerekiyor). Bu andan itibaren arkadaşımın bilgisayarında da sitenin dosyalarının bir kopyası oluyor. Her iki tarafta yapılan değişiklikler senkronize ediliyor. Böylece kişi siteyi kendi bilgisayarında düzenliyor, dosyayı kaydettikten sonra saniyeler içerisinde site de güncellenmiş oluyor.</p>
-
-<p>Bu kullanımın bir diğer avantajı da Dropbox'ın dosyalarınızı versiyonlaması. Dropbox'da bulunan dosyalarınızın ilk oluşturulduğu tarihe kadar bütün versiyonlarına Dropbox yönetici panelinden erişebiliyorsunuz. Bu da yanlışlıkla silinebilecek veya bozulacak dosyalar için büyük bir güven kaynağı oluyor.</p>
-
-<p>Aynı klasör aynı anda birçok dropbox kullanıcısıyla paylaşılabiliyor. Böylece bir ekipte sitede herhangi bir değişiklik yapıldığında ekipteki herkes haberdar olabiliyor.</p>
-
-<h2>Avantajlar</h2>
-
-<p>FTP yerine Dropbox kullanmanın sağlayacağı avantajları maddelersek:</p>
-
-<ol>
-<li>FTP'den çok daha basit bir kullanım şansı veriyor.</li>
-<li>Dosyalar otomatik olarak versiyonlanıyor ve yedekleniyor.</li>
-<li>Birden fazla kullanıcı ortak kullanabiliyor.</li>
-</ol>
-
-
-<h2>Dezavantajlar</h2>
-
-<p>FTP yerine Dropbox kullanmanın dezavantajları da yok değil:</p>
-
-<ol>
-<li>Dropbox CLI sistemde hatırı sayılır bir hafıza tüketiyor. İhtiyaç olmadığında uygulama durdurulabilir.</li>
-<li>Dosya izinleri taşınmıyor. Dolayısıyla bir dosyaya örneğin 777 izni vermek gerekirse, bunu elle sunucuya girip yapmak gerekir.</li>
-<li>Dropbox klasörlerine şifre koyma şansı yok. Dolayısıyla sitenin dosyaları bilgisayarda açıkda duruyor olacaklar. Ortak kullanılan bilgisayarlarda riskli olabilir.</li>
-</ol>
-
-
-<h2>Sonuç</h2>
-
-<p>FTP olarak kullanmak elbette ki Dropbox'ın temel amacı değil ve Dropbox, bu amaç için kullanılmasa da oldukça faydalı. Ben bir özellik olarak sunulmayan ancak şartların kendiliğinden doğurduğu ve benim de faydalandığım böyle bir imkandan haberdar etmek istedim.</p>
-
-<p>Dropbox'a üye olmayanlar için de aşağıdaki referans bağlantımla üye olmalarını tavsiye ederim. Referansım ile 250MB fazladan alan kazanacaksınız.</p>
-
-<p><a href="http://db.tt/1ImfZir">http://db.tt/1ImfZir</a></p>
 ]]></content>
   </entry>
   

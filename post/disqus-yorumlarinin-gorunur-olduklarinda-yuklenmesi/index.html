@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Python ile TC Kimlik Numarası doğrulama - web development notes</title>
+  <title>Disqus yorumlarının görünür olduklarında yüklenmesi - web development notes</title>
   <meta name="author" content="Murat Çorlu">
 
   
-  <meta name="description" content="Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara ulaştım: * 11 hanelidir.* Her hanesi rakamsal değer içerir.* İlk hane 0 &hellip;">
+  <meta name="description" content="Disqus, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama">
+  <link rel="canonical" href="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -83,7 +83,7 @@
   
   <header>
     
-      <h1 class="entry-title">Python ile TC Kimlik Numarası doğrulama</h1>
+      <h1 class="entry-title">Disqus yorumlarının görünür olduklarında yüklenmesi</h1>
     
     
       <p class="meta">
@@ -100,65 +100,64 @@
 
 
 
-<time datetime="2012-03-11T22:48:00+02:00" pubdate data-updated="true">11.03.2012</time>
+<time datetime="2012-04-03T11:26:00+03:00" pubdate data-updated="true">03.04.2012</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara <a href="http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi">ulaştım</a>:</p>
+<div class="entry-content"><p><a href="http://disqus.com">Disqus</a>, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen sayfalarda bile yorum yazılabilmesi imkanı verdiği için hayat kurtarıcı bir çözüm.</p>
 
-<blockquote><p>* 11 hanelidir.<br/>* Her hanesi rakamsal değer içerir.<br/>* İlk hane 0 olamaz.<br/>* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10&#8217;a bölümünden kalan, yani Mod10&#8217;u bize 10. haneyi verir.<br/>* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10&#8217;a bölümünden kalan, yani Mod10&#8217;u bize 11. haneyi verir.</p></blockquote>
+<p>Disqus&#8217;ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, <a href="http://jquery.com">jQuery</a> kütüphanesinden ve Mike Green&#8217;in <a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/">bir yazısı</a>ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5&#8217;in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:</p>
 
+<div><script src='https://gist.github.com/2290198.js?file='></script>
+<noscript><pre><code>/**
+ * Load disqus comments when visitor scroll down page to comments
+ * 
+ * Usage:
+ * Add a div with id &quot;disqus_thread&quot; and data attributes for every disqus parameter:
+ *
+ * &lt;div id=&quot;disqus_thread&quot; data-disqus-shortname=&quot;username&quot; data-disqus-url=&quot;http://example.com/post/post-name/&quot;&gt;&lt;/div&gt;
+ *
+ * @author: Murat Corlu
+ * @link: https://gist.github.com/gists/2290198
+ */
+$(function(){
+    var disqus_div = $(&quot;#disqus_thread&quot;);
+    if (disqus_div.size() &gt; 0 ) {
+        var ds_loaded = false,
+            top = disqus_div.offset().top, // WHERE TO START LOADING
+            disqus_data = disqus_div.data();
 
-<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
+        function check(){
+            if ( !ds_loaded &amp;&amp; $(window).scrollTop() + $(window).height() &gt; top ) {
+                ds_loaded = true;
+                for (key in disqus_data) {
+                    if (key.substr(0,6) == 'disqus') {
+                        window['disqus_' + key.replace('disqus','').toLowerCase()] = disqus_data[key];
+                    }
+                }
 
-<div><script src='https://gist.github.com/2018156.js?file='></script>
-<noscript><pre><code># coding=utf-8
-&quot;&quot;&quot;
-Kurallar:
-* 11 hanelidir.
-* Her hanesi rakamsal değer içerir.
-* İlk hane 0 olamaz.
-* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
-* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
+                (function() {
+                    var dsq = document.createElement('script'); 
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = 'http://' + window.disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
 
-Kurallar http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi adresinden alınmıştır.
-
-&quot;&quot;&quot;
-def isValidTCID(value):
-    value = str(value)
-    
-    # 11 hanelidir.
-    if not len(value) == 11:
-        return False
-    
-    # Sadece rakamlardan olusur.
-    if not value.isdigit():
-        return False
-    
-    # Ilk hanesi 0 olamaz.
-    if int(value[0]) == 0:
-        return False
-    
-    digits = [int(d) for d in str(value)]
-    
-    # 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun
-    # 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
-    if not sum(digits[:10]) % 10 == digits[10]:
-        return False
-    
-    # 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında,
-    # elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
-    if not (((7 * sum(digits[:9][-1::-2])) - sum(digits[:9][-2::-2])) % 10) == digits[9]:
-        return False
-    
-    # Butun kontrollerden gecti.
-    return True</code></pre></noscript></div>
+        $(window).scroll(check);
+        check();
+    }
+});</code></pre></noscript></div>
 
 
-<p>Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.</p>
+<p>HTML5 ile gelen data attribute&#8217;ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute&#8217;ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7&#8217;nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.</p>
+
+<p>Bu çözümü şu anki blog üretme motorum olan <a href="http://octopress.org">Octopress</a>&#8216;de nasıl uyguladığımı görmek isterseniz Github&#8217;daki bu iş için yaptığım değişikliklerden ibaret olan <a href="https://github.com/muratcorlu/muratcorlu.github.com/commit/381b1eb24292db1436d83deeeacdceca836e901c">commitimi</a> inceleyebilirsiniz.</p>
 </div>
 
 
@@ -182,7 +181,7 @@ def isValidTCID(value):
 
 
 
-<time datetime="2012-03-11T22:48:00+02:00" pubdate data-updated="true">11.03.2012</time>
+<time datetime="2012-04-03T11:26:00+03:00" pubdate data-updated="true">03.04.2012</time>
       
 
 <span class="categories">
@@ -199,7 +198,7 @@ def isValidTCID(value):
     tags:
   
   
-    <a class='tag' href='/tags/gist/'>gist</a>, <a class='tag' href='/tags/python/'>python</a>
+    <a class='tag' href='/tags/disqus/'>disqus</a>, <a class='tag' href='/tags/javascript/'>javascript</a>, <a class='tag' href='/tags/jquery/'>jquery</a>, <a class='tag' href='/tags/octopress/'>octopress</a>
   
 </span>
 
@@ -207,7 +206,7 @@ def isValidTCID(value):
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -218,10 +217,8 @@ def isValidTCID(value):
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" title="Önceki yazı: Django geliştirme ortamı için basit statik sunucu">&laquo; Django geliştirme ortamı için basit statik sunucu</a>
+        <a class="basic-alignment left" href="/post/djangoda-haystack-ve-elasticsearch-ile-arama/" title="Önceki yazı: Django'da Haystack ve Elasticsearch ile arama">&laquo; Django'da Haystack ve Elasticsearch ile arama</a>
       
-      
-        <a class="basic-alignment right" href="/post/djangoda-haystack-ve-elasticsearch-ile-arama/" title="Sonraki yazı: Django'da Haystack ve Elasticsearch ile arama">Django'da Haystack ve Elasticsearch ile arama &raquo;</a>
       
     </p>
   </footer>
@@ -231,7 +228,7 @@ def isValidTCID(value):
     <h1>Comments</h1>
     
 
-<div id="disqus_thread" aria-live="polite" data-disqus-shortname="muratcorlu" data-disqus-identifier="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/" data-disqus-url="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/">
+<div id="disqus_thread" aria-live="polite" data-disqus-shortname="muratcorlu" data-disqus-identifier="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/" data-disqus-url="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/">
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
 
