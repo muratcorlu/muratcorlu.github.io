@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: haystack | web development notes]]></title>
   <link href="http://muratcorlu.com/tags/haystack/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-05-07T10:47:03+03:00</updated>
+  <updated>2012-06-24T23:37:25+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -127,8 +127,8 @@ def get_model(self):
 <p>Örneğimizde PostIndex adlı bir indeks oluşturduk. Bunu haystack'in RealTimeSearchIndex sınıfını miras alarak oluşturduğumuz için modelimizdeki değişikliklerde(yazı eklenmesi, silinmesi gibi) Elasticsearch indeksimiz otomatik olarak güncellenecek. Haystack indeks tanımlamalarında get_model metodu yazılarak ilgili modelin belirtilmesi ve mutlaka bir adet text adlı alan bulunması zorunludur. Bu alan varsayılan olarak üzerinde arama yapılacak alandır. Bu alana verdiğimiz use_template parametresi bu alan için oluşturacağımız bir template dosyamızın var olduğunu belirtiyor. Bu dosyamızı da templates klasörümüzün içinde search/indexes/[uygulama adı]/[model adı]_[alan adı].txt yoluna(bu örneğimiz için: templates/search/indexes/blog/blogpost_text.txt) koymamız gerekiyor:</p>
 
 <p><code>html templates/search/indexes/blog/blogpost_text.txt
-{{ object.title }}
-{{ object.author }}
+{% literal %}{{ object.title }}
+{{ object.author }}{% endliteral %}
 </code></p>
 
 <p>Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek indeksletmiş olduk. Bu sayede yazılarımızda hem yazar adı hem de yazı başlığı ile arama yapma imkanına sahip olacağız.</p>

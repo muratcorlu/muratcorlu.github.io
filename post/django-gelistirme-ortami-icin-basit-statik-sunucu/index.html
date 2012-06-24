@@ -9,7 +9,7 @@
   <meta name="author" content="Murat Çorlu">
 
   
-  <meta name="description" content="Django&#8216;da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik &hellip;">
+  <meta name="description" content="Django'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,16 +18,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu">
+  <link rel="canonical" href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <script src="/javascripts/jquery_disqus_lazyload.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="web development notes" type="application/atom+xml">
-	
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono&subset=latin-ext' rel='stylesheet' type='text/css'>
@@ -59,14 +56,14 @@
 
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="Subscribe with RSS">RSS</a></li>
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
   
 </ul>
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:muratcorlu.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search with Google"/>
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
   
@@ -99,7 +96,6 @@
   
 
 
-
 <time datetime="2012-03-05T00:06:00+02:00" pubdate data-updated="true">05.03.2012</time>
         
       </p>
@@ -107,42 +103,42 @@
   </header>
 
 
-<div class="entry-content"><p><a href="http://www.djangoproject.com">Django</a>&#8216;da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python&#8217;un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
+<div class="entry-content"><p><a href="http://www.djangoproject.com">Django</a>'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python'un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
 
 <pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum
 </code></pre>
 
 <p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="n">SITE_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
-</span><span class='line'><span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SITE_ROOT</span><span class="p">,</span> <span class="s">&#39;static&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` python</p>
 
+<pre><code>import os
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
+STATIC_URL = 'http://127.0.0.1:9876/'
+</code></pre>
+
+<p>```</p>
 
 <p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
 
 <pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
 </code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/static/&#39;</span>
-</span><span class='line'><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/media/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>``` python</p>
 
+<pre><code>STATIC_URL = 'http://127.0.0.1:9876/static/'
+MEDIA_URL = 'http://127.0.0.1:9876/media/'
+</code></pre>
+
+<p>```</p>
 
 <p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
 
 <pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum &gt; ~/temp/static-server.log 2&gt;&amp;1 &amp;
 </code></pre>
 
-<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py&#8217;ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
+<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py'ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
 
 <p>Son olarak, bu yöntemi ağ üzerinden <a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html">dosya paylaşımı yapmak için</a> de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.</p>
 </div>
@@ -153,7 +149,7 @@
       
   
 
-<span class="byline author vcard">Author <span class="fn">Murat Çorlu</span></span>
+<span class="byline author vcard">Posted by <span class="fn">Murat Çorlu</span></span>
 
       
 
@@ -165,7 +161,6 @@
 
 
   
-
 
 
 <time datetime="2012-03-05T00:06:00+02:00" pubdate data-updated="true">05.03.2012</time>
@@ -177,17 +172,6 @@
   
 </span>
 
-
-	  
-
-<span class="tags">
-  
-    tags:
-  
-  
-    <a class='tag' href='/tags/django/'>django</a>, <a class='tag' href='/tags/python/'>python</a>, <a class='tag' href='/tags/server/'>server</a>
-  
-</span>
 
     </p>
     
@@ -204,10 +188,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/post/mac-osx-lionda-sshfs-kullanimi/" title="Önceki yazı: Mac OSX Lion'da SSHFS kullanımı">&laquo; Mac OSX Lion'da SSHFS kullanımı</a>
+        <a class="basic-alignment left" href="/post/mac-osx-lionda-sshfs-kullanimi/" title="Previous Post: Mac OSX Lion'da SSHFS kullanımı">&laquo; Mac OSX Lion'da SSHFS kullanımı</a>
       
       
-        <a class="basic-alignment right" href="/post/python-ile-tc-kimlik-numarasi-dogrulama/" title="Sonraki yazı: Python ile TC Kimlik Numarası doğrulama">Python ile TC Kimlik Numarası doğrulama &raquo;</a>
+        <a class="basic-alignment right" href="/post/python-ile-tc-kimlik-numarasi-dogrulama/" title="Next Post: Python ile TC Kimlik Numarası doğrulama">Python ile TC Kimlik Numarası doğrulama &raquo;</a>
       
     </p>
   </footer>
@@ -215,13 +199,8 @@
 
   <section>
     <h1>Comments</h1>
-    
-
-<div id="disqus_thread" aria-live="polite" data-disqus-shortname="muratcorlu" data-disqus-identifier="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" data-disqus-url="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/">
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-
-
   </section>
 
 </div>
@@ -230,7 +209,7 @@
   
     
 <section>
-  <h1>Latest tweets</h1>
+  <h1>Latest Tweets</h1>
   <ul id="tweets">
     <li class="loading">Status updating...</li>
   </ul>
@@ -247,13 +226,13 @@
 
 
 <section>
-  <h1>Github repos</h1>
+  <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Loading...</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
-  <a href="https://github.com/muratcorlu">@muratcorlu</a> on Github
-  "
+  <a href="https://github.com/muratcorlu">@muratcorlu</a> on GitHub
+  
   <script type="text/javascript">
     $.domReady(function(){
         if (!window.jXHR){
@@ -276,7 +255,7 @@
 </section>
 
 <section>
-  <h1>Recent posts</h1>
+  <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -318,6 +297,25 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'muratcorlu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/';
+        var disqus_url = 'http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
 
 
   <script type="text/javascript">
