@@ -23,11 +23,9 @@ Django-haystack uygulamasını `pip install django-haystack` komutu ile kolayca 
 
 Elasticsearch Java ortamı gerektirmektedir ancak kendi içinde işini görebilecek boyutta bir Java ortamı ile beraber geliyor. Elasticsearch'ün dilediğiniz versiyonunun sıkıştırılmış dosyasını [indirme sayfasından](http://www.elasticsearch.org/download/) edinip, bilgisayarınızda herhangi bir yere açtıktan sonra, açılan dosyalardan bin klasöründeki elasticsearch uygulamasını çalıştırarak kolayca başlatmış olursunuz.[*][2] Kurulu versiyon için MacOSX'de brew (`brew install elasticsearch`), Ubuntu'da da aptitude (`apt-get install elasticsearch`) kullanabilirsiniz. Elasticsearch'ü  kurduktan sonra python ile kullanabilmek için pyelasticsearch modülüne de ihtiyacımız olacak. Onun haystack uyumlu versiyonunu da aşağıdaki komutlarla kurabilirsiniz:
 
-``` bash
-git clone https://github.com/toastdriven/pyelasticsearch
-cd pyelasticsearch
-python setup.py install
-```
+    git clone https://github.com/toastdriven/pyelasticsearch
+    cd pyelasticsearch
+    python setup.py install
 
 ## Ayarlar
 
