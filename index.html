@@ -327,28 +327,19 @@ def isValidTCID(value):
 
 <p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
 
-<p>&#8220;` python</p>
-
 <pre><code>import os
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 STATIC_URL = 'http://127.0.0.1:9876/'
 </code></pre>
 
-<p>&#8220;`</p>
-
 <p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
 
 <pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
-</code></pre>
 
-<p>&#8220;` python</p>
-
-<pre><code>STATIC_URL = 'http://127.0.0.1:9876/static/'
+STATIC_URL = 'http://127.0.0.1:9876/static/'
 MEDIA_URL = 'http://127.0.0.1:9876/media/'
 </code></pre>
-
-<p>&#8220;`</p>
 
 <p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Language: turkish | web development notes]]></title>
   <link href="http://muratcorlu.com/language/turkish/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-06-24T23:37:25+03:00</updated>
+  <updated>2012-06-25T14:30:37+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -22,7 +22,49 @@
 
 <p>Disqus'ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, <a href="http://jquery.com">jQuery</a> kütüphanesinden ve Mike Green'in <a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/">bir yazısı</a>ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5'in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:</p>
 
-<p>{% gist 2290198 %}</p>
+<p><div><script src='https://gist.github.com/2290198.js?file='></script>
+<noscript><pre><code>/**
+ * Load disqus comments when visitor scroll down page to comments
+ * 
+ * Usage:
+ * Add a div with id &quot;disqus_thread&quot; and data attributes for every disqus parameter:
+ *
+ * &lt;div id=&quot;disqus_thread&quot; data-disqus-shortname=&quot;username&quot; data-disqus-url=&quot;http://example.com/post/post-name/&quot;&gt;&lt;/div&gt;
+ *
+ * @author: Murat Corlu
+ * @link: https://gist.github.com/gists/2290198
+ */
+$(function(){
+    var disqus_div = $(&quot;#disqus_thread&quot;);
+    if (disqus_div.size() &gt; 0 ) {
+        var ds_loaded = false,
+            top = disqus_div.offset().top, // WHERE TO START LOADING
+            disqus_data = disqus_div.data();
+
+        function check(){
+            if ( !ds_loaded &amp;&amp; $(window).scrollTop() + $(window).height() &gt; top ) {
+                ds_loaded = true;
+                for (key in disqus_data) {
+                    if (key.substr(0,6) == 'disqus') {
+                        window['disqus_' + key.replace('disqus','').toLowerCase()] = disqus_data[key];
+                    }
+                }
+
+                (function() {
+                    var dsq = document.createElement('script'); 
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = 'http://' + window.disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+
+        $(window).scroll(check);
+        check();
+    }
+});</code></pre></noscript></div>
+</p>
 
 <p>HTML5 ile gelen data attribute'ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute'ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7'nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.</p>
 
@@ -62,91 +104,1283 @@ python setup.py install
 
 <p>Haystack uygulamasını settings.py dosyasımızdaki INSTALLED_APPS listemize ekliyoruz. Buna ek olarak bir de HAYSTACK_CONNECTIONS değişkeni ile Elasticsearch bağlantı bilgilerimizi vermemiz gerekiyor:</p>
 
-<p>``` python settings.py
-INSTALLED_APPS = (</p>
+<p><div><script src='https://gist.github.com/2987596.js?file=settings.py'></script>
+<noscript><pre><code>INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
 
-<pre><code>'django.contrib.auth',
-'django.contrib.contenttypes',
-'django.contrib.sessions',
-'django.contrib.sites',
-'django.contrib.messages',
-'django.contrib.staticfiles',
-# Uncomment the next line to enable the admin:
-'django.contrib.admin',
-# Uncomment the next line to enable admin documentation:
-# 'django.contrib.admindocs',
+    'haystack',
+)
 
-'haystack',
-</code></pre>
-
-<p>)</p>
-
-<p>HAYSTACK_CONNECTIONS = {</p>
-
-<pre><code>'default': {
-    'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-    'URL': 'http://127.0.0.1:9200/',
-    'INDEX_NAME': 'blog',
-},
-</code></pre>
-
-<p>}
-```</p>
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'blog',
+    },
+}</code></pre></noscript></div>
+</p>
 
 <p>Elasticsearch varsayılan olarak 9200 portundan çalışıyor. INDEX_NAME değeri de veritabanı adı gibi düşünülebilir. Elasticsearch'ün varsayılan ayarlarında çalışması deneme yapabilmemiz için yeterli.</p>
 
 <p>Haystack uygulamasının vereceğimiz index tanımlarını otomatik tanıması için, Django uygulamamızın ana klasörüne(settings.py ile aynı yere) aşağıdaki içerikte search_sites.py adlı dosyamızı oluşturalım:</p>
 
-<p>``` python search_sites.py
-import haystack</p>
+<p><div><script src='https://gist.github.com/2987596.js?file=search_sites.py'></script>
+<noscript><pre><code>import haystack
 
-<p>haystack.autodiscover()
-```</p>
+haystack.autodiscover()</code></pre></noscript></div>
+</p>
 
 <h2>Verilerin indekslenmesi</h2>
 
 <p>Örneğimizde bir blog uygulamamız olacak ve blog yazılarının başlıklarında bir arama yapacağız. Yazımız için modelimiz aşağıdaki gibi olsun:</p>
 
-<p>``` python blog/models.py
-from django.db import models
-from django.contrib.auth.models import User</p>
+<p><div><script src='https://gist.github.com/2987596.js?file=models.py'></script>
+<noscript><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head prefix=&quot;og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# githubog: http://ogp.me/ns/fb/githubog#&quot;&gt;
+    &lt;meta charset='utf-8'&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+        &lt;title&gt;404 · GitHub&lt;/title&gt;
+    &lt;link rel=&quot;search&quot; type=&quot;application/opensearchdescription+xml&quot; href=&quot;/opensearch.xml&quot; title=&quot;GitHub&quot; /&gt;
+    &lt;link rel=&quot;fluid-icon&quot; href=&quot;https://raw.github.com/fluidicon.png&quot; title=&quot;GitHub&quot; /&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon.ico&quot; type=&quot;image/x-icon&quot; /&gt;
 
-<p>class BlogPost(models.Model):</p>
+    
+    
 
-<pre><code>title = models.CharField(max_length=200)
-author = models.ForeignKey(User)
-content = models.TextField()
-create_date = models.DateTimeField(auto_now_add=True)
-modified_date = models.DateTimeField(auto_now=True)
-</code></pre>
+    
 
-<p>```</p>
+    &lt;link href=&quot;https://a248.e.akamai.net/assets.github.com/stylesheets/bundles/github-971f8520cf29b0aa7796048da7533fa0e2d950f2.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    &lt;link href=&quot;https://a248.e.akamai.net/assets.github.com/stylesheets/bundles/github2-3161bfb86cfd2ee296fc310ed4013fda18348739.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    
+    
+
+
+    &lt;script src=&quot;https://a248.e.akamai.net/assets.github.com/javascripts/bundles/frameworks-a450c7f907bdc1ee6b362ab1ecca811c761fd259.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    
+    &lt;script defer=&quot;defer&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/javascripts/bundles/github-f76522afb88d864a8d5ecf6c5472675b17a9c1fe.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    
+    
+
+    
+  &lt;/head&gt;
+
+
+  &lt;body class=&quot;logged_out    env-production &quot; data-blob-contribs-enabled=&quot;yes&quot;&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+
+    
+    
+    
+
+      &lt;div id=&quot;header&quot; class=&quot;true clearfix&quot;&gt;
+        &lt;div class=&quot;container clearfix&quot;&gt;
+          &lt;a class=&quot;site-logo&quot; href=&quot;https://raw.github.com/&quot;&gt;
+            &lt;!--[if IE]&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7.png?1338945075&quot; /&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo-hover&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7-hover.png?1338945075&quot; /&gt;
+            &lt;![endif]--&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo-4x&quot; height=&quot;30&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x.png?1338945075&quot; /&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo-4x-hover&quot; height=&quot;30&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x-hover.png?1338945075&quot; /&gt;
+          &lt;/a&gt;
+
+
+                  &lt;!--
+      make sure to use fully qualified URLs here since this nav
+      is used on error pages on other domains
+    --&gt;
+    &lt;ul class=&quot;top-nav logged_out&quot;&gt;
+        &lt;li class=&quot;pricing&quot;&gt;&lt;a href=&quot;https://github.com/plans&quot;&gt;Signup and Pricing&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;explore&quot;&gt;&lt;a href=&quot;https://github.com/explore&quot;&gt;Explore GitHub&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;features&quot;&gt;&lt;a href=&quot;https://github.com/features&quot;&gt;Features&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;blog&quot;&gt;&lt;a href=&quot;https://github.com/blog&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;login&quot;&gt;&lt;a href=&quot;https://github.com/login?return_to=%2Fgist%2F2987596%2Fmodels.py&quot;&gt;Login&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+
+
+          
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      
+
+        &lt;div class=&quot;site clearfix&quot;&gt;
+          &lt;div id=&quot;site-container&quot; class=&quot;container&quot; data-pjax-container&gt;
+            
+
+&lt;style type=&quot;text/css&quot;&gt;
+    #header{
+        border-bottom: 0;
+    }
+    .site{
+        padding: 0;
+        margin-top: -20px;
+    }
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    #parallax_field{
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 370px;
+        width: 100%;
+    }
+    #parallax_field #parallax_bg {
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        width: 110%;
+        height: 425px;
+        z-index: 1;
+    }
+    #parallax_illustration {
+        display:block;
+        width: 940px;
+        height: 370px;
+        position: relative;
+        overflow: hidden;
+        clear: both;
+    }
+    #parallax_illustration #parallax_error_text {
+        position: absolute;
+        top: 72px;
+        left: 72px;
+        z-index: 10;
+    }
+    #parallax_illustration #parallax_octocat {
+        position: absolute;
+        top: 94px;
+        left: 356px;
+        z-index: 9;
+    }
+    #parallax_illustration #parallax_speeder {
+        position: absolute;
+        top: 150px;
+        left: 432px;
+        z-index: 8;
+    }
+    #parallax_illustration #parallax_octocatshadow {
+        position: absolute;
+        top: 297px;
+        left: 371px;
+        z-index: 7;
+    }
+    #parallax_illustration #parallax_speedershadow {
+        position: absolute;
+        top: 263px;
+        left: 442px;
+        z-index: 6;
+    }
+    #parallax_illustration #parallax_building_1 {
+        position: absolute;
+        top: 73px;
+        left: 467px;
+        z-index: 5;
+    }
+    #parallax_illustration #parallax_building_2 {
+        position: absolute;
+        top: 113px;
+        left: 762px;
+        z-index: 4;
+    }
+    #footer {
+        margin-top: 0px;
+        z-index: 12;
+    }
+&lt;/style&gt;
+
+
+&lt;div id=&quot;parallax_field&quot;&gt;
+    &lt;img alt=&quot;building&quot; class=&quot;js-plaxify&quot; data-invert=&quot;true&quot; data-xrange=&quot;0&quot; data-yrange=&quot;20&quot; height=&quot;415&quot; id=&quot;parallax_bg&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_bg.jpg?1338945074&quot; width=&quot;940&quot; /&gt;
+&lt;/div&gt;
+&lt;div id=&quot;parallax_illustration&quot;&gt;
+  &lt;img alt=&quot;404 | &amp;ldquo;This is not the web page you are looking for&amp;rdquo;&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;20&quot; data-yrange=&quot;10&quot; height=&quot;249&quot; id=&quot;parallax_error_text&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_errortext.png?1338945074&quot; width=&quot;271&quot; /&gt;
+  &lt;img alt=&quot;Octobi Wan Catnobi&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;230&quot; id=&quot;parallax_octocat&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_octocat.png?1338945074&quot; width=&quot;188&quot; /&gt;
+  &lt;img alt=&quot;land speeder&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;156&quot; id=&quot;parallax_speeder&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_speeder.png?1338945074&quot; width=&quot;440&quot; /&gt;
+  &lt;img alt=&quot;Octobi Wan Catnobi's shadow&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;49&quot; id=&quot;parallax_octocatshadow&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_octocatshadow.png?1338945074&quot; width=&quot;166&quot; /&gt;
+  &lt;img alt=&quot;land speeder's shadow&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;75&quot; id=&quot;parallax_speedershadow&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_speedershadow.png?1338945074&quot; width=&quot;430&quot; /&gt;
+  &lt;img alt=&quot;building&quot; class=&quot;js-plaxify&quot; data-invert=&quot;true&quot; data-xrange=&quot;50&quot; data-yrange=&quot;20&quot; height=&quot;123&quot; id=&quot;parallax_building_1&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_building_1.png?1338945074&quot; width=&quot;304&quot; /&gt;
+  &lt;img alt=&quot;building&quot; class=&quot;js-plaxify&quot; data-invert=&quot;true&quot; data-xrange=&quot;75&quot; data-yrange=&quot;30&quot; height=&quot;50&quot; id=&quot;parallax_building_2&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_building_2.png?1338945074&quot; width=&quot;116&quot; /&gt;
+&lt;/div&gt;
+
+          &lt;/div&gt;
+          &lt;div class=&quot;context-overlay&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;div id=&quot;footer-push&quot;&gt;&lt;/div&gt;&lt;!-- hack for sticky footer --&gt;
+    &lt;/div&gt;&lt;!-- end of wrapper - hack for sticky footer --&gt;
+
+      &lt;!-- footer --&gt;
+      &lt;div id=&quot;footer&quot; &gt;
+        
+  &lt;div class=&quot;upper_footer&quot;&gt;
+     &lt;div class=&quot;container clearfix&quot;&gt;
+
+       &lt;!--[if IE]&gt;&lt;h4 id=&quot;blacktocat_ie&quot;&gt;GitHub Links&lt;/h4&gt;&lt;![endif]--&gt;
+       &lt;![if !IE]&gt;&lt;h4 id=&quot;blacktocat&quot;&gt;GitHub Links&lt;/h4&gt;&lt;![endif]&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;GitHub&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/about&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/blog&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/features&quot;&gt;Features&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/contact&quot;&gt;Contact &amp;amp; Support&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/training&quot;&gt;Training&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://enterprise.github.com/&quot;&gt;GitHub Enterprise&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://status.github.com/&quot;&gt;Site Status&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;Tools&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;http://get.gaug.es/&quot;&gt;Gauges: Analyze web traffic&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://speakerdeck.com&quot;&gt;Speaker Deck: Presentations&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://gist.github.com&quot;&gt;Gist: Code snippets&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://mac.github.com/&quot;&gt;GitHub for Mac&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://windows.github.com/&quot;&gt;GitHub for Windows&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://mobile.github.com/&quot;&gt;Issues for iPhone&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://jobs.github.com/&quot;&gt;Job Board&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;Extras&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;http://shop.github.com/&quot;&gt;GitHub Shop&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://octodex.github.com/&quot;&gt;The Octodex&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;Documentation&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;http://help.github.com/&quot;&gt;GitHub Help&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://developer.github.com/&quot;&gt;Developer API&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://github.github.com/github-flavored-markdown/&quot;&gt;GitHub Flavored Markdown&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://pages.github.com/&quot;&gt;GitHub Pages&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+     &lt;/div&gt;&lt;!-- /.site --&gt;
+  &lt;/div&gt;&lt;!-- /.upper_footer --&gt;
+
+&lt;div class=&quot;lower_footer&quot;&gt;
+  &lt;div class=&quot;container clearfix&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;div id=&quot;legal_ie&quot;&gt;&lt;![endif]--&gt;
+    &lt;![if !IE]&gt;&lt;div id=&quot;legal&quot;&gt;&lt;![endif]&gt;
+      &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;https://github.com/site/terms&quot;&gt;Terms of Service&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://github.com/site/privacy&quot;&gt;Privacy&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://github.com/security&quot;&gt;Security&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;&amp;copy; 2012 &lt;span title=&quot;0.02263s from fe2.rs.github.com&quot;&gt;GitHub&lt;/span&gt; Inc. All rights reserved.&lt;/p&gt;
+    &lt;/div&gt;&lt;!-- /#legal or /#legal_ie--&gt;
+
+      &lt;div class=&quot;sponsor&quot;&gt;
+        &lt;a href=&quot;http://www.rackspace.com&quot; class=&quot;logo&quot;&gt;
+          &lt;img alt=&quot;Dedicated Server&quot; height=&quot;36&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/footer/rackspaces_logo.png?1338945075&quot; width=&quot;38&quot; /&gt;
+        &lt;/a&gt;
+        Powered by the &lt;a href=&quot;http://www.rackspace.com &quot;&gt;Dedicated
+        Servers&lt;/a&gt; and&lt;br/&gt; &lt;a href=&quot;http://www.rackspacecloud.com&quot;&gt;Cloud
+        Computing&lt;/a&gt; of Rackspace Hosting&lt;span&gt;&amp;reg;&lt;/span&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;&lt;!-- /.site --&gt;
+&lt;/div&gt;&lt;!-- /.lower_footer --&gt;
+
+      &lt;/div&gt;&lt;!-- /#footer --&gt;
+
+    
+
+&lt;div id=&quot;keyboard_shortcuts_pane&quot; class=&quot;instapaper_ignore readability-extra&quot; style=&quot;display:none&quot;&gt;
+  &lt;h2&gt;Keyboard Shortcuts &lt;small&gt;&lt;a href=&quot;#&quot; class=&quot;js-see-all-keyboard-shortcuts&quot;&gt;(see all)&lt;/a&gt;&lt;/small&gt;&lt;/h2&gt;
+
+  &lt;div class=&quot;columns threecols&quot;&gt;
+    &lt;div class=&quot;column first&quot;&gt;
+      &lt;h3&gt;Site wide shortcuts&lt;/h3&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;s&lt;/dt&gt;
+        &lt;dd&gt;Focus site search&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;?&lt;/dt&gt;
+        &lt;dd&gt;Bring up this help dialog&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;&lt;!-- /.column.first --&gt;
+
+    &lt;div class=&quot;column middle&quot; style='display:none'&gt;
+      &lt;h3&gt;Commit list&lt;/h3&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;j&lt;/dt&gt;
+        &lt;dd&gt;Move selection down&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;k&lt;/dt&gt;
+        &lt;dd&gt;Move selection up&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;c &lt;em&gt;or&lt;/em&gt; o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+        &lt;dd&gt;Open commit&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;y&lt;/dt&gt;
+        &lt;dd&gt;Expand URL to its canonical form&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;&lt;!-- /.column.first --&gt;
+
+    &lt;div class=&quot;column last&quot; style='display:none'&gt;
+      &lt;h3&gt;Pull request list&lt;/h3&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;j&lt;/dt&gt;
+        &lt;dd&gt;Move selection down&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;k&lt;/dt&gt;
+        &lt;dd&gt;Move selection up&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+        &lt;dd&gt;Open issue&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;&lt;span class=&quot;platform-mac&quot;&gt;⌘&lt;/span&gt;&lt;span class=&quot;platform-other&quot;&gt;ctrl&lt;/span&gt; &lt;em&gt;+&lt;/em&gt; enter&lt;/dt&gt;
+        &lt;dd&gt;Submit comment&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;&lt;!-- /.columns.last --&gt;
+
+  &lt;/div&gt;&lt;!-- /.columns.equacols --&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+    &lt;h3&gt;Issues&lt;/h3&gt;
+
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;j&lt;/dt&gt;
+          &lt;dd&gt;Move selection down&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;k&lt;/dt&gt;
+          &lt;dd&gt;Move selection up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;x&lt;/dt&gt;
+          &lt;dd&gt;Toggle selection&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Open issue&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;platform-mac&quot;&gt;⌘&lt;/span&gt;&lt;span class=&quot;platform-other&quot;&gt;ctrl&lt;/span&gt; &lt;em&gt;+&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Submit comment&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.first --&gt;
+      &lt;div class=&quot;column last&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;c&lt;/dt&gt;
+          &lt;dd&gt;Create issue&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;l&lt;/dt&gt;
+          &lt;dd&gt;Create label&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;i&lt;/dt&gt;
+          &lt;dd&gt;Back to inbox&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;u&lt;/dt&gt;
+          &lt;dd&gt;Back to issues&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;/&lt;/dt&gt;
+          &lt;dd&gt;Focus issues search&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+    &lt;h3&gt;Issues Dashboard&lt;/h3&gt;
+
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;j&lt;/dt&gt;
+          &lt;dd&gt;Move selection down&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;k&lt;/dt&gt;
+          &lt;dd&gt;Move selection up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Open issue&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.first --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+    &lt;h3&gt;Network Graph&lt;/h3&gt;
+    &lt;div class=&quot;columns equacols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;←&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; h&lt;/dt&gt;
+          &lt;dd&gt;Scroll left&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;→&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; l&lt;/dt&gt;
+          &lt;dd&gt;Scroll right&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;↑&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; k&lt;/dt&gt;
+          &lt;dd&gt;Scroll up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;↓&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; j&lt;/dt&gt;
+          &lt;dd&gt;Scroll down&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;t&lt;/dt&gt;
+          &lt;dd&gt;Toggle visibility of head labels&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.first --&gt;
+      &lt;div class=&quot;column last&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;←&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift h&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way left&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;→&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift l&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way right&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;↑&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift k&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;↓&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift j&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way down&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.last --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot; style='display:none'&gt;
+        &lt;h3&gt;Source Code Browsing&lt;/h3&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;t&lt;/dt&gt;
+          &lt;dd&gt;Activates the file finder&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;l&lt;/dt&gt;
+          &lt;dd&gt;Jump to line&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;w&lt;/dt&gt;
+          &lt;dd&gt;Switch branch/tag&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;y&lt;/dt&gt;
+          &lt;dd&gt;Expand URL to its canonical form&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;h3&gt;Browsing Commits&lt;/h3&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;platform-mac&quot;&gt;⌘&lt;/span&gt;&lt;span class=&quot;platform-other&quot;&gt;ctrl&lt;/span&gt; &lt;em&gt;+&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Submit comment&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;escape&lt;/dt&gt;
+          &lt;dd&gt;Close form&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;p&lt;/dt&gt;
+          &lt;dd&gt;Parent commit&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;o&lt;/dt&gt;
+          &lt;dd&gt;Other parent commit&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+    &lt;div id=&quot;markdown-help&quot; class=&quot;instapaper_ignore readability-extra&quot;&gt;
+  &lt;h2&gt;Markdown Cheat Sheet&lt;/h2&gt;
+
+  &lt;div class=&quot;cheatsheet-content&quot;&gt;
+
+  &lt;div class=&quot;mod&quot;&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;h3&gt;Format Text&lt;/h3&gt;
+      &lt;p&gt;Headers&lt;/p&gt;
+      &lt;pre&gt;
+# This is an &amp;lt;h1&amp;gt; tag
+## This is an &amp;lt;h2&amp;gt; tag
+###### This is an &amp;lt;h6&amp;gt; tag&lt;/pre&gt;
+     &lt;p&gt;Text styles&lt;/p&gt;
+     &lt;pre&gt;
+*This text will be italic*
+_This will also be italic_
+**This text will be bold**
+__This will also be bold__
+
+*You **can** combine them*
+&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;h3&gt;Lists&lt;/h3&gt;
+      &lt;p&gt;Unordered&lt;/p&gt;
+      &lt;pre&gt;
+* Item 1
+* Item 2
+  * Item 2a
+  * Item 2b&lt;/pre&gt;
+     &lt;p&gt;Ordered&lt;/p&gt;
+     &lt;pre&gt;
+1. Item 1
+2. Item 2
+3. Item 3
+   * Item 3a
+   * Item 3b&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;h3&gt;Miscellaneous&lt;/h3&gt;
+      &lt;p&gt;Images&lt;/p&gt;
+      &lt;pre&gt;
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
+&lt;/pre&gt;
+     &lt;p&gt;Links&lt;/p&gt;
+     &lt;pre&gt;
+http://github.com - automatic!
+[GitHub](http://github.com)&lt;/pre&gt;
+&lt;p&gt;Blockquotes&lt;/p&gt;
+     &lt;pre&gt;
+As Kanye West said:
+
+&gt; We're living the future so
+&gt; the present is our past.
+&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+  &lt;h3&gt;Code Examples in Markdown&lt;/h3&gt;
+  &lt;div class=&quot;col&quot;&gt;
+      &lt;p&gt;Syntax highlighting with &lt;a href=&quot;http://github.github.com/github-flavored-markdown/&quot; title=&quot;GitHub Flavored Markdown&quot; target=&quot;_blank&quot;&gt;GFM&lt;/a&gt;&lt;/p&gt;
+      &lt;pre&gt;
+```javascript
+function fancyAlert(arg) {
+  if(arg) {
+    $.facebox({div:'#foo'})
+  }
+}
+```&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;p&gt;Or, indent your code 4 spaces&lt;/p&gt;
+      &lt;pre&gt;
+Here is a Python code example
+without syntax highlighting:
+
+    def foo:
+      if not bar:
+        return true&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;p&gt;Inline code for comments&lt;/p&gt;
+      &lt;pre&gt;
+I think you should use an
+`&amp;lt;addr&amp;gt;` element here instead.&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+
+    &lt;div id=&quot;ajax-error-message&quot;&gt;
+      &lt;span class=&quot;mini-icon mini-icon-exclamation&quot;&gt;&lt;/span&gt;
+      Something went wrong with that request. Please try again.
+      &lt;a href=&quot;#&quot; class=&quot;ajax-error-dismiss&quot;&gt;Dismiss&lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;logo-popup&quot;&gt;
+      &lt;h2&gt;Looking for the GitHub logo?&lt;/h2&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;h4&gt;GitHub Logo&lt;/h4&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/GitHub_Logos.zip&quot;&gt;&lt;img alt=&quot;Github_logo&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/about_page/github_logo.png?1338945074&quot; /&gt;&lt;/a&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/GitHub_Logos.zip&quot; class=&quot;minibutton btn-download download&quot;&gt;&lt;span class=&quot;icon&quot;&gt;&lt;/span&gt;Download&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;h4&gt;The Octocat&lt;/h4&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/Octocats.zip&quot;&gt;&lt;img alt=&quot;Octocat&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png?1338945074&quot; /&gt;&lt;/a&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/Octocats.zip&quot; class=&quot;minibutton btn-download download&quot;&gt;&lt;span class=&quot;icon&quot;&gt;&lt;/span&gt;Download&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    
+    
+    
+    &lt;span id='server_response_time' data-time='0.03125' data-host='fe2'&gt;&lt;/span&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></noscript></div>
+</p>
 
 <p>Modelimizi oluşturduktan sonra syncdb komutuyla veritabanını senkronize edip yönetici panelinden de deneme için birkaç yazı ekleyebilirsiniz.</p>
 
 <p>Arama motorları aramada kullanılacak verileri kendi içine, belirledikleri algoritmalarla alırlar ve bu veriler üzerinde arama yapma imkanı verirler. Bu işleme indeksleme denir. Biz de şimdi BlogPost modelimizden hangi verileri indeksimize alacağımızı belirteceğiz. Bu işlemi uygulama klasörünün içine search_indexes.py adlı bir dosya açarak yapıyoruz:</p>
 
-<p>``` python blog/search_indexes.py
-from haystack import indexes
-from blog.models import BlogPost</p>
+<p><div><script src='https://gist.github.com/2987596.js?file=search_indexes.py'></script>
+<noscript><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head prefix=&quot;og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# githubog: http://ogp.me/ns/fb/githubog#&quot;&gt;
+    &lt;meta charset='utf-8'&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+        &lt;title&gt;404 · GitHub&lt;/title&gt;
+    &lt;link rel=&quot;search&quot; type=&quot;application/opensearchdescription+xml&quot; href=&quot;/opensearch.xml&quot; title=&quot;GitHub&quot; /&gt;
+    &lt;link rel=&quot;fluid-icon&quot; href=&quot;https://raw.github.com/fluidicon.png&quot; title=&quot;GitHub&quot; /&gt;
+    &lt;link rel=&quot;shortcut icon&quot; href=&quot;/favicon.ico&quot; type=&quot;image/x-icon&quot; /&gt;
 
-<p>class PostIndex(indexes.RealTimeSearchIndex, indexes.Indexable):</p>
+    
+    
 
-<pre><code>text = indexes.CharField(document=True, use_template=True)
-title = indexes.CharField(model_attr='title')
+    
 
-def get_model(self):
-    return BlogPost
-</code></pre>
+    &lt;link href=&quot;https://a248.e.akamai.net/assets.github.com/stylesheets/bundles/github-971f8520cf29b0aa7796048da7533fa0e2d950f2.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    &lt;link href=&quot;https://a248.e.akamai.net/assets.github.com/stylesheets/bundles/github2-3161bfb86cfd2ee296fc310ed4013fda18348739.css&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
+    
+    
 
-<p>```</p>
+
+    &lt;script src=&quot;https://a248.e.akamai.net/assets.github.com/javascripts/bundles/frameworks-a450c7f907bdc1ee6b362ab1ecca811c761fd259.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    
+    &lt;script defer=&quot;defer&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/javascripts/bundles/github-f76522afb88d864a8d5ecf6c5472675b17a9c1fe.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    
+    
+
+    
+  &lt;/head&gt;
+
+
+  &lt;body class=&quot;logged_out    env-production &quot; data-blob-contribs-enabled=&quot;yes&quot;&gt;
+    &lt;div id=&quot;wrapper&quot;&gt;
+
+    
+    
+    
+
+      &lt;div id=&quot;header&quot; class=&quot;true clearfix&quot;&gt;
+        &lt;div class=&quot;container clearfix&quot;&gt;
+          &lt;a class=&quot;site-logo&quot; href=&quot;https://raw.github.com/&quot;&gt;
+            &lt;!--[if IE]&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7.png?1338945075&quot; /&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo-hover&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7-hover.png?1338945075&quot; /&gt;
+            &lt;![endif]--&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo-4x&quot; height=&quot;30&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x.png?1338945075&quot; /&gt;
+            &lt;img alt=&quot;GitHub&quot; class=&quot;github-logo-4x-hover&quot; height=&quot;30&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/header/logov7@4x-hover.png?1338945075&quot; /&gt;
+          &lt;/a&gt;
+
+
+                  &lt;!--
+      make sure to use fully qualified URLs here since this nav
+      is used on error pages on other domains
+    --&gt;
+    &lt;ul class=&quot;top-nav logged_out&quot;&gt;
+        &lt;li class=&quot;pricing&quot;&gt;&lt;a href=&quot;https://github.com/plans&quot;&gt;Signup and Pricing&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;explore&quot;&gt;&lt;a href=&quot;https://github.com/explore&quot;&gt;Explore GitHub&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;features&quot;&gt;&lt;a href=&quot;https://github.com/features&quot;&gt;Features&lt;/a&gt;&lt;/li&gt;
+        &lt;li class=&quot;blog&quot;&gt;&lt;a href=&quot;https://github.com/blog&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
+      &lt;li class=&quot;login&quot;&gt;&lt;a href=&quot;https://github.com/login?return_to=%2Fgist%2F2987596%2Fsearch_indexes.py&quot;&gt;Login&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+
+
+
+          
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      
+
+        &lt;div class=&quot;site clearfix&quot;&gt;
+          &lt;div id=&quot;site-container&quot; class=&quot;container&quot; data-pjax-container&gt;
+            
+
+&lt;style type=&quot;text/css&quot;&gt;
+    #header{
+        border-bottom: 0;
+    }
+    .site{
+        padding: 0;
+        margin-top: -20px;
+    }
+    * {
+        margin: 0px;
+        padding: 0px;
+    }
+    #parallax_field{
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 370px;
+        width: 100%;
+    }
+    #parallax_field #parallax_bg {
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        width: 110%;
+        height: 425px;
+        z-index: 1;
+    }
+    #parallax_illustration {
+        display:block;
+        width: 940px;
+        height: 370px;
+        position: relative;
+        overflow: hidden;
+        clear: both;
+    }
+    #parallax_illustration #parallax_error_text {
+        position: absolute;
+        top: 72px;
+        left: 72px;
+        z-index: 10;
+    }
+    #parallax_illustration #parallax_octocat {
+        position: absolute;
+        top: 94px;
+        left: 356px;
+        z-index: 9;
+    }
+    #parallax_illustration #parallax_speeder {
+        position: absolute;
+        top: 150px;
+        left: 432px;
+        z-index: 8;
+    }
+    #parallax_illustration #parallax_octocatshadow {
+        position: absolute;
+        top: 297px;
+        left: 371px;
+        z-index: 7;
+    }
+    #parallax_illustration #parallax_speedershadow {
+        position: absolute;
+        top: 263px;
+        left: 442px;
+        z-index: 6;
+    }
+    #parallax_illustration #parallax_building_1 {
+        position: absolute;
+        top: 73px;
+        left: 467px;
+        z-index: 5;
+    }
+    #parallax_illustration #parallax_building_2 {
+        position: absolute;
+        top: 113px;
+        left: 762px;
+        z-index: 4;
+    }
+    #footer {
+        margin-top: 0px;
+        z-index: 12;
+    }
+&lt;/style&gt;
+
+
+&lt;div id=&quot;parallax_field&quot;&gt;
+    &lt;img alt=&quot;building&quot; class=&quot;js-plaxify&quot; data-invert=&quot;true&quot; data-xrange=&quot;0&quot; data-yrange=&quot;20&quot; height=&quot;415&quot; id=&quot;parallax_bg&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_bg.jpg?1338945074&quot; width=&quot;940&quot; /&gt;
+&lt;/div&gt;
+&lt;div id=&quot;parallax_illustration&quot;&gt;
+  &lt;img alt=&quot;404 | &amp;ldquo;This is not the web page you are looking for&amp;rdquo;&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;20&quot; data-yrange=&quot;10&quot; height=&quot;249&quot; id=&quot;parallax_error_text&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_errortext.png?1338945074&quot; width=&quot;271&quot; /&gt;
+  &lt;img alt=&quot;Octobi Wan Catnobi&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;230&quot; id=&quot;parallax_octocat&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_octocat.png?1338945074&quot; width=&quot;188&quot; /&gt;
+  &lt;img alt=&quot;land speeder&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;156&quot; id=&quot;parallax_speeder&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_speeder.png?1338945074&quot; width=&quot;440&quot; /&gt;
+  &lt;img alt=&quot;Octobi Wan Catnobi's shadow&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;49&quot; id=&quot;parallax_octocatshadow&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_octocatshadow.png?1338945074&quot; width=&quot;166&quot; /&gt;
+  &lt;img alt=&quot;land speeder's shadow&quot; class=&quot;js-plaxify&quot; data-xrange=&quot;10&quot; data-yrange=&quot;10&quot; height=&quot;75&quot; id=&quot;parallax_speedershadow&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_speedershadow.png?1338945074&quot; width=&quot;430&quot; /&gt;
+  &lt;img alt=&quot;building&quot; class=&quot;js-plaxify&quot; data-invert=&quot;true&quot; data-xrange=&quot;50&quot; data-yrange=&quot;20&quot; height=&quot;123&quot; id=&quot;parallax_building_1&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_building_1.png?1338945074&quot; width=&quot;304&quot; /&gt;
+  &lt;img alt=&quot;building&quot; class=&quot;js-plaxify&quot; data-invert=&quot;true&quot; data-xrange=&quot;75&quot; data-yrange=&quot;30&quot; height=&quot;50&quot; id=&quot;parallax_building_2&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/404/parallax_building_2.png?1338945074&quot; width=&quot;116&quot; /&gt;
+&lt;/div&gt;
+
+          &lt;/div&gt;
+          &lt;div class=&quot;context-overlay&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;div id=&quot;footer-push&quot;&gt;&lt;/div&gt;&lt;!-- hack for sticky footer --&gt;
+    &lt;/div&gt;&lt;!-- end of wrapper - hack for sticky footer --&gt;
+
+      &lt;!-- footer --&gt;
+      &lt;div id=&quot;footer&quot; &gt;
+        
+  &lt;div class=&quot;upper_footer&quot;&gt;
+     &lt;div class=&quot;container clearfix&quot;&gt;
+
+       &lt;!--[if IE]&gt;&lt;h4 id=&quot;blacktocat_ie&quot;&gt;GitHub Links&lt;/h4&gt;&lt;![endif]--&gt;
+       &lt;![if !IE]&gt;&lt;h4 id=&quot;blacktocat&quot;&gt;GitHub Links&lt;/h4&gt;&lt;![endif]&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;GitHub&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/about&quot;&gt;About&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/blog&quot;&gt;Blog&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/features&quot;&gt;Features&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/contact&quot;&gt;Contact &amp;amp; Support&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://github.com/training&quot;&gt;Training&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://enterprise.github.com/&quot;&gt;GitHub Enterprise&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://status.github.com/&quot;&gt;Site Status&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;Tools&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;http://get.gaug.es/&quot;&gt;Gauges: Analyze web traffic&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://speakerdeck.com&quot;&gt;Speaker Deck: Presentations&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;https://gist.github.com&quot;&gt;Gist: Code snippets&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://mac.github.com/&quot;&gt;GitHub for Mac&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://windows.github.com/&quot;&gt;GitHub for Windows&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://mobile.github.com/&quot;&gt;Issues for iPhone&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://jobs.github.com/&quot;&gt;Job Board&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;Extras&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;http://shop.github.com/&quot;&gt;GitHub Shop&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://octodex.github.com/&quot;&gt;The Octodex&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+       &lt;ul class=&quot;footer_nav&quot;&gt;
+         &lt;h4&gt;Documentation&lt;/h4&gt;
+         &lt;li&gt;&lt;a href=&quot;http://help.github.com/&quot;&gt;GitHub Help&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://developer.github.com/&quot;&gt;Developer API&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://github.github.com/github-flavored-markdown/&quot;&gt;GitHub Flavored Markdown&lt;/a&gt;&lt;/li&gt;
+         &lt;li&gt;&lt;a href=&quot;http://pages.github.com/&quot;&gt;GitHub Pages&lt;/a&gt;&lt;/li&gt;
+       &lt;/ul&gt;
+
+     &lt;/div&gt;&lt;!-- /.site --&gt;
+  &lt;/div&gt;&lt;!-- /.upper_footer --&gt;
+
+&lt;div class=&quot;lower_footer&quot;&gt;
+  &lt;div class=&quot;container clearfix&quot;&gt;
+    &lt;!--[if IE]&gt;&lt;div id=&quot;legal_ie&quot;&gt;&lt;![endif]--&gt;
+    &lt;![if !IE]&gt;&lt;div id=&quot;legal&quot;&gt;&lt;![endif]&gt;
+      &lt;ul&gt;
+          &lt;li&gt;&lt;a href=&quot;https://github.com/site/terms&quot;&gt;Terms of Service&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://github.com/site/privacy&quot;&gt;Privacy&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href=&quot;https://github.com/security&quot;&gt;Security&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+
+      &lt;p&gt;&amp;copy; 2012 &lt;span title=&quot;0.02629s from fe2.rs.github.com&quot;&gt;GitHub&lt;/span&gt; Inc. All rights reserved.&lt;/p&gt;
+    &lt;/div&gt;&lt;!-- /#legal or /#legal_ie--&gt;
+
+      &lt;div class=&quot;sponsor&quot;&gt;
+        &lt;a href=&quot;http://www.rackspace.com&quot; class=&quot;logo&quot;&gt;
+          &lt;img alt=&quot;Dedicated Server&quot; height=&quot;36&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/footer/rackspaces_logo.png?1338945075&quot; width=&quot;38&quot; /&gt;
+        &lt;/a&gt;
+        Powered by the &lt;a href=&quot;http://www.rackspace.com &quot;&gt;Dedicated
+        Servers&lt;/a&gt; and&lt;br/&gt; &lt;a href=&quot;http://www.rackspacecloud.com&quot;&gt;Cloud
+        Computing&lt;/a&gt; of Rackspace Hosting&lt;span&gt;&amp;reg;&lt;/span&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;&lt;!-- /.site --&gt;
+&lt;/div&gt;&lt;!-- /.lower_footer --&gt;
+
+      &lt;/div&gt;&lt;!-- /#footer --&gt;
+
+    
+
+&lt;div id=&quot;keyboard_shortcuts_pane&quot; class=&quot;instapaper_ignore readability-extra&quot; style=&quot;display:none&quot;&gt;
+  &lt;h2&gt;Keyboard Shortcuts &lt;small&gt;&lt;a href=&quot;#&quot; class=&quot;js-see-all-keyboard-shortcuts&quot;&gt;(see all)&lt;/a&gt;&lt;/small&gt;&lt;/h2&gt;
+
+  &lt;div class=&quot;columns threecols&quot;&gt;
+    &lt;div class=&quot;column first&quot;&gt;
+      &lt;h3&gt;Site wide shortcuts&lt;/h3&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;s&lt;/dt&gt;
+        &lt;dd&gt;Focus site search&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;?&lt;/dt&gt;
+        &lt;dd&gt;Bring up this help dialog&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;&lt;!-- /.column.first --&gt;
+
+    &lt;div class=&quot;column middle&quot; style='display:none'&gt;
+      &lt;h3&gt;Commit list&lt;/h3&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;j&lt;/dt&gt;
+        &lt;dd&gt;Move selection down&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;k&lt;/dt&gt;
+        &lt;dd&gt;Move selection up&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;c &lt;em&gt;or&lt;/em&gt; o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+        &lt;dd&gt;Open commit&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;y&lt;/dt&gt;
+        &lt;dd&gt;Expand URL to its canonical form&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;&lt;!-- /.column.first --&gt;
+
+    &lt;div class=&quot;column last&quot; style='display:none'&gt;
+      &lt;h3&gt;Pull request list&lt;/h3&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;j&lt;/dt&gt;
+        &lt;dd&gt;Move selection down&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;k&lt;/dt&gt;
+        &lt;dd&gt;Move selection up&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+        &lt;dd&gt;Open issue&lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+        &lt;dt&gt;&lt;span class=&quot;platform-mac&quot;&gt;⌘&lt;/span&gt;&lt;span class=&quot;platform-other&quot;&gt;ctrl&lt;/span&gt; &lt;em&gt;+&lt;/em&gt; enter&lt;/dt&gt;
+        &lt;dd&gt;Submit comment&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/div&gt;&lt;!-- /.columns.last --&gt;
+
+  &lt;/div&gt;&lt;!-- /.columns.equacols --&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+    &lt;h3&gt;Issues&lt;/h3&gt;
+
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;j&lt;/dt&gt;
+          &lt;dd&gt;Move selection down&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;k&lt;/dt&gt;
+          &lt;dd&gt;Move selection up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;x&lt;/dt&gt;
+          &lt;dd&gt;Toggle selection&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Open issue&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;platform-mac&quot;&gt;⌘&lt;/span&gt;&lt;span class=&quot;platform-other&quot;&gt;ctrl&lt;/span&gt; &lt;em&gt;+&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Submit comment&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.first --&gt;
+      &lt;div class=&quot;column last&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;c&lt;/dt&gt;
+          &lt;dd&gt;Create issue&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;l&lt;/dt&gt;
+          &lt;dd&gt;Create label&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;i&lt;/dt&gt;
+          &lt;dd&gt;Back to inbox&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;u&lt;/dt&gt;
+          &lt;dd&gt;Back to issues&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;/&lt;/dt&gt;
+          &lt;dd&gt;Focus issues search&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+    &lt;h3&gt;Issues Dashboard&lt;/h3&gt;
+
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;j&lt;/dt&gt;
+          &lt;dd&gt;Move selection down&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;k&lt;/dt&gt;
+          &lt;dd&gt;Move selection up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;o &lt;em&gt;or&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Open issue&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.first --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+    &lt;h3&gt;Network Graph&lt;/h3&gt;
+    &lt;div class=&quot;columns equacols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;←&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; h&lt;/dt&gt;
+          &lt;dd&gt;Scroll left&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;→&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; l&lt;/dt&gt;
+          &lt;dd&gt;Scroll right&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;↑&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; k&lt;/dt&gt;
+          &lt;dd&gt;Scroll up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;badmono&quot;&gt;↓&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; j&lt;/dt&gt;
+          &lt;dd&gt;Scroll down&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;t&lt;/dt&gt;
+          &lt;dd&gt;Toggle visibility of head labels&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.first --&gt;
+      &lt;div class=&quot;column last&quot;&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;←&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift h&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way left&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;→&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift l&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way right&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;↑&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift k&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way up&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;shift &lt;span class=&quot;badmono&quot;&gt;↓&lt;/span&gt; &lt;em&gt;or&lt;/em&gt; shift j&lt;/dt&gt;
+          &lt;dd&gt;Scroll all the way down&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;&lt;!-- /.column.last --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot; style='display:none'&gt;
+        &lt;h3&gt;Source Code Browsing&lt;/h3&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;t&lt;/dt&gt;
+          &lt;dd&gt;Activates the file finder&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;l&lt;/dt&gt;
+          &lt;dd&gt;Jump to line&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;w&lt;/dt&gt;
+          &lt;dd&gt;Switch branch/tag&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;y&lt;/dt&gt;
+          &lt;dd&gt;Expand URL to its canonical form&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div style='display:none'&gt;
+    &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;columns threecols&quot;&gt;
+      &lt;div class=&quot;column first&quot;&gt;
+        &lt;h3&gt;Browsing Commits&lt;/h3&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;&lt;span class=&quot;platform-mac&quot;&gt;⌘&lt;/span&gt;&lt;span class=&quot;platform-other&quot;&gt;ctrl&lt;/span&gt; &lt;em&gt;+&lt;/em&gt; enter&lt;/dt&gt;
+          &lt;dd&gt;Submit comment&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;escape&lt;/dt&gt;
+          &lt;dd&gt;Close form&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;p&lt;/dt&gt;
+          &lt;dd&gt;Parent commit&lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;dl class=&quot;keyboard-mappings&quot;&gt;
+          &lt;dt&gt;o&lt;/dt&gt;
+          &lt;dd&gt;Other parent commit&lt;/dd&gt;
+        &lt;/dl&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+    &lt;div id=&quot;markdown-help&quot; class=&quot;instapaper_ignore readability-extra&quot;&gt;
+  &lt;h2&gt;Markdown Cheat Sheet&lt;/h2&gt;
+
+  &lt;div class=&quot;cheatsheet-content&quot;&gt;
+
+  &lt;div class=&quot;mod&quot;&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;h3&gt;Format Text&lt;/h3&gt;
+      &lt;p&gt;Headers&lt;/p&gt;
+      &lt;pre&gt;
+# This is an &amp;lt;h1&amp;gt; tag
+## This is an &amp;lt;h2&amp;gt; tag
+###### This is an &amp;lt;h6&amp;gt; tag&lt;/pre&gt;
+     &lt;p&gt;Text styles&lt;/p&gt;
+     &lt;pre&gt;
+*This text will be italic*
+_This will also be italic_
+**This text will be bold**
+__This will also be bold__
+
+*You **can** combine them*
+&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;h3&gt;Lists&lt;/h3&gt;
+      &lt;p&gt;Unordered&lt;/p&gt;
+      &lt;pre&gt;
+* Item 1
+* Item 2
+  * Item 2a
+  * Item 2b&lt;/pre&gt;
+     &lt;p&gt;Ordered&lt;/p&gt;
+     &lt;pre&gt;
+1. Item 1
+2. Item 2
+3. Item 3
+   * Item 3a
+   * Item 3b&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;h3&gt;Miscellaneous&lt;/h3&gt;
+      &lt;p&gt;Images&lt;/p&gt;
+      &lt;pre&gt;
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
+&lt;/pre&gt;
+     &lt;p&gt;Links&lt;/p&gt;
+     &lt;pre&gt;
+http://github.com - automatic!
+[GitHub](http://github.com)&lt;/pre&gt;
+&lt;p&gt;Blockquotes&lt;/p&gt;
+     &lt;pre&gt;
+As Kanye West said:
+
+&gt; We're living the future so
+&gt; the present is our past.
+&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;rule&quot;&gt;&lt;/div&gt;
+
+  &lt;h3&gt;Code Examples in Markdown&lt;/h3&gt;
+  &lt;div class=&quot;col&quot;&gt;
+      &lt;p&gt;Syntax highlighting with &lt;a href=&quot;http://github.github.com/github-flavored-markdown/&quot; title=&quot;GitHub Flavored Markdown&quot; target=&quot;_blank&quot;&gt;GFM&lt;/a&gt;&lt;/p&gt;
+      &lt;pre&gt;
+```javascript
+function fancyAlert(arg) {
+  if(arg) {
+    $.facebox({div:'#foo'})
+  }
+}
+```&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;p&gt;Or, indent your code 4 spaces&lt;/p&gt;
+      &lt;pre&gt;
+Here is a Python code example
+without syntax highlighting:
+
+    def foo:
+      if not bar:
+        return true&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col&quot;&gt;
+      &lt;p&gt;Inline code for comments&lt;/p&gt;
+      &lt;pre&gt;
+I think you should use an
+`&amp;lt;addr&amp;gt;` element here instead.&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+
+    &lt;div id=&quot;ajax-error-message&quot;&gt;
+      &lt;span class=&quot;mini-icon mini-icon-exclamation&quot;&gt;&lt;/span&gt;
+      Something went wrong with that request. Please try again.
+      &lt;a href=&quot;#&quot; class=&quot;ajax-error-dismiss&quot;&gt;Dismiss&lt;/a&gt;
+    &lt;/div&gt;
+
+    &lt;div id=&quot;logo-popup&quot;&gt;
+      &lt;h2&gt;Looking for the GitHub logo?&lt;/h2&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;h4&gt;GitHub Logo&lt;/h4&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/GitHub_Logos.zip&quot;&gt;&lt;img alt=&quot;Github_logo&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/about_page/github_logo.png?1338945074&quot; /&gt;&lt;/a&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/GitHub_Logos.zip&quot; class=&quot;minibutton btn-download download&quot;&gt;&lt;span class=&quot;icon&quot;&gt;&lt;/span&gt;Download&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;h4&gt;The Octocat&lt;/h4&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/Octocats.zip&quot;&gt;&lt;img alt=&quot;Octocat&quot; src=&quot;https://a248.e.akamai.net/assets.github.com/images/modules/about_page/octocat.png?1338945074&quot; /&gt;&lt;/a&gt;
+          &lt;a href=&quot;http://github-media-downloads.s3.amazonaws.com/Octocats.zip&quot; class=&quot;minibutton btn-download download&quot;&gt;&lt;span class=&quot;icon&quot;&gt;&lt;/span&gt;Download&lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    
+    
+    
+    &lt;span id='server_response_time' data-time='0.03468' data-host='fe2'&gt;&lt;/span&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></noscript></div>
+</p>
 
 <p>Örneğimizde PostIndex adlı bir indeks oluşturduk. Bunu haystack'in RealTimeSearchIndex sınıfını miras alarak oluşturduğumuz için modelimizdeki değişikliklerde(yazı eklenmesi, silinmesi gibi) Elasticsearch indeksimiz otomatik olarak güncellenecek. Haystack indeks tanımlamalarında get_model metodu yazılarak ilgili modelin belirtilmesi ve mutlaka bir adet text adlı alan bulunması zorunludur. Bu alan varsayılan olarak üzerinde arama yapılacak alandır. Bu alana verdiğimiz use_template parametresi bu alan için oluşturacağımız bir template dosyamızın var olduğunu belirtiyor. Bu dosyamızı da templates klasörümüzün içinde search/indexes/[uygulama adı]/[model adı]_[alan adı].txt yoluna(bu örneğimiz için: templates/search/indexes/blog/blogpost_text.txt) koymamız gerekiyor:</p>
 
-<p><code>html templates/search/indexes/blog/blogpost_text.txt
-{% literal %}{{ object.title }}
-{{ object.author }}{% endliteral %}
-</code></p>
+<p><div><script src='https://gist.github.com/2987596.js?file=blogpost_text.txt'></script>
+<noscript><pre><code>{% literal %}{{ object.title }}
+{{ object.author }}{% endliteral %}</code></pre></noscript></div>
+</p>
 
 <p>Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek indeksletmiş olduk. Bu sayede yazılarımızda hem yazar adı hem de yazı başlığı ile arama yapma imkanına sahip olacağız.</p>
 
@@ -156,9 +1390,9 @@ def get_model(self):
 
 <p>Verilerimizin ilk kez indekslenmesi için aşağıdaki komutu çalıştırmamız gerekiyor:</p>
 
-<p><code>bash
-python manage.py update_index blog.BlogPost
-</code></p>
+<p><div><script src='https://gist.github.com/2987596.js?file=update_index.sh'></script>
+<noscript><pre><code>python manage.py update_index blog.BlogPost</code></pre></noscript></div>
+</p>
 
 <p>Sonda verdiğimiz model parametresi opsiyoneldir. Eğer yazmazsanız varolan bütün indeksler güncellenir. Bu komutu çalıştırmadan önce elasticsearch'ün çalıştığından emin olun.</p>
 
@@ -166,36 +1400,29 @@ python manage.py update_index blog.BlogPost
 
 <p>Verilerimiz indekslendiğine göre artık ilk sorgumuzu yapabiliriz. Bunun için önce bir url tanımlayalım:</p>
 
-<p>``` python urls.py
-....
-urlpatterns = patterns('',</p>
-
-<pre><code>url(r'^blog/search/$', 'blog.search'),
-</code></pre>
-
-<p>)
-```</p>
+<p><div><script src='https://gist.github.com/2987596.js?file=urls.py'></script>
+<noscript><pre><code>urlpatterns = patterns('',
+    url(r'^blog/search/$', 'blog.search'),
+)</code></pre></noscript></div>
+</p>
 
 <p>Bu adrese gelecek talepleri alacak view metodumuzu da uygulama klasöründeki views.py dosyamıza ekliyoruz:</p>
 
-<p>``` python blog/views.py
-from django.http import HttpResponse
-from haystack.query import SearchQuerySet</p>
+<p><div><script src='https://gist.github.com/2987596.js?file=views.py'></script>
+<noscript><pre><code>from django.http import HttpResponse
+from haystack.query import SearchQuerySet
 
-<p>def search(request):</p>
-
-<pre><code>results = SearchQuerySet().filter(content__startswith=request.GET.get('q'))[:10]
-results_text = '\n'.join([row.title for row in results])
-return HttpResponse(results_text, content_type="text/plain")
-</code></pre>
-
-<p>```</p>
+def search(request):
+    results = SearchQuerySet().filter(content__startswith=request.GET.get('q'))[:10]
+    results_text = '\n'.join([row.title for row in results])
+    return HttpResponse(results_text, content_type=&quot;text/plain&quot;)</code></pre></noscript></div>
+</p>
 
 <p>Sorgular için haystack'in SearchQuerySet'ini kullanıyoruz. Kullanımı Django'nun model query'sine oldukça benziyor. Çok benzer şekilde çalışan filter metodunu kullanarak q querystringi ile gelen metinle başlayan kelimelerin bulunduğu 10 adet kaydı çekiyoruz. Burada text__startswith yazmak yerine content ismini kullanmamız dikkatinizi çekmiştir. content ismi, haystack tarafından sunulmuş özel bir alan adı ve tüm dokümanda arama yapma imkanı veriyor. filter'da Django'da olduğu gibi indeksteki diğer alanlara özgü filtrelemeler yapmamız da mümkün. Örneğin indeksimize user alanı da eklediğimizi varsayarsak:</p>
 
-<p><code>python
-SearchQuerySet().filter(user__iexact="murat").filter(content__startswith=request.GET.get('q'))[:10]
-</code></p>
+<p><div><script src='https://gist.github.com/2987596.js?file=filter.py'></script>
+<noscript><pre><code>SearchQuerySet().filter(user__iexact=&quot;murat&quot;).filter(content__startswith=request.GET.get('q'))[:10]</code></pre></noscript></div>
+</p>
 
 <p>gibi zincirleme sorgular yapabiliriz.</p>
 
@@ -214,17 +1441,53 @@ SearchQuerySet().filter(user__iexact="murat").filter(content__startswith=request
     <id>http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama</id>
     <content type="html"><![CDATA[<p>Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara <a href="http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi">ulaştım</a>:</p>
 
-<p>{% blockquote %}
+<p><blockquote><p>* 11 hanelidir.<br/>* Her hanesi rakamsal değer içerir.<br/>* İlk hane 0 olamaz.<br/>* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.<br/>* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.</p></blockquote></p>
+
+<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
+
+<p><div><script src='https://gist.github.com/2018156.js?file='></script>
+<noscript><pre><code># coding=utf-8
+&quot;&quot;&quot;
+Kurallar:
 * 11 hanelidir.
 * Her hanesi rakamsal değer içerir.
 * İlk hane 0 olamaz.
 * 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
 * 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
-{% endblockquote %}</p>
 
-<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
+Kurallar http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi adresinden alınmıştır.
 
-<p>{% gist 2018156 %}</p>
+&quot;&quot;&quot;
+def isValidTCID(value):
+    value = str(value)
+    
+    # 11 hanelidir.
+    if not len(value) == 11:
+        return False
+    
+    # Sadece rakamlardan olusur.
+    if not value.isdigit():
+        return False
+    
+    # Ilk hanesi 0 olamaz.
+    if int(value[0]) == 0:
+        return False
+    
+    digits = [int(d) for d in str(value)]
+    
+    # 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun
+    # 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
+    if not sum(digits[:10]) % 10 == digits[10]:
+        return False
+    
+    # 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında,
+    # elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
+    if not (((7 * sum(digits[:9][-1::-2])) - sum(digits[:9][-2::-2])) % 10) == digits[9]:
+        return False
+    
+    # Butun kontrollerden gecti.
+    return True</code></pre></noscript></div>
+</p>
 
 <p>Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.</p>
 ]]></content>
@@ -242,28 +1505,19 @@ SearchQuerySet().filter(user__iexact="murat").filter(content__startswith=request
 
 <p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
 
-<p>``` python</p>
-
 <pre><code>import os
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 STATIC_URL = 'http://127.0.0.1:9876/'
 </code></pre>
 
-<p>```</p>
-
 <p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
 
 <pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
-</code></pre>
 
-<p>``` python</p>
-
-<pre><code>STATIC_URL = 'http://127.0.0.1:9876/static/'
+STATIC_URL = 'http://127.0.0.1:9876/static/'
 MEDIA_URL = 'http://127.0.0.1:9876/media/'
 </code></pre>
-
-<p>```</p>
 
 <p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
 
