@@ -2,38 +2,42 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://muratcorlu.com/post/yerimizi-bilelim/</loc>
-        <lastmod>2012-04-03T10:52:30+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/dropbox-i-ftp-gibi-kullanmak/</loc>
-        <lastmod>2012-04-03T10:52:30+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/</loc>
-        <lastmod>2012-04-03T10:52:30+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/</loc>
-        <lastmod>2012-04-03T10:52:30+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/</loc>
-        <lastmod>2012-04-03T10:52:30+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/djangoda-haystack-ve-elasticsearch-ile-arama/</loc>
-        <lastmod>2012-04-03T10:52:30+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/</loc>
-        <lastmod>2012-04-03T11:51:17+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
+    </url>
+    <url>
+        <loc>http://muratcorlu.com/blog/archives/</loc>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/</loc>
-        <lastmod>2012-04-03T11:51:17+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
     <url>
         <loc>http://muratcorlu.com/post/archieve/</loc>
-        <lastmod>2012-04-03T11:51:17+03:00</lastmod>
+        <lastmod>2012-06-24T23:30:09+03:00</lastmod>
     </url>
 </urlset>

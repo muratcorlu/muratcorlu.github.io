@@ -33,79 +33,29 @@ python setup.py install
 
 Haystack uygulamasını settings.py dosyasımızdaki INSTALLED_APPS listemize ekliyoruz. Buna ek olarak bir de HAYSTACK_CONNECTIONS değişkeni ile Elasticsearch bağlantı bilgilerimizi vermemiz gerekiyor:
 
-``` python settings.py
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
-
-    'haystack',
-)
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'INDEX_NAME': 'blog',
-    },
-}
-```
+{% gist 2987596 settings.py %}
 
 Elasticsearch varsayılan olarak 9200 portundan çalışıyor. INDEX_NAME değeri de veritabanı adı gibi düşünülebilir. Elasticsearch'ün varsayılan ayarlarında çalışması deneme yapabilmemiz için yeterli.
 
 Haystack uygulamasının vereceğimiz index tanımlarını otomatik tanıması için, Django uygulamamızın ana klasörüne(settings.py ile aynı yere) aşağıdaki içerikte search_sites.py adlı dosyamızı oluşturalım:
 
-``` python search_sites.py
-import haystack
-
-haystack.autodiscover()
-```
+{% gist 2987596 search_sites.py %}
 
 ## Verilerin indekslenmesi
 
 Örneğimizde bir blog uygulamamız olacak ve blog yazılarının başlıklarında bir arama yapacağız. Yazımız için modelimiz aşağıdaki gibi olsun:
 
-``` python blog/models.py
-from django.db import models
-from django.contrib.auth.models import User
-
-class BlogPost(models.Model):
-    title = models.CharField(max_length=200)
-    author = models.ForeignKey(User)
-    content = models.TextField()
-    create_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
-```
+{% gist 2987596 models.py %}
 
 Modelimizi oluşturduktan sonra syncdb komutuyla veritabanını senkronize edip yönetici panelinden de deneme için birkaç yazı ekleyebilirsiniz.
 
 Arama motorları aramada kullanılacak verileri kendi içine, belirledikleri algoritmalarla alırlar ve bu veriler üzerinde arama yapma imkanı verirler. Bu işleme indeksleme denir. Biz de şimdi BlogPost modelimizden hangi verileri indeksimize alacağımızı belirteceğiz. Bu işlemi uygulama klasörünün içine search_indexes.py adlı bir dosya açarak yapıyoruz:
 
-``` python blog/search_indexes.py
-from haystack import indexes
-from blog.models import BlogPost
-
-class PostIndex(indexes.RealTimeSearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
-    title = indexes.CharField(model_attr='title')
-
-    def get_model(self):
-        return BlogPost
-```
+{% gist 2987596 search_indexes.py %}
 
 Örneğimizde PostIndex adlı bir indeks oluşturduk. Bunu haystack'in RealTimeSearchIndex sınıfını miras alarak oluşturduğumuz için modelimizdeki değişikliklerde(yazı eklenmesi, silinmesi gibi) Elasticsearch indeksimiz otomatik olarak güncellenecek. Haystack indeks tanımlamalarında get_model metodu yazılarak ilgili modelin belirtilmesi ve mutlaka bir adet text adlı alan bulunması zorunludur. Bu alan varsayılan olarak üzerinde arama yapılacak alandır. Bu alana verdiğimiz use_template parametresi bu alan için oluşturacağımız bir template dosyamızın var olduğunu belirtiyor. Bu dosyamızı da templates klasörümüzün içinde search/indexes/[uygulama adı]/[model adı]_[alan adı].txt yoluna(bu örneğimiz için: templates/search/indexes/blog/blogpost_text.txt) koymamız gerekiyor:
 
-``` html templates/search/indexes/blog/blogpost_text.txt
-{% literal %}{{ object.title }}
-{{ object.author }}{% endliteral %}
-```
+{% gist 2987596 blogpost_text.txt %}
 
 Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek indeksletmiş olduk. Bu sayede yazılarımızda hem yazar adı hem de yazı başlığı ile arama yapma imkanına sahip olacağız.
 
@@ -115,9 +65,7 @@ Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek i
 
 Verilerimizin ilk kez indekslenmesi için aşağıdaki komutu çalıştırmamız gerekiyor:
 
-``` bash
-python manage.py update_index blog.BlogPost
-```
+{% gist 2987596 update_index.sh %}
 
 Sonda verdiğimiz model parametresi opsiyoneldir. Eğer yazmazsanız varolan bütün indeksler güncellenir. Bu komutu çalıştırmadan önce elasticsearch'ün çalıştığından emin olun.
 
@@ -125,30 +73,15 @@ Sonda verdiğimiz model parametresi opsiyoneldir. Eğer yazmazsanız varolan bü
 
 Verilerimiz indekslendiğine göre artık ilk sorgumuzu yapabiliriz. Bunun için önce bir url tanımlayalım:
 
-``` python urls.py
-....
-urlpatterns = patterns('',
-    url(r'^blog/search/$', 'blog.search'),
-)
-```
+{% gist 2987596 urls.py %}
 
 Bu adrese gelecek talepleri alacak view metodumuzu da uygulama klasöründeki views.py dosyamıza ekliyoruz:
 
-``` python blog/views.py
-from django.http import HttpResponse
-from haystack.query import SearchQuerySet
-
-def search(request):
-    results = SearchQuerySet().filter(content__startswith=request.GET.get('q'))[:10]
-    results_text = '\n'.join([row.title for row in results])
-    return HttpResponse(results_text, content_type="text/plain")
-```
+{% gist 2987596 views.py %}
 
 Sorgular için haystack'in SearchQuerySet'ini kullanıyoruz. Kullanımı Django'nun model query'sine oldukça benziyor. Çok benzer şekilde çalışan filter metodunu kullanarak q querystringi ile gelen metinle başlayan kelimelerin bulunduğu 10 adet kaydı çekiyoruz. Burada text__startswith yazmak yerine content ismini kullanmamız dikkatinizi çekmiştir. content ismi, haystack tarafından sunulmuş özel bir alan adı ve tüm dokümanda arama yapma imkanı veriyor. filter'da Django'da olduğu gibi indeksteki diğer alanlara özgü filtrelemeler yapmamız da mümkün. Örneğin indeksimize user alanı da eklediğimizi varsayarsak:
 
-``` python
-SearchQuerySet().filter(user__iexact="murat").filter(content__startswith=request.GET.get('q'))[:10]
-```
+{% gist 2987596 filter.py %}
 
 gibi zincirleme sorgular yapabiliriz.
 

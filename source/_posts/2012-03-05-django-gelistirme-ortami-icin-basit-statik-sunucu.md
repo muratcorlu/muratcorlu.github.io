@@ -13,21 +13,17 @@ tags: [django, python, server]
 
 Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:
 
-``` python
     import os
     SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
     STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
     STATIC_URL = 'http://127.0.0.1:9876/'
-```
 
 Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:
 
     django-project$ > python -m SimpleHTTPServer 9876
 
-``` python
     STATIC_URL = 'http://127.0.0.1:9876/static/'
     MEDIA_URL = 'http://127.0.0.1:9876/media/'
-```
 
 Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:
 

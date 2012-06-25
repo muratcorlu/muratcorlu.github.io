@@ -4,7 +4,7 @@
   <title><![CDATA[web development notes]]></title>
   <link href="http://muratcorlu.com/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-05-07T10:47:03+03:00</updated>
+  <updated>2012-06-24T23:37:25+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -94,137 +94,101 @@ $(function(){
 
 <p>Elasticsearch Java ortamı gerektirmektedir ancak kendi içinde işini görebilecek boyutta bir Java ortamı ile beraber geliyor. Elasticsearch&#8217;ün dilediğiniz versiyonunun sıkıştırılmış dosyasını <a href="http://www.elasticsearch.org/download/">indirme sayfasından</a> edinip, bilgisayarınızda herhangi bir yere açtıktan sonra, açılan dosyalardan bin klasöründeki elasticsearch uygulamasını çalıştırarak kolayca başlatmış olursunuz.<a href="http://www.elasticsearch.org/guide/reference/setup/installation.html" title="Ayrıntılı bilgi [İngilizce]">*</a> Kurulu versiyon için MacOSX&#8217;de brew (<code>brew install elasticsearch</code>), Ubuntu&#8217;da da aptitude (<code>apt-get install elasticsearch</code>) kullanabilirsiniz. Elasticsearch&#8217;ü  kurduktan sonra python ile kullanabilmek için pyelasticsearch modülüne de ihtiyacımız olacak. Onun haystack uyumlu versiyonunu da aşağıdaki komutlarla kurabilirsiniz:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone https://github.com/toastdriven/pyelasticsearch
-</span><span class='line'><span class="nb">cd </span>pyelasticsearch
-</span><span class='line'>python setup.py install
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>bash
+git clone https://github.com/toastdriven/pyelasticsearch
+cd pyelasticsearch
+python setup.py install
+</code></p>
 
 <h2>Ayarlar</h2>
 
 <p>Haystack uygulamasını settings.py dosyasımızdaki INSTALLED_APPS listemize ekliyoruz. Buna ek olarak bir de HAYSTACK_CONNECTIONS değişkeni ile Elasticsearch bağlantı bilgilerimizi vermemiz gerekiyor:</p>
 
-<figure class='code'><figcaption><span>settings.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.sites&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c"># Uncomment the next line to enable the admin:</span>
-</span><span class='line'>    <span class="s">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="c"># Uncomment the next line to enable admin documentation:</span>
-</span><span class='line'>    <span class="c"># &#39;django.contrib.admindocs&#39;,</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="s">&#39;haystack&#39;</span><span class="p">,</span>
-</span><span class='line'><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">HAYSTACK_CONNECTIONS</span> <span class="o">=</span> <span class="p">{</span>
-</span><span class='line'>    <span class="s">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="s">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s">&#39;haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s">&#39;URL&#39;</span><span class="p">:</span> <span class="s">&#39;http://127.0.0.1:9200/&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s">&#39;INDEX_NAME&#39;</span><span class="p">:</span> <span class="s">&#39;blog&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python settings.py
+INSTALLED_APPS = (</p>
 
+<pre><code>'django.contrib.auth',
+'django.contrib.contenttypes',
+'django.contrib.sessions',
+'django.contrib.sites',
+'django.contrib.messages',
+'django.contrib.staticfiles',
+# Uncomment the next line to enable the admin:
+'django.contrib.admin',
+# Uncomment the next line to enable admin documentation:
+# 'django.contrib.admindocs',
+
+'haystack',
+</code></pre>
+
+<p>)</p>
+
+<p>HAYSTACK_CONNECTIONS = {</p>
+
+<pre><code>'default': {
+    'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+    'URL': 'http://127.0.0.1:9200/',
+    'INDEX_NAME': 'blog',
+},
+</code></pre>
+
+<p>}
+&#8220;`</p>
 
 <p>Elasticsearch varsayılan olarak 9200 portundan çalışıyor. INDEX_NAME değeri de veritabanı adı gibi düşünülebilir. Elasticsearch&#8217;ün varsayılan ayarlarında çalışması deneme yapabilmemiz için yeterli.</p>
 
 <p>Haystack uygulamasının vereceğimiz index tanımlarını otomatik tanıması için, Django uygulamamızın ana klasörüne(settings.py ile aynı yere) aşağıdaki içerikte search_sites.py adlı dosyamızı oluşturalım:</p>
 
-<figure class='code'><figcaption><span>search_sites.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">haystack</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">haystack</span><span class="o">.</span><span class="n">autodiscover</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python search_sites.py
+import haystack</p>
 
+<p>haystack.autodiscover()
+&#8220;`</p>
 
 <h2>Verilerin indekslenmesi</h2>
 
 <p>Örneğimizde bir blog uygulamamız olacak ve blog yazılarının başlıklarında bir arama yapacağız. Yazımız için modelimiz aşağıdaki gibi olsun:</p>
 
-<figure class='code'><figcaption><span>blog/models.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">BlogPost</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">author</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
-</span><span class='line'>    <span class="n">create_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">modified_date</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python blog/models.py
+from django.db import models
+from django.contrib.auth.models import User</p>
 
+<p>class BlogPost(models.Model):</p>
+
+<pre><code>title = models.CharField(max_length=200)
+author = models.ForeignKey(User)
+content = models.TextField()
+create_date = models.DateTimeField(auto_now_add=True)
+modified_date = models.DateTimeField(auto_now=True)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>Modelimizi oluşturduktan sonra syncdb komutuyla veritabanını senkronize edip yönetici panelinden de deneme için birkaç yazı ekleyebilirsiniz.</p>
 
 <p>Arama motorları aramada kullanılacak verileri kendi içine, belirledikleri algoritmalarla alırlar ve bu veriler üzerinde arama yapma imkanı verirler. Bu işleme indeksleme denir. Biz de şimdi BlogPost modelimizden hangi verileri indeksimize alacağımızı belirteceğiz. Bu işlemi uygulama klasörünün içine search_indexes.py adlı bir dosya açarak yapıyoruz:</p>
 
-<figure class='code'><figcaption><span>blog/search_indexes.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">haystack</span> <span class="kn">import</span> <span class="n">indexes</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">blog.models</span> <span class="kn">import</span> <span class="n">BlogPost</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">PostIndex</span><span class="p">(</span><span class="n">indexes</span><span class="o">.</span><span class="n">RealTimeSearchIndex</span><span class="p">,</span> <span class="n">indexes</span><span class="o">.</span><span class="n">Indexable</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">text</span> <span class="o">=</span> <span class="n">indexes</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">document</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">use_template</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">title</span> <span class="o">=</span> <span class="n">indexes</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">model_attr</span><span class="o">=</span><span class="s">&#39;title&#39;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span class='line'>        <span class="k">return</span> <span class="n">BlogPost</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python blog/search_indexes.py
+from haystack import indexes
+from blog.models import BlogPost</p>
 
+<p>class PostIndex(indexes.RealTimeSearchIndex, indexes.Indexable):</p>
+
+<pre><code>text = indexes.CharField(document=True, use_template=True)
+title = indexes.CharField(model_attr='title')
+
+def get_model(self):
+    return BlogPost
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>Örneğimizde PostIndex adlı bir indeks oluşturduk. Bunu haystack&#8217;in RealTimeSearchIndex sınıfını miras alarak oluşturduğumuz için modelimizdeki değişikliklerde(yazı eklenmesi, silinmesi gibi) Elasticsearch indeksimiz otomatik olarak güncellenecek. Haystack indeks tanımlamalarında get_model metodu yazılarak ilgili modelin belirtilmesi ve mutlaka bir adet text adlı alan bulunması zorunludur. Bu alan varsayılan olarak üzerinde arama yapılacak alandır. Bu alana verdiğimiz use_template parametresi bu alan için oluşturacağımız bir template dosyamızın var olduğunu belirtiyor. Bu dosyamızı da templates klasörümüzün içinde search/indexes/[uygulama adı]/[model adı]_[alan adı].txt yoluna(bu örneğimiz için: templates/search/indexes/blog/blogpost_text.txt) koymamız gerekiyor:</p>
 
-<figure class='code'><figcaption><span>templates/search/indexes/blog/blogpost_text.txt</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'>{{ object.title }}
-</span><span class='line'>{{ object.author }}
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>html templates/search/indexes/blog/blogpost_text.txt
+{% literal %}{{ object.title }}
+{{ object.author }}{% endliteral %}
+</code></p>
 
 <p>Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek indeksletmiş olduk. Bu sayede yazılarımızda hem yazar adı hem de yazı başlığı ile arama yapma imkanına sahip olacağız.</p>
 
@@ -234,10 +198,9 @@ $(function(){
 
 <p>Verilerimizin ilk kez indekslenmesi için aşağıdaki komutu çalıştırmamız gerekiyor:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>python manage.py update_index blog.BlogPost
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>bash
+python manage.py update_index blog.BlogPost
+</code></p>
 
 <p>Sonda verdiğimiz model parametresi opsiyoneldir. Eğer yazmazsanız varolan bütün indeksler güncellenir. Bu komutu çalıştırmadan önce elasticsearch&#8217;ün çalıştığından emin olun.</p>
 
@@ -245,42 +208,36 @@ $(function(){
 
 <p>Verilerimiz indekslendiğine göre artık ilk sorgumuzu yapabiliriz. Bunun için önce bir url tanımlayalım:</p>
 
-<figure class='code'><figcaption><span>urls.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">....</span>
-</span><span class='line'><span class="n">urlpatterns</span> <span class="o">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
-</span><span class='line'>    <span class="n">url</span><span class="p">(</span><span class="s">r&#39;^blog/search/$&#39;</span><span class="p">,</span> <span class="s">&#39;blog.search&#39;</span><span class="p">),</span>
-</span><span class='line'><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python urls.py
+&#8230;.
+urlpatterns = patterns(&#8221;,</p>
 
+<pre><code>url(r'^blog/search/$', 'blog.search'),
+</code></pre>
+
+<p>)
+&#8220;`</p>
 
 <p>Bu adrese gelecek talepleri alacak view metodumuzu da uygulama klasöründeki views.py dosyamıza ekliyoruz:</p>
 
-<figure class='code'><figcaption><span>blog/views.py</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
-</span><span class='line'><span class="kn">from</span> <span class="nn">haystack.query</span> <span class="kn">import</span> <span class="n">SearchQuerySet</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-</span><span class='line'>    <span class="n">results</span> <span class="o">=</span> <span class="n">SearchQuerySet</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">content__startswith</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;q&#39;</span><span class="p">))[:</span><span class="mi">10</span><span class="p">]</span>
-</span><span class='line'>    <span class="n">results_text</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">title</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">results</span><span class="p">])</span>
-</span><span class='line'>    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">results_text</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s">&quot;text/plain&quot;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python blog/views.py
+from django.http import HttpResponse
+from haystack.query import SearchQuerySet</p>
 
+<p>def search(request):</p>
+
+<pre><code>results = SearchQuerySet().filter(content__startswith=request.GET.get('q'))[:10]
+results_text = '\n'.join([row.title for row in results])
+return HttpResponse(results_text, content_type="text/plain")
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>Sorgular için haystack&#8217;in SearchQuerySet&#8217;ini kullanıyoruz. Kullanımı Django&#8217;nun model query&#8217;sine oldukça benziyor. Çok benzer şekilde çalışan filter metodunu kullanarak q querystringi ile gelen metinle başlayan kelimelerin bulunduğu 10 adet kaydı çekiyoruz. Burada text__startswith yazmak yerine content ismini kullanmamız dikkatinizi çekmiştir. content ismi, haystack tarafından sunulmuş özel bir alan adı ve tüm dokümanda arama yapma imkanı veriyor. filter&#8217;da Django&#8217;da olduğu gibi indeksteki diğer alanlara özgü filtrelemeler yapmamız da mümkün. Örneğin indeksimize user alanı da eklediğimizi varsayarsak:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">SearchQuerySet</span><span class="p">()</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">user__iexact</span><span class="o">=</span><span class="s">&quot;murat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">content__startswith</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;q&#39;</span><span class="p">))[:</span><span class="mi">10</span><span class="p">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
+<p><code>python
+SearchQuerySet().filter(user__iexact="murat").filter(content__startswith=request.GET.get('q'))[:10]
+</code></p>
 
 <p>gibi zincirleme sorgular yapabiliriz.</p>
 
@@ -364,28 +321,28 @@ def isValidTCID(value):
 
 <p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">import</span> <span class="nn">os</span>
-</span><span class='line'><span class="n">SITE_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
-</span><span class='line'><span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SITE_ROOT</span><span class="p">,</span> <span class="s">&#39;static&#39;</span><span class="p">)</span>
-</span><span class='line'><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python</p>
 
+<pre><code>import os
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
+STATIC_URL = 'http://127.0.0.1:9876/'
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
 
 <pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
 </code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/static/&#39;</span>
-</span><span class='line'><span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/media/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;` python</p>
 
+<pre><code>STATIC_URL = 'http://127.0.0.1:9876/static/'
+MEDIA_URL = 'http://127.0.0.1:9876/media/'
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
 

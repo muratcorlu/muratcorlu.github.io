@@ -35,7 +35,7 @@ code_dir: downloads/code
 category_dir: language
 category_title_prefix: "Language: "
 markdown: rdiscount
-pygments: false # default python pygments have been replaced by pygments.rb
+pygments: true # default python pygments have been replaced by pygments.rb
 
 tag_dir: tags
 

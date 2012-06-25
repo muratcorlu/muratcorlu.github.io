@@ -4,7 +4,7 @@
   <title><![CDATA[Language: turkish | web development notes]]></title>
   <link href="http://muratcorlu.com/language/turkish/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-05-07T10:47:03+03:00</updated>
+  <updated>2012-06-24T23:37:25+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -22,49 +22,7 @@
 
 <p>Disqus'ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, <a href="http://jquery.com">jQuery</a> kütüphanesinden ve Mike Green'in <a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/">bir yazısı</a>ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5'in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:</p>
 
-<p><div><script src='https://gist.github.com/2290198.js?file='></script>
-<noscript><pre><code>/**
- * Load disqus comments when visitor scroll down page to comments
- * 
- * Usage:
- * Add a div with id &quot;disqus_thread&quot; and data attributes for every disqus parameter:
- *
- * &lt;div id=&quot;disqus_thread&quot; data-disqus-shortname=&quot;username&quot; data-disqus-url=&quot;http://example.com/post/post-name/&quot;&gt;&lt;/div&gt;
- *
- * @author: Murat Corlu
- * @link: https://gist.github.com/gists/2290198
- */
-$(function(){
-    var disqus_div = $(&quot;#disqus_thread&quot;);
-    if (disqus_div.size() &gt; 0 ) {
-        var ds_loaded = false,
-            top = disqus_div.offset().top, // WHERE TO START LOADING
-            disqus_data = disqus_div.data();
-
-        function check(){
-            if ( !ds_loaded &amp;&amp; $(window).scrollTop() + $(window).height() &gt; top ) {
-                ds_loaded = true;
-                for (key in disqus_data) {
-                    if (key.substr(0,6) == 'disqus') {
-                        window['disqus_' + key.replace('disqus','').toLowerCase()] = disqus_data[key];
-                    }
-                }
-
-                (function() {
-                    var dsq = document.createElement('script'); 
-                    dsq.type = 'text/javascript';
-                    dsq.async = true;
-                    dsq.src = 'http://' + window.disqus_shortname + '.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                })();
-            }
-        }
-
-        $(window).scroll(check);
-        check();
-    }
-});</code></pre></noscript></div>
-</p>
+<p>{% gist 2290198 %}</p>
 
 <p>HTML5 ile gelen data attribute'ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute'ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7'nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.</p>
 
@@ -186,8 +144,8 @@ def get_model(self):
 <p>Örneğimizde PostIndex adlı bir indeks oluşturduk. Bunu haystack'in RealTimeSearchIndex sınıfını miras alarak oluşturduğumuz için modelimizdeki değişikliklerde(yazı eklenmesi, silinmesi gibi) Elasticsearch indeksimiz otomatik olarak güncellenecek. Haystack indeks tanımlamalarında get_model metodu yazılarak ilgili modelin belirtilmesi ve mutlaka bir adet text adlı alan bulunması zorunludur. Bu alan varsayılan olarak üzerinde arama yapılacak alandır. Bu alana verdiğimiz use_template parametresi bu alan için oluşturacağımız bir template dosyamızın var olduğunu belirtiyor. Bu dosyamızı da templates klasörümüzün içinde search/indexes/[uygulama adı]/[model adı]_[alan adı].txt yoluna(bu örneğimiz için: templates/search/indexes/blog/blogpost_text.txt) koymamız gerekiyor:</p>
 
 <p><code>html templates/search/indexes/blog/blogpost_text.txt
-{{ object.title }}
-{{ object.author }}
+{% literal %}{{ object.title }}
+{{ object.author }}{% endliteral %}
 </code></p>
 
 <p>Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek indeksletmiş olduk. Bu sayede yazılarımızda hem yazar adı hem de yazı başlığı ile arama yapma imkanına sahip olacağız.</p>
@@ -256,53 +214,17 @@ SearchQuerySet().filter(user__iexact="murat").filter(content__startswith=request
     <id>http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama</id>
     <content type="html"><![CDATA[<p>Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara <a href="http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi">ulaştım</a>:</p>
 
-<p><blockquote><p>* 11 hanelidir.<br/>* Her hanesi rakamsal değer içerir.<br/>* İlk hane 0 olamaz.<br/>* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.<br/>* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.</p></blockquote></p>
-
-<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
-
-<p><div><script src='https://gist.github.com/2018156.js?file='></script>
-<noscript><pre><code># coding=utf-8
-&quot;&quot;&quot;
-Kurallar:
+<p>{% blockquote %}
 * 11 hanelidir.
 * Her hanesi rakamsal değer içerir.
 * İlk hane 0 olamaz.
 * 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
 * 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
+{% endblockquote %}</p>
 
-Kurallar http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi adresinden alınmıştır.
+<p>Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:</p>
 
-&quot;&quot;&quot;
-def isValidTCID(value):
-    value = str(value)
-    
-    # 11 hanelidir.
-    if not len(value) == 11:
-        return False
-    
-    # Sadece rakamlardan olusur.
-    if not value.isdigit():
-        return False
-    
-    # Ilk hanesi 0 olamaz.
-    if int(value[0]) == 0:
-        return False
-    
-    digits = [int(d) for d in str(value)]
-    
-    # 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun
-    # 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.
-    if not sum(digits[:10]) % 10 == digits[10]:
-        return False
-    
-    # 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında,
-    # elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.
-    if not (((7 * sum(digits[:9][-1::-2])) - sum(digits[:9][-2::-2])) % 10) == digits[9]:
-        return False
-    
-    # Butun kontrollerden gecti.
-    return True</code></pre></noscript></div>
-</p>
+<p>{% gist 2018156 %}</p>
 
 <p>Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.</p>
 ]]></content>
