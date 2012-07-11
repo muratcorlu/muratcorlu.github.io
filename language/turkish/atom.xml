@@ -4,7 +4,7 @@
   <title><![CDATA[Language: turkish | web development notes]]></title>
   <link href="http://muratcorlu.com/language/turkish/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-07-11T23:24:05+03:00</updated>
+  <updated>2012-07-11T23:30:56+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -18,7 +18,7 @@
     <link href="http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/"/>
     <updated>2012-07-11T23:21:00+03:00</updated>
     <id>http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler</id>
-    <content type="html"><![CDATA[<p>Javascript frameworkleri arasında neredeyse alternatifsiz kalan <a href="http://jquery.com">jQuery</a> frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi(<a href="http://sizzlejs.com/">Sizzle</a>). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodlarımız bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.</p>
+    <content type="html"><![CDATA[<p>Javascript frameworkleri arasında neredeyse alternatifsiz kalan <a href="http://jquery.com">jQuery</a> frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi(<a href="http://sizzlejs.com/">Sizzle</a>). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodları bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.</p>
 
 <h2>Sorun nedir?</h2>
 
