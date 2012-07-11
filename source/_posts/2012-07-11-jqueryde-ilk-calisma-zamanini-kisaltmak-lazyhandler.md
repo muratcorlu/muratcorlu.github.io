@@ -7,7 +7,7 @@ categories: turkish
 tags: [javascript, jquery, tuning]
 ---
 
-Javascript frameworkleri arasında neredeyse alternatifsiz kalan [jQuery](http://jquery.com) frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi([Sizzle](http://sizzlejs.com/)). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodlarımız bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.
+Javascript frameworkleri arasında neredeyse alternatifsiz kalan [jQuery](http://jquery.com) frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi([Sizzle](http://sizzlejs.com/)). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodları bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.
 
 ## Sorun nedir?
 
