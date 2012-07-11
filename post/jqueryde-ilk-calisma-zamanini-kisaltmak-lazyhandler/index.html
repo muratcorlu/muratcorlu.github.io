@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler - web development notes</title>
+  <meta name="author" content="Murat Çorlu">
+
+  
+  <meta name="description" content="Javascript frameworkleri arasında neredeyse alternatifsiz kalan jQuery frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="web development notes" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono&subset=latin-ext' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-790007-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">web development notes</a></h1>
+  
+    <h2>by Murat Çorlu</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:muratcorlu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/post/archieve/">Archieve</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-11T23:21:00+03:00" pubdate data-updated="true">11.07.2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Javascript frameworkleri arasında neredeyse alternatifsiz kalan <a href="http://jquery.com">jQuery</a> frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi(<a href="http://sizzlejs.com/">Sizzle</a>). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodlarımız bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.</p>
+
+<h2>Sorun nedir?</h2>
+
+<p>Olaylara fonksiyon atama işlemlerinde önemli bir süreyi CSS seçicileri çalıştırırken geçirebiliyoruz. Zira aşağıdaki tarzda bir seçiciden sayfa yükleme anında 10 tane çalıştırsak -HTML dokümanının büyüklüğüne ve tarayıcıya göre değişmekle birlikte- 200-300 milisaniye gibi bir süreyi sadece bu tarz olay dinleme atamaları ile geçirebiliriz:</p>
+
+<div><script src='https://gist.github.com/3092755.js?file=default.js'></script>
+<noscript><pre><code>$('#header li a.clickable').click(function);</code></pre></noscript></div>
+
+
+<p>Burada her seçicide sadece ID kullanmak bir çözüm olabilir, zira ID ile eleman seçmek oldukça hızlı. Ancak karmaşıklaşan dokümanlarımızda ve artan etkileşim sayılarında, her elemana ID üretmek de başka dezavantajlara sebep olacaktır.</p>
+
+<!--more-->
+
+
+<h2>Seçiciyi sayfa yüklenirken değil, tıklama anında çalıştırsak?</h2>
+
+<p>Aynı problemi <a href="http://www.sahibinden.com">sahibinden.com</a>'da geliştirme yaparken de yaşadık. Bir sayfada 8-10 tane elementin tıklamasına fonksiyon atadığımızda, eğer dokümanımız da biraz karmaşık ise, sayfanın ilk çalışma hızını(DOMReady) gözle görülür şekilde azaltıyorduk. Ve düşündüm ki, bu atadığımız 8-10 tıklama olayı, belki de çoğunlukla hiç kullanılmadan sayfadan çıkılıyordu. Yani, kullanılacağı garanti olmayan bir tıklama için kullanıcıyı sayfayı açarken fazladan 200 milisaniye daha bekletiyorduk.</p>
+
+<p>Bu sıralarda okuduğum kullanıcı tecrübesi(user experience) ile ilgili bir kitapta şunlar yazıyordu:</p>
+
+<blockquote><p>Araştırmalara göre, internette gezinen bir kullanıcı, bir linke tıkladığında 500 milisaniye ve altındaki beklemelere tepki vermiyor. Bu kadarlık bir süreyi "işlem yapma süresi" olarak görüyor ve bekliyor. Eğer 500 milisaniye ile 1 sn arasında herhangi bir tepki gelmezse, tıklamanın algılanmadığı tereddütü hasıl oluyor ve tekrar tıklıyor. 1 sn'yi geçen işlemlerde ise bir hata olduğuna hükmediyor. Bu yüzden 500 milisaniyeden daha uzun sürecek işlemlerde kullanıcıya işlemin devam ettiğiyle ilgili mutlaka bir bilgi verilmeli. Bu bir "yükleniyor" yazısı veya bunu ifade eden hareketli bir resim de olabilir.</p></blockquote>
+
+<p>Bu bilgilerden de kuvvet alarak, sayfa yüklenirkenki bu süreyi, tıklama anına aktarmak için denemelere başladım ve ortaya paket haline getirdiğim <a href="https://github.com/muratcorlu/lazyHandler">lazyHandler eklentisi</a> çıktı.</p>
+
+<h2>lazyHandler ne yapıyor?</h2>
+
+<p>lazyHandler ile olay atamanın kullanımı alışılagelmiş jQuery olay atamasına benzer:</p>
+
+<div><script src='https://gist.github.com/3092755.js?file=lazyhandler.js'></script>
+<noscript><pre><code>$.lh('#header li a.clickable').click(function(event){
+    console.log($(this).text());
+});</code></pre></noscript></div>
+
+
+<p>Görüldüğü üzere sadece 3 karakterlik bir eklemeyle alışılagelmiş bir jQuery olay atamasını, lazyHandler yöntemine çevirmiş olduk. Peki böyle yapınca ne değişti?:</p>
+
+<p>Normal yöntemde bu kod çalıştığı anda "#header li a.clickable" CSS seçicisi çalışır, kurala uygun elementler dokümanda aranır ve bunların tıklama olaylarına bu fonksiyon atanırdı. lazyHandler yönteminde ise bu kodun çalışması sadece bir diziye(array) bu CSS seçicisinin ve fonksiyonun atanmasından ibaret oluyor(lazyHandler dokümanda ilk kez çağrılıyorsa dokümanın tıklama olayına da bir fonksiyon atanıyor). Daha sonra dokümanın herhangi bir yerine tıklandığında, bu dizideki CSS seçicilerin tıklanan bölgedeki eleman(lar)a uyup uymadığı kontrol ediliyor ve uyan durumlarda karşılığındaki fonksiyon çağrılıyor.</p>
+
+<h2>Ne faydası var?</h2>
+
+<p>Olay atamalarının bu yöntemle yapılması sayfa yüklenirken çalıştırdığınız olay ataması sayısı arttıkça faydasını daha çok gösteriyor. Çünkü bir CSS seçicinin çalışması 10 ms sürüyorsa ve bu şekilde 10 CSS seçici çalıştırıyorsanız, bu işlemleri lazyHandler ile yaptığınızda 99 ms kâra geçiyorsunuz, zira lazyHandler ile bu işlemi yapmak -yaklaşık- 1 ms sürüyor.</p>
+
+<p>Aradaki farkı daha belirgin şekilde göstermek için hazırladığım bir <a href="http://jsperf.com/jquery-lazyhandler-performance-comparison">benchmark</a>ı da inceleyebilirsiniz.</p>
+
+<h2>Dezavantajı yok mu?</h2>
+
+<ul>
+<li>lazyHandler ile atanan olaylar, dokümana her tıklamada -atanan olay sayısına bağlı olmakla birlikte- 50-60 milisaniyeye kadar ek süre getiriyor. Bunu şu ana kadarki kullanımlarımızda hiç problem etmedik.</li>
+<li>lazyHandler olayları dokümana atanarak dinlendiği için, mouseover, mouseenter vb. fare hareketlerini dinlemek için uygun bir yöntem değil. Belki klavye tuşlarını dinlemek için de kullanılabilir.</li>
+<li>lazyHandler <a href="http://www.quirksmode.org/js/events_order.html">bubbling</a>'i desteklemiyor. Dolayısıyla aynı kurala uyan iki elemanın içiçe olduğu durumlarda, fonksiyon sadece içteki element için çalıştırılıyor.</li>
+<li>Bunların yanında lazyHandler seçicilerde <a href="http://api.jquery.com/jQuery/#selector-context">context</a> verilmesini de şu anda desteklemiyor.</li>
+</ul>
+
+
+<h2>Sonuç</h2>
+
+<p>Bu kodu sahibinden.com'un bazı bölgelerinde 2 yıldır kullanıyoruz. Bu kadar zamandır lazyHandler'dan bahsetmeyi önce erteledim, sonrasında da unuttum veya vakit bulamadım. Bu yazıya gelen geri dönüşlerle bu konuda daha faydalı şeylerin ortaya çıkacağını umuyorum. Yorumlarınızı bekliyorum.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Murat Çorlu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-11T23:21:00+03:00" pubdate data-updated="true">11.07.2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/language/turkish/'>turkish</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/post/google-analyticsin-derinlikleri/" title="Previous Post: Google Analytics'in derinlikleri">&laquo; Google Analytics'in derinlikleri</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("muratcorlu", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/muratcorlu" class="twitter-follow-button" data-show-count="false">Follow @muratcorlu</a>
+  
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/muratcorlu">@muratcorlu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'muratcorlu',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/">jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/google-analyticsin-derinlikleri/">Google Analytics'in derinlikleri</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/">Disqus yorumlarının görünür olduklarında yüklenmesi</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/djangoda-haystack-ve-elasticsearch-ile-arama/">Django'da Haystack ve Elasticsearch ile arama</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/python-ile-tc-kimlik-numarasi-dogrulama/">Python ile TC Kimlik Numarası doğrulama</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Murat Çorlu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'muratcorlu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/';
+        var disqus_url = 'http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

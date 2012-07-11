@@ -4,7 +4,7 @@
   <title><![CDATA[Language: turkish | web development notes]]></title>
   <link href="http://muratcorlu.com/language/turkish/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-06-25T14:30:37+03:00</updated>
+  <updated>2012-07-11T23:24:05+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler]]></title>
+    <link href="http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/"/>
+    <updated>2012-07-11T23:21:00+03:00</updated>
+    <id>http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler</id>
+    <content type="html"><![CDATA[<p>Javascript frameworkleri arasında neredeyse alternatifsiz kalan <a href="http://jquery.com">jQuery</a> frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi(<a href="http://sizzlejs.com/">Sizzle</a>). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodlarımız bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.</p>
+
+<h2>Sorun nedir?</h2>
+
+<p>Olaylara fonksiyon atama işlemlerinde önemli bir süreyi CSS seçicileri çalıştırırken geçirebiliyoruz. Zira aşağıdaki tarzda bir seçiciden sayfa yükleme anında 10 tane çalıştırsak -HTML dokümanının büyüklüğüne ve tarayıcıya göre değişmekle birlikte- 200-300 milisaniye gibi bir süreyi sadece bu tarz olay dinleme atamaları ile geçirebiliriz:</p>
+
+<p><div><script src='https://gist.github.com/3092755.js?file=default.js'></script>
+<noscript><pre><code>$('#header li a.clickable').click(function);</code></pre></noscript></div>
+</p>
+
+<p>Burada her seçicide sadece ID kullanmak bir çözüm olabilir, zira ID ile eleman seçmek oldukça hızlı. Ancak karmaşıklaşan dokümanlarımızda ve artan etkileşim sayılarında, her elemana ID üretmek de başka dezavantajlara sebep olacaktır.</p>
+
+<!--more-->
+
+
+<h2>Seçiciyi sayfa yüklenirken değil, tıklama anında çalıştırsak?</h2>
+
+<p>Aynı problemi <a href="http://www.sahibinden.com">sahibinden.com</a>'da geliştirme yaparken de yaşadık. Bir sayfada 8-10 tane elementin tıklamasına fonksiyon atadığımızda, eğer dokümanımız da biraz karmaşık ise, sayfanın ilk çalışma hızını(DOMReady) gözle görülür şekilde azaltıyorduk. Ve düşündüm ki, bu atadığımız 8-10 tıklama olayı, belki de çoğunlukla hiç kullanılmadan sayfadan çıkılıyordu. Yani, kullanılacağı garanti olmayan bir tıklama için kullanıcıyı sayfayı açarken fazladan 200 milisaniye daha bekletiyorduk.</p>
+
+<p>Bu sıralarda okuduğum kullanıcı tecrübesi(user experience) ile ilgili bir kitapta şunlar yazıyordu:</p>
+
+<blockquote><p>Araştırmalara göre, internette gezinen bir kullanıcı, bir linke tıkladığında 500 milisaniye ve altındaki beklemelere tepki vermiyor. Bu kadarlık bir süreyi "işlem yapma süresi" olarak görüyor ve bekliyor. Eğer 500 milisaniye ile 1 sn arasında herhangi bir tepki gelmezse, tıklamanın algılanmadığı tereddütü hasıl oluyor ve tekrar tıklıyor. 1 sn'yi geçen işlemlerde ise bir hata olduğuna hükmediyor. Bu yüzden 500 milisaniyeden daha uzun sürecek işlemlerde kullanıcıya işlemin devam ettiğiyle ilgili mutlaka bir bilgi verilmeli. Bu bir "yükleniyor" yazısı veya bunu ifade eden hareketli bir resim de olabilir.</p></blockquote>
+
+<p>Bu bilgilerden de kuvvet alarak, sayfa yüklenirkenki bu süreyi, tıklama anına aktarmak için denemelere başladım ve ortaya paket haline getirdiğim <a href="https://github.com/muratcorlu/lazyHandler">lazyHandler eklentisi</a> çıktı.</p>
+
+<h2>lazyHandler ne yapıyor?</h2>
+
+<p>lazyHandler ile olay atamanın kullanımı alışılagelmiş jQuery olay atamasına benzer:</p>
+
+<p><div><script src='https://gist.github.com/3092755.js?file=lazyhandler.js'></script>
+<noscript><pre><code>$.lh('#header li a.clickable').click(function(event){
+	console.log($(this).text());
+});</code></pre></noscript></div>
+</p>
+
+<p>Görüldüğü üzere sadece 3 karakterlik bir eklemeyle alışılagelmiş bir jQuery olay atamasını, lazyHandler yöntemine çevirmiş olduk. Peki böyle yapınca ne değişti?:</p>
+
+<p>Normal yöntemde bu kod çalıştığı anda "#header li a.clickable" CSS seçicisi çalışır, kurala uygun elementler dokümanda aranır ve bunların tıklama olaylarına bu fonksiyon atanırdı. lazyHandler yönteminde ise bu kodun çalışması sadece bir diziye(array) bu CSS seçicisinin ve fonksiyonun atanmasından ibaret oluyor(lazyHandler dokümanda ilk kez çağrılıyorsa dokümanın tıklama olayına da bir fonksiyon atanıyor). Daha sonra dokümanın herhangi bir yerine tıklandığında, bu dizideki CSS seçicilerin tıklanan bölgedeki eleman(lar)a uyup uymadığı kontrol ediliyor ve uyan durumlarda karşılığındaki fonksiyon çağrılıyor.</p>
+
+<h2>Ne faydası var?</h2>
+
+<p>Olay atamalarının bu yöntemle yapılması sayfa yüklenirken çalıştırdığınız olay ataması sayısı arttıkça faydasını daha çok gösteriyor. Çünkü bir CSS seçicinin çalışması 10 ms sürüyorsa ve bu şekilde 10 CSS seçici çalıştırıyorsanız, bu işlemleri lazyHandler ile yaptığınızda 99 ms kâra geçiyorsunuz, zira lazyHandler ile bu işlemi yapmak -yaklaşık- 1 ms sürüyor.</p>
+
+<p>Aradaki farkı daha belirgin şekilde göstermek için hazırladığım bir <a href="http://jsperf.com/jquery-lazyhandler-performance-comparison">benchmark</a>ı da inceleyebilirsiniz.</p>
+
+<h2>Dezavantajı yok mu?</h2>
+
+<ul>
+<li>lazyHandler ile atanan olaylar, dokümana her tıklamada -atanan olay sayısına bağlı olmakla birlikte- 50-60 milisaniyeye kadar ek süre getiriyor. Bunu şu ana kadarki kullanımlarımızda hiç problem etmedik.</li>
+<li>lazyHandler olayları dokümana atanarak dinlendiği için, mouseover, mouseenter vb. fare hareketlerini dinlemek için uygun bir yöntem değil. Belki klavye tuşlarını dinlemek için de kullanılabilir.</li>
+<li>lazyHandler <a href="http://www.quirksmode.org/js/events_order.html">bubbling</a>'i desteklemiyor. Dolayısıyla aynı kurala uyan iki elemanın içiçe olduğu durumlarda, fonksiyon sadece içteki element için çalıştırılıyor.</li>
+<li>Bunların yanında lazyHandler seçicilerde <a href="http://api.jquery.com/jQuery/#selector-context">context</a> verilmesini de şu anda desteklemiyor.</li>
+</ul>
+
+
+<h2>Sonuç</h2>
+
+<p>Bu kodu sahibinden.com'un bazı bölgelerinde 2 yıldır kullanıyoruz. Bu kadar zamandır lazyHandler'dan bahsetmeyi önce erteledim, sonrasında da unuttum veya vakit bulamadım. Bu yazıya gelen geri dönüşlerle bu konuda daha faydalı şeylerin ortaya çıkacağını umuyorum. Yorumlarınızı bekliyorum.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Google Analytics'in derinlikleri]]></title>
+    <link href="http://muratcorlu.com/post/google-analyticsin-derinlikleri/"/>
+    <updated>2012-07-11T17:01:00+03:00</updated>
+    <id>http://muratcorlu.com/post/google-analyticsin-derinlikleri</id>
+    <content type="html"><![CDATA[<p><a href="http://www.google.com/analytis/">Google Analytics</a>, Google'ın bize sunduğu harika ücretsiz araçlardan biri. Küçük bir javascript kodunu sitemize dahil ederek faydalanmaya başlayabildiğimiz bu aracı, kullanan da oldukça fazla. Bu yazıda size küçük ölçekli sitelerde farkedilemeyecek bazı durumlar hakkında bilgi vermek istedim.</p>
+
+<h2>50.000 satır limiti</h2>
+
+<p>Google Analytics'in ücretsiz versiyonunda, her veri türünde günlük 50 bin satır limiti bulunuyor. Bu limit Google Analytics Premium ile 1 milyona yükseltilebiliyor, tabi yıllık $150.000 karşılığında. Siz de bu kadar</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Disqus yorumlarının görünür olduklarında yüklenmesi]]></title>
@@ -94,11 +173,10 @@ $(function(){
 
 <p>Elasticsearch Java ortamı gerektirmektedir ancak kendi içinde işini görebilecek boyutta bir Java ortamı ile beraber geliyor. Elasticsearch'ün dilediğiniz versiyonunun sıkıştırılmış dosyasını <a href="http://www.elasticsearch.org/download/">indirme sayfasından</a> edinip, bilgisayarınızda herhangi bir yere açtıktan sonra, açılan dosyalardan bin klasöründeki elasticsearch uygulamasını çalıştırarak kolayca başlatmış olursunuz.<a href="http://www.elasticsearch.org/guide/reference/setup/installation.html" title="Ayrıntılı bilgi [İngilizce]">*</a> Kurulu versiyon için MacOSX'de brew (<code>brew install elasticsearch</code>), Ubuntu'da da aptitude (<code>apt-get install elasticsearch</code>) kullanabilirsiniz. Elasticsearch'ü  kurduktan sonra python ile kullanabilmek için pyelasticsearch modülüne de ihtiyacımız olacak. Onun haystack uyumlu versiyonunu da aşağıdaki komutlarla kurabilirsiniz:</p>
 
-<p><code>bash
-git clone https://github.com/toastdriven/pyelasticsearch
+<pre><code>git clone https://github.com/toastdriven/pyelasticsearch
 cd pyelasticsearch
 python setup.py install
-</code></p>
+</code></pre>
 
 <h2>Ayarlar</h2>
 
@@ -1490,59 +1568,6 @@ def isValidTCID(value):
 </p>
 
 <p>Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Django geliştirme ortamı için basit statik sunucu]]></title>
-    <link href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/"/>
-    <updated>2012-03-05T00:06:00+02:00</updated>
-    <id>http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu</id>
-    <content type="html"><![CDATA[<p><a href="http://www.djangoproject.com">Django</a>'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python'un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
-
-<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum
-</code></pre>
-
-<p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
-
-<pre><code>import os
-SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
-STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
-STATIC_URL = 'http://127.0.0.1:9876/'
-</code></pre>
-
-<p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
-
-<pre><code>django-project$ &gt; python -m SimpleHTTPServer 9876
-
-STATIC_URL = 'http://127.0.0.1:9876/static/'
-MEDIA_URL = 'http://127.0.0.1:9876/media/'
-</code></pre>
-
-<p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
-
-<pre><code>django-project/static$ &gt; python -m SimpleHTTPServer $portnum &gt; ~/temp/static-server.log 2&gt;&amp;1 &amp;
-</code></pre>
-
-<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py'ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
-
-<p>Son olarak, bu yöntemi ağ üzerinden <a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html">dosya paylaşımı yapmak için</a> de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac OSX Lion'da SSHFS kullanımı]]></title>
-    <link href="http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi/"/>
-    <updated>2012-03-04T19:28:00+02:00</updated>
-    <id>http://muratcorlu.com/post/mac-osx-lionda-sshfs-kullanimi</id>
-    <content type="html"><![CDATA[<p>Mac OS Snow Leopard sürümünde Macports yardımıyla kolayca kurup kullandığımız(port install sshfs) sshfs uygulamasını Lion'da kullanmakta sıkıntılar yaşıyoruz zira sshfs'in kullandığı MacFUSE uygulamasının Lion uyumlu bir versiyonu çıkmadı. Lion'da sshfs ile uzak bir noktayı bilgisayarınıza mount etmek istediğinizde aşağıdaki hatayı alıyorsanız, az sonra ileteceğim çözüm sizin de işinizi görecektir:</p>
-
-<pre><code>this MacFUSE library version is incompatible with the MacFUSE kernel extension
-</code></pre>
-
-<p>SSHFS'i Lion'da sorunsuz olarak kullanabilmek için MacFUSE'un varisi Fuse for OSX'i kullanabilirsiniz. <a href="http://osxfuse.github.com/">Kendi sayfasından</a> son versiyonunu indireceğiniz Fuse for OSX uygulamasını kurduktan sonra, SSHFS'in Fuse for OSX ile kullanabileceğiniz versiyonunun paketini <a href="https://github.com/osxfuse/sshfs/downloads">github'daki downloads sayfasından</a> indirip kurarak sorunsuz şekilde kullanabilirsiniz.</p>
-
-<p>Faydası olması dileğiyle...</p>
 ]]></content>
   </entry>
   

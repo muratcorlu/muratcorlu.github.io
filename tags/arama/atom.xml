@@ -4,7 +4,7 @@
   <title><![CDATA[Tag: arama | web development notes]]></title>
   <link href="http://muratcorlu.com/tags/arama/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-06-25T14:30:37+03:00</updated>
+  <updated>2012-07-11T23:24:05+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -35,11 +35,10 @@
 
 <p>Elasticsearch Java ortamı gerektirmektedir ancak kendi içinde işini görebilecek boyutta bir Java ortamı ile beraber geliyor. Elasticsearch'ün dilediğiniz versiyonunun sıkıştırılmış dosyasını <a href="http://www.elasticsearch.org/download/">indirme sayfasından</a> edinip, bilgisayarınızda herhangi bir yere açtıktan sonra, açılan dosyalardan bin klasöründeki elasticsearch uygulamasını çalıştırarak kolayca başlatmış olursunuz.<a href="http://www.elasticsearch.org/guide/reference/setup/installation.html" title="Ayrıntılı bilgi [İngilizce]">*</a> Kurulu versiyon için MacOSX'de brew (<code>brew install elasticsearch</code>), Ubuntu'da da aptitude (<code>apt-get install elasticsearch</code>) kullanabilirsiniz. Elasticsearch'ü  kurduktan sonra python ile kullanabilmek için pyelasticsearch modülüne de ihtiyacımız olacak. Onun haystack uyumlu versiyonunu da aşağıdaki komutlarla kurabilirsiniz:</p>
 
-<p><code>bash
-git clone https://github.com/toastdriven/pyelasticsearch
+<pre><code>git clone https://github.com/toastdriven/pyelasticsearch
 cd pyelasticsearch
 python setup.py install
-</code></p>
+</code></pre>
 
 <h2>Ayarlar</h2>
 
