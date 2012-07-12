@@ -4,7 +4,7 @@
   <title><![CDATA[web development notes]]></title>
   <link href="http://muratcorlu.com/atom.xml" rel="self"/>
   <link href="http://muratcorlu.com/"/>
-  <updated>2012-07-11T23:30:56+03:00</updated>
+  <updated>2012-07-12T10:44:13+03:00</updated>
   <id>http://muratcorlu.com/</id>
   <author>
     <name><![CDATA[Murat Çorlu]]></name>
@@ -76,19 +76,6 @@
 <h2>Sonuç</h2>
 
 <p>Bu kodu sahibinden.com&#8217;un bazı bölgelerinde 2 yıldır kullanıyoruz. Bu kadar zamandır lazyHandler&#8217;dan bahsetmeyi önce erteledim, sonrasında da unuttum veya vakit bulamadım. Bu yazıya gelen geri dönüşlerle bu konuda daha faydalı şeylerin ortaya çıkacağını umuyorum. Yorumlarınızı bekliyorum.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Google Analytics'in derinlikleri]]></title>
-    <link href="http://muratcorlu.com/post/google-analyticsin-derinlikleri/"/>
-    <updated>2012-07-11T17:01:00+03:00</updated>
-    <id>http://muratcorlu.com/post/google-analyticsin-derinlikleri</id>
-    <content type="html"><![CDATA[<p><a href="http://www.google.com/analytis/">Google Analytics</a>, Google&#8217;ın bize sunduğu harika ücretsiz araçlardan biri. Küçük bir javascript kodunu sitemize dahil ederek faydalanmaya başlayabildiğimiz bu aracı, kullanan da oldukça fazla. Bu yazıda size küçük ölçekli sitelerde farkedilemeyecek bazı durumlar hakkında bilgi vermek istedim.</p>
-
-<h2>50.000 satır limiti</h2>
-
-<p>Google Analytics&#8217;in ücretsiz versiyonunda, her veri türünde günlük 50 bin satır limiti bulunuyor. Bu limit Google Analytics Premium ile 1 milyona yükseltilebiliyor, tabi yıllık $150.000 karşılığında. Siz de bu kadar</p>
 ]]></content>
   </entry>
   
