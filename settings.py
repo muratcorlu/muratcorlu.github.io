@@ -22,7 +22,7 @@ LOCALE = ('usa', 'en_US')
 DEFAULT_LANG = 'tr'
 DEFAULT_PAGINATION = 5
 
-THEME = "theme"
+THEME = "neat"
 
 OUTPUT_PATH = 'output'
 PATH = 'src'
