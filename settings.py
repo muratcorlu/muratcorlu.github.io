@@ -5,9 +5,9 @@ AUTHOR = u"Murat Çorlu"
 AUTHOR_SHORTBIO = '''
 I'm web developer at sahibinden.com. I love Javascript and Python.
 '''
-SITENAME = u"Murat Çorlu"
+SITENAME = u"web development notes"
 SITEURL = ''
-SITE_TAGLINE = 'web development notes'
+SITE_TAGLINE = u'by Murat Çorlu'
 TIMEZONE = 'Europe/Istanbul'
 
 GITHUB_URL = 'http://github.com/muratcorlu'
