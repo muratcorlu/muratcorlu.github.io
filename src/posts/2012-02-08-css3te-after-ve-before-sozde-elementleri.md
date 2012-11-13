@@ -1,8 +1,8 @@
-Title: "CSS3'te :after ve :before sözde elementleri"
-Date: 2012-02-08 15:13
+title: "CSS3'te :after ve :before sözde elementleri"
+date: 2012-02-08 15:13
 published: false
-Category: turkish
-Tags: css3, pseudo-elements
+category: turkish
+tags: css3, pseudo-elements
 
 IE 6'nın ölümü ve IE 7'nin gidici olmasıyla CSS3 ve HTML5 teknolojilerini kullanma aşk ve iştiyakımıza vurduğumuz gemi gevşetmeye başladığımız güzel günlerdeyiz. Bu yazımda da sizlerle IE6 ve 7 dışındaki güncel bütün tarayıcıların desteklediği :after ve :before sözde(pseudo) elementlerinin kullanımıyla ilgili örnekleri paylaşacağım.
 
