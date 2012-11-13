@@ -6,7 +6,7 @@ AUTHOR_SHORTBIO = '''
 I'm web developer at sahibinden.com. I love Javascript and Python.
 '''
 SITENAME = u"web development notes"
-SITEURL = ''
+SITEURL = 'http://muratcorlu.com'
 SITE_TAGLINE = u'by Murat Çorlu'
 TIMEZONE = 'Europe/Istanbul'
 
