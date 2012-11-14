@@ -9,7 +9,8 @@ Javascript frameworkleri arasında neredeyse alternatifsiz kalan [jQuery](http:/
 
 Olaylara fonksiyon atama işlemlerinde önemli bir süreyi CSS seçicileri çalıştırırken geçirebiliyoruz. Zira aşağıdaki tarzda bir seçiciden sayfa yükleme anında 10 tane çalıştırsak -HTML dokümanının büyüklüğüne ve tarayıcıya göre değişmekle birlikte- 200-300 milisaniye gibi bir süreyi sadece bu tarz olay dinleme atamaları ile geçirebiliriz:
 
-{% gist 3092755 default.js %}
+    :::javascript
+    $('#header li a.clickable').click(function);
 
 Burada her seçicide sadece ID kullanmak bir çözüm olabilir, zira ID ile eleman seçmek oldukça hızlı. Ancak karmaşıklaşan dokümanlarımızda ve artan etkileşim sayılarında, her elemana ID üretmek de başka dezavantajlara sebep olacaktır.
 
@@ -28,8 +29,11 @@ Bu bilgilerden de kuvvet alarak, sayfa yüklenirkenki bu süreyi, tıklama anın
 ## lazyHandler ne yapıyor?
 
 lazyHandler ile olay atamanın kullanımı alışılagelmiş jQuery olay atamasına benzer:
-
-{% gist 3092755 lazyhandler.js %}
+    
+    :::javascript
+    $.lh('#header li a.clickable').click(function(event){
+        console.log($(this).text());
+    });
 
 Görüldüğü üzere sadece 3 karakterlik bir eklemeyle alışılagelmiş bir jQuery olay atamasını, lazyHandler yöntemine çevirmiş olduk. Peki böyle yapınca ne değişti?:
 

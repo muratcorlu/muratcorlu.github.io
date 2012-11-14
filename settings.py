@@ -14,6 +14,7 @@ GITHUB_URL = 'http://github.com/muratcorlu'
 GITHUB_USERNAME = 'muratcorlu'
 GITHUB_BADGE = True
 DISQUS_SITENAME = 'muratcorlu'
+TWITTER_USERNAME = 'muratcorlu'
 AUTHOR_EMAIL = 'muratcorlu@gmail.com'
 AUTHOR_EMAIL_HASH = md5(AUTHOR_EMAIL).hexdigest()
 PDF_GENERATOR = False
@@ -22,15 +23,18 @@ LOCALE = ('usa', 'en_US')
 DEFAULT_LANG = 'tr'
 DEFAULT_PAGINATION = 5
 
-THEME = "neat"
+GOOGLE_ANALYTICS = 'UA-790007-1'
+
+THEME = "theme"
 
 OUTPUT_PATH = 'output'
 PATH = 'src'
 
 STATIC_PATHS = ["images", ]
 
-ARTICLE_URL = "posts/{slug}/"
-ARTICLE_SAVE_AS = "posts/{slug}/index.html"
+RELATIVE_URLS = False
+ARTICLE_URL = "post/{slug}/"
+ARTICLE_SAVE_AS = "post/{slug}/index.html"
 
 # Blogroll
 LINKS =  (('Pelican', 'http://docs.notmyidea.org/alexis/pelican/'),

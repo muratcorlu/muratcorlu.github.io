@@ -14,6 +14,7 @@ Sözde elementler, adı üzerinde aslında element olmayıp, element gibi davran
 
 CSS'de basit bir :before ve :after sözde elementinin tanımlanması şu şekilde yapılıyor:
 
+    :::css
     li:before {
         content: "#. ";
     }
@@ -32,10 +33,12 @@ CSS'in "görsellikle" ilgilenen ve "içeriğe bulaşmayan" bir katman olduğunu 
 
 Eskiden yanyana bağlantılardan oluşan bir menüyü şu şekilde yapardık:
 
+    :::html
     <p><a href="#">Ana Sayfa</a> | <a href="#">Yazılar</a> | <a href="#">İletişim</a></p>
 
 Bağlantıların arasındaki boru(pipe) karakterlerinin aslında semantik olarak bir anlamı yok. Tamamen görsellik adına, menü elemanlarını birbirinden ayırmak için eklediğimiz bir karakter. Semantik olarak yanlış olan bu yazımı, sonraları sırasız liste(ul) elementi ile aşağıdaki şekilde yazmaya başladık:
 
+    :::html
     <ul>
         <li><a href="#">Ana Sayfa</a></li>
         <li><a href="#">Yazılar</a></li>
@@ -44,6 +47,7 @@ Bağlantıların arasındaki boru(pipe) karakterlerinin aslında semantik olarak
 
 Bu yazımda aynı görüntüyü elde edebilmek için li elementlerine border-left vererek müdahale ettik. Ancak border yüksekliği boru karakterinden daha yüksek geldiği için aynı görüntüyü elde edemiyoruz. İşte burada bize :before sözde elementi yardımcı olabiliyor. "Görsellik" adına HTML'e eklediğimiz boru karakterlerini, görselliğin asıl görev alanı olan CSS'ten ekleme şansını veriyor:
 
+    :::css
     li {
         display:inline;
     }
@@ -62,12 +66,14 @@ Anlaşıldığı üzere, content değeri, siteye bir içerik(veri demek daha do�
 
 Öncelikle :before ve :after sözde elementlerinin tam olarak nereye ekleneceğini anlamak gerekiyor. Örneğin ```p:before``` seçicisini uyguladığınızda vereceğiniz içerik p elementinin **içeriğinin önüne** eklenecektir, p elementinin çerçevesinin dışına değil. Bir örnek görüntü herşeyi açıklayacaktır:
 
+    :::html
     <ul>
         <li>İlk madde</li>
         <li>İkinci madde</li>
         <li>Üçüncü madde</li>
     </ul>
 
+    :::css
     li {
         background-color:#efefef;
         border:solid 1px #666;
@@ -93,5 +99,5 @@ Gördüğünüz gibi, aslında HTML dokümanımızda satır başlarındaki * ve 
 
 ## Referanslar
 
-http://coding.smashingmagazine.com/2011/07/13/learning-to-use-the-before-and-after-pseudo-elements-in-css/
+[http://coding.smashingmagazine.com/2011/07/13/learning-to-use-the-before-and-after-pseudo-elements-in-css/]()
 
