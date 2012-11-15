@@ -31,3 +31,4 @@ pip-log.txt
 #Custom
 local_settings.py
 output
+.fab_tasks~
