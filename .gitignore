@@ -26,6 +26,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+.DS_Store
+
 #Custom
 local_settings.py
 output
