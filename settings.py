@@ -33,6 +33,8 @@ PATH = 'src'
 STATIC_PATHS = ["images", ]
 
 RELATIVE_URLS = False
+
+ARTICLE_EXCLUDES: ('pages','drafts',)
 ARTICLE_URL = "post/{slug}/"
 ARTICLE_SAVE_AS = "post/{slug}/index.html"
 
