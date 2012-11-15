@@ -39,3 +39,5 @@ ARTICLE_URL = "post/{slug}/"
 ARTICLE_SAVE_AS = "post/{slug}/index.html"
 
 DEFAULT_PAGINATION = 10
+
+FILES_TO_COPY = (('CNAME','',),)
