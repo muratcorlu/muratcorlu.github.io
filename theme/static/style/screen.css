@@ -19,7 +19,7 @@ ul {
 h2 {
     color: #003153;
     font-size: 25px;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
 header, footer, nav, article, section {
@@ -61,7 +61,7 @@ pre {
     background-color: #333;
     border: 1px solid #666;
     border-radius: 10px;
-    color: #003153;
+    color: #fff;
     margin-top: 20px;
     overflow-x: auto;
     padding: 10px 20px;
@@ -238,7 +238,7 @@ article ul.tags {
 }
 
 .about {
-    height: 160px;
+    height: 165px;
 }
 
 .about h3 {
