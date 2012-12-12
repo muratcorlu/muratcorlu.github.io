@@ -12,11 +12,11 @@
 
     {% if article.tags %}
     <footer>
-        <ul class="tags">{% for tag in article.tags %}
-            <li>
-                <a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a>
-            </li>
-        </ul>{% endfor %}
+        <ul class="tags">
+        {% for tag in article.tags %}
+            <li><a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a></li>
+        {% endfor %}
+        </ul>
     </footer>
     {% endif %}
 
@@ -32,7 +32,7 @@
     {% if DISQUS_SITENAME %}
     <div id="disqus_thread"></div>
     <script>
-        var disqus_identifier = "{{ SITEURL }}/{{ article.url }}",
+        var disqus_identifier = "http://muratcorlu.com/{{ article.url }}",
             disqus_developer = "1";
 
         (function () {
