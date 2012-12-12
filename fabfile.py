@@ -75,8 +75,8 @@ def git_commit_all(msg):
 
 def publish():
     """Generates and publish the new site in github pages"""
-    master_branch = "master"
-    publish_branch = "gh-pages"
+    master_branch = "source"
+    publish_branch = "master"
     remote = "origin"
 
     # Push original changes to master
