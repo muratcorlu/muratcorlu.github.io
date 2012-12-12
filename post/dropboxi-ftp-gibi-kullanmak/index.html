@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+        <title>"Dropbox'ı FTP gibi kullanmak"</title>
+        <meta charset="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="../../theme/style/reset.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/screen.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment-monokai.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/print.css" type="text/css" media="print" />
+                                <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+    <header id="main">
+        <div class="container">
+            <div class="logo">
+                <a href="/" title="Home">web development notes</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="splash">
+        <div class="container">
+            <div class="welcome">by Murat Çorlu</div>
+        </div>
+    </div>
+
+    <div class="container content">
+        <article>
+    <header>
+        <h2><a href="post/dropboxi-ftp-gibi-kullanmak/" rel="bookmark">
+    "Dropbox'ı FTP gibi kullanmak"
+</a></h2>
+<time datetime="2012-01-26 10:43:00" pubdate>Posted on
+    Thu 26 January 2012
+</time>
+<address class="vcard author">
+    by <a class="url fn" href="../../author/murat-corlu.html">
+    Murat Çorlu</a>
+</address>
+<span class="category">in <a href="../../category/posts.html">
+    posts</a>.
+        </span>
+    </header>
+
+    <div class="body">
+        <p><a href="http://db.tt/1ImfZir">Dropbox</a> birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox'a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.</p>
+<p>Bu tür teknoloji aslında yeni sayılmaz. Uzak disklerin bilgisayara bağlanması ve bu disk üzerinde çalışmak daha önce de kullanılan bir yöntemdi ancak Dropbox işi oldukça kolaylaştırdı. Aynı dosyalara web tarayıcısı üzerinden, <a href="http://itunes.apple.com/us/app/dropbox/id327630330?mt=8">iPhone</a> ve <a href="https://market.android.com/details?id=com.dropbox.android">Android</a> uygulamaları sayesinde mobilden de erişebilmek de Dropbox'ı temel ihtiyaç maddesine dönüştürebiliyor.</p>
+<p>Bense bu yazıda size Dropbox'ın <a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">komut satırı istemcisi</a>nin sağladığı bir nimetten bahsetmek istiyorum.
+<!--more--></p>
+<h2>Ne gerek var?</h2>
+<p>Kişisel sanal sunucu ihtiyacım için yıllardır <a href="http://www.linode.com/?r=c2c44c598b1a93f61a9aadc7eb9c1396b8456d08">Linode</a>'u kullanıyorum. Sunucunun sistemini kendim yönetebilmek adına herhangi bir sunucu yönetim uygulaması(Plesk vs.) da kullanmıyorum. Sunucumdan yer verdiğim birkaç kişiye sitelerinin dosyalarını değiştirebilme imkanı vermem gerekiyor. FTP kurmak ve bunun güvenliğini sağlamak meşakkatli bir iş. Her FTP kullanıcısı için bir sistem kullanıcısı açmak falan... İşte bu konuda imdadıma Dropbox CLI yetişiyor.</p>
+<p><a href="http://www.dropboxwiki.com/Using_Dropbox_CLI">Dropbox CLI</a> sayesinde sunucuma da Dropbox kurabiliyorum. Arkadaşıma dosyalarını değiştirme imkanı vereceğim sitenin dosyalarını Dropbox klasörüne sembolik link yaparak ekliyorum. Sonra Dropbox yönetim panelinden arkadaşım ile bu klasörü paylaşıyorum(onun da Dropbox hesabı olması gerekiyor). Bu andan itibaren arkadaşımın bilgisayarında da sitenin dosyalarının bir kopyası oluyor. Her iki tarafta yapılan değişiklikler senkronize ediliyor. Böylece kişi siteyi kendi bilgisayarında düzenliyor, dosyayı kaydettikten sonra saniyeler içerisinde site de güncellenmiş oluyor.</p>
+<p>Bu kullanımın bir diğer avantajı da Dropbox'ın dosyalarınızı versiyonlaması. Dropbox'da bulunan dosyalarınızın ilk oluşturulduğu tarihe kadar bütün versiyonlarına Dropbox yönetici panelinden erişebiliyorsunuz. Bu da yanlışlıkla silinebilecek veya bozulacak dosyalar için büyük bir güven kaynağı oluyor.</p>
+<p>Aynı klasör aynı anda birçok dropbox kullanıcısıyla paylaşılabiliyor. Böylece bir ekipte sitede herhangi bir değişiklik yapıldığında ekipteki herkes haberdar olabiliyor.</p>
+<h2>Avantajlar</h2>
+<p>FTP yerine Dropbox kullanmanın sağlayacağı avantajları maddelersek:</p>
+<ol>
+<li>FTP'den çok daha basit bir kullanım şansı veriyor.</li>
+<li>Dosyalar otomatik olarak versiyonlanıyor ve yedekleniyor.</li>
+<li>Birden fazla kullanıcı ortak kullanabiliyor.</li>
+</ol>
+<h2>Dezavantajlar</h2>
+<p>FTP yerine Dropbox kullanmanın dezavantajları da yok değil:</p>
+<ol>
+<li>Dropbox CLI sistemde hatırı sayılır bir hafıza tüketiyor. İhtiyaç olmadığında uygulama durdurulabilir.</li>
+<li>Dosya izinleri taşınmıyor. Dolayısıyla bir dosyaya örneğin 777 izni vermek gerekirse, bunu elle sunucuya girip yapmak gerekir.</li>
+<li>Dropbox klasörlerine şifre koyma şansı yok. Dolayısıyla sitenin dosyaları bilgisayarda açıkda duruyor olacaklar. Ortak kullanılan bilgisayarlarda riskli olabilir.</li>
+</ol>
+<h2>Sonuç</h2>
+<p>FTP olarak kullanmak elbette ki Dropbox'ın temel amacı değil ve Dropbox, bu amaç için kullanılmasa da oldukça faydalı. Ben bir özellik olarak sunulmayan ancak şartların kendiliğinden doğurduğu ve benim de faydalandığım böyle bir imkandan haberdar etmek istedim.</p>
+<p>Dropbox'a üye olmayanlar için de aşağıdaki referans bağlantımla üye olmalarını tavsiye ederim. Referansım ile 250MB fazladan alan kazanacaksınız.</p>
+<p><a href="http://db.tt/1ImfZir">http://db.tt/1ImfZir</a></p>
+    </div>
+
+    
+        <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text=""Dropbox'ı FTP gibi kullanmak""
+           data-via="muratcorlu">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+    
+        <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "../../post/dropboxi-ftp-gibi-kullanmak/",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://muratcorlu.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+    </article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
+    </div>
+
+    <div class="container footnote">
+                            </div>
+
+    <div class="bottom">
+        <div class="container">
+                        <div class="github-badge">
+                <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
+                        style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
+            </div>
+                        <div class="about">
+                <h3>About me</h3>
+                <img alt="Me!" class="avatar"
+                     src="http://www.gravatar.com/avatar/2906955ae59c795275979d3782d7bfca?size=64">
+                <p>
+I'm web developer at sahibinden.com. I love Javascript and Python.
+</p>
+                <p>
+                   You can contact me by emailing
+                   <a href="mailto:muratcorlu@gmail.com">muratcorlu@gmail.com</a>.
+                </p>
+                <p>
+                                        <a href="https://twitter.com/muratcorlu"
+                       title="@muratcorlu on Twitter">Follow me on Twitter</a> and
+                                                            <a href="https://github.com/muratcorlu"
+                       title="muratcorlu's Profile">fork me on GitHub
+                    </a>!
+                                    </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer">
+            <span>Powered by <a href="http://docs.getpelican.com">
+                Pelican</a> using <a href="https://github.com/BYK/pelican-neat">
+                neat theme</a>.
+            </span>
+            <nav>
+                <ul>
+                    <li><a href="archives.html" title="Archive"><strong>Archive</strong></a></li>
+                                    </ul>
+            </nav>
+                    </div>
+    </footer>
+
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-790007-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    </body>
+</html>
