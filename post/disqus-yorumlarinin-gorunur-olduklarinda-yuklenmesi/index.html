@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Disqus yorumlarının görünür olduklarında yüklenmesi - web development notes</title>
+  <meta name="author" content="Murat Çorlu">
+
+  
+  <meta name="description" content="Disqus, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="web development notes" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono&subset=latin-ext' rel='stylesheet' type='text/css'>
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-790007-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">web development notes</a></h1>
+  
+    <h2>by Murat Çorlu</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:muratcorlu.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/post/archieve/">Archieve</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Disqus yorumlarının görünür olduklarında yüklenmesi</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-03T11:26:00+03:00" pubdate data-updated="true">03.04.2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://disqus.com">Disqus</a>, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen sayfalarda bile yorum yazılabilmesi imkanı verdiği için hayat kurtarıcı bir çözüm.</p>
+
+<p>Disqus'ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, <a href="http://jquery.com">jQuery</a> kütüphanesinden ve Mike Green'in <a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/">bir yazısı</a>ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5'in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:</p>
+
+<div><script src='https://gist.github.com/2290198.js?file='></script>
+<noscript><pre><code>/**
+ * Load disqus comments when visitor scroll down page to comments
+ * 
+ * Usage:
+ * Add a div with id &quot;disqus_thread&quot; and data attributes for every disqus parameter:
+ *
+ * &lt;div id=&quot;disqus_thread&quot; data-disqus-shortname=&quot;username&quot; data-disqus-url=&quot;http://example.com/post/post-name/&quot;&gt;&lt;/div&gt;
+ *
+ * @author: Murat Corlu
+ * @link: https://gist.github.com/gists/2290198
+ */
+$(function(){
+    var disqus_div = $(&quot;#disqus_thread&quot;);
+    if (disqus_div.size() &gt; 0 ) {
+        var ds_loaded = false,
+            top = disqus_div.offset().top, // WHERE TO START LOADING
+            disqus_data = disqus_div.data();
+
+        function check(){
+            if ( !ds_loaded &amp;&amp; $(window).scrollTop() + $(window).height() &gt; top ) {
+                ds_loaded = true;
+                for (key in disqus_data) {
+                    if (key.substr(0,6) == 'disqus') {
+                        window['disqus_' + key.replace('disqus','').toLowerCase()] = disqus_data[key];
+                    }
+                }
+
+                (function() {
+                    var dsq = document.createElement('script'); 
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = 'http://' + window.disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+
+        $(window).scroll(check);
+        check();
+    }
+});</code></pre></noscript></div>
+
+
+<p>HTML5 ile gelen data attribute'ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute'ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7'nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.</p>
+
+<p>Bu çözümü şu anki blog üretme motorum olan <a href="http://octopress.org">Octopress</a>'de nasıl uyguladığımı görmek isterseniz Github'daki bu iş için yaptığım değişikliklerden ibaret olan <a href="https://github.com/muratcorlu/muratcorlu.github.com/commit/381b1eb24292db1436d83deeeacdceca836e901c">commitimi</a> inceleyebilirsiniz.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Murat Çorlu</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-03T11:26:00+03:00" pubdate data-updated="true">03.04.2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/language/turkish/'>turkish</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/" data-via="muratcorlu" data-counturl="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/post/djangoda-haystack-ve-elasticsearch-ile-arama/" title="Previous Post: Django'da Haystack ve Elasticsearch ile arama">&laquo; Django'da Haystack ve Elasticsearch ile arama</a>
+      
+      
+        <a class="basic-alignment right" href="/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/" title="Next Post: jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler">jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("muratcorlu", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/muratcorlu" class="twitter-follow-button" data-show-count="false">Follow @muratcorlu</a>
+  
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/muratcorlu">@muratcorlu</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'muratcorlu',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/">jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/">Disqus yorumlarının görünür olduklarında yüklenmesi</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/djangoda-haystack-ve-elasticsearch-ile-arama/">Django'da Haystack ve Elasticsearch ile arama</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/python-ile-tc-kimlik-numarasi-dogrulama/">Python ile TC Kimlik Numarası doğrulama</a>
+      </li>
+    
+      <li class="post">
+        <a href="/post/django-gelistirme-ortami-icin-basit-statik-sunucu/">Django geliştirme ortamı için basit statik sunucu</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Murat Çorlu -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'muratcorlu';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/';
+        var disqus_url = 'http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

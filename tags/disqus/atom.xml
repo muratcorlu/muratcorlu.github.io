@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Tag: disqus | web development notes]]></title>
+  <link href="http://muratcorlu.com/tags/disqus/atom.xml" rel="self"/>
+  <link href="http://muratcorlu.com/"/>
+  <updated>2012-07-12T10:44:13+03:00</updated>
+  <id>http://muratcorlu.com/</id>
+  <author>
+    <name><![CDATA[Murat Çorlu]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Disqus yorumlarının görünür olduklarında yüklenmesi]]></title>
+    <link href="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/"/>
+    <updated>2012-04-03T11:26:00+03:00</updated>
+    <id>http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi</id>
+    <content type="html"><![CDATA[<p><a href="http://disqus.com">Disqus</a>, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen sayfalarda bile yorum yazılabilmesi imkanı verdiği için hayat kurtarıcı bir çözüm.</p>
+
+<p>Disqus'ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, <a href="http://jquery.com">jQuery</a> kütüphanesinden ve Mike Green'in <a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/">bir yazısı</a>ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5'in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:</p>
+
+<p><div><script src='https://gist.github.com/2290198.js?file='></script>
+<noscript><pre><code>/**
+ * Load disqus comments when visitor scroll down page to comments
+ * 
+ * Usage:
+ * Add a div with id &quot;disqus_thread&quot; and data attributes for every disqus parameter:
+ *
+ * &lt;div id=&quot;disqus_thread&quot; data-disqus-shortname=&quot;username&quot; data-disqus-url=&quot;http://example.com/post/post-name/&quot;&gt;&lt;/div&gt;
+ *
+ * @author: Murat Corlu
+ * @link: https://gist.github.com/gists/2290198
+ */
+$(function(){
+    var disqus_div = $(&quot;#disqus_thread&quot;);
+    if (disqus_div.size() &gt; 0 ) {
+        var ds_loaded = false,
+            top = disqus_div.offset().top, // WHERE TO START LOADING
+            disqus_data = disqus_div.data();
+
+        function check(){
+            if ( !ds_loaded &amp;&amp; $(window).scrollTop() + $(window).height() &gt; top ) {
+                ds_loaded = true;
+                for (key in disqus_data) {
+                    if (key.substr(0,6) == 'disqus') {
+                        window['disqus_' + key.replace('disqus','').toLowerCase()] = disqus_data[key];
+                    }
+                }
+
+                (function() {
+                    var dsq = document.createElement('script'); 
+                    dsq.type = 'text/javascript';
+                    dsq.async = true;
+                    dsq.src = 'http://' + window.disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+
+        $(window).scroll(check);
+        check();
+    }
+});</code></pre></noscript></div>
+</p>
+
+<p>HTML5 ile gelen data attribute'ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute'ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7'nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.</p>
+
+<p>Bu çözümü şu anki blog üretme motorum olan <a href="http://octopress.org">Octopress</a>'de nasıl uyguladığımı görmek isterseniz Github'daki bu iş için yaptığım değişikliklerden ibaret olan <a href="https://github.com/muratcorlu/muratcorlu.github.com/commit/381b1eb24292db1436d83deeeacdceca836e901c">commitimi</a> inceleyebilirsiniz.</p>
+]]></content>
+  </entry>
+  
+</feed>
