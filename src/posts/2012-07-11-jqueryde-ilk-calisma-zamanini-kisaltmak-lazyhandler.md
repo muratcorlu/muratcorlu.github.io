@@ -1,4 +1,4 @@
-title: "jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler"
+title: jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler
 date: 2012-07-11 23:21
 categories: turkish
 tags: javascript, jquery, tuning
