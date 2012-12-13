@@ -19,7 +19,7 @@ ul {
 h2 {
     color: #003153;
     font-size: 25px;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
 header, footer, nav, article, section, div {
@@ -55,19 +55,17 @@ article .body blockquote p {
     padding: 10px 15px;
 }
 
-code {
+pre {
     font-family: Source Code Pro, Consolas, Monaco, 'Andale Mono', monospace, serif;
     line-height: 1.5em;
-}
-
-pre {
-    background-color: #eaf7ff;
-    border: 1px solid #d1e3ef;
+    background-color: #333;
+    border: solid 1px #666;
     border-radius: 10px;
-    color: #003153;
+    color: #ffffff;
     margin-top: 20px;
     overflow-x: auto;
     padding: 10px 20px;
+    font-size: 12px;
 }
 
 pre code {
@@ -119,7 +117,10 @@ article > header.float {
     padding: 10px 0;
 }
 
-.splash .welcome {
+.splash li:hover {
+    border-bottom:3px solid #003153;
+}
+.logo .welcome {
     color: #333;
     font-size: 16px;
     text-shadow: 1px 1px 0 #fff;
