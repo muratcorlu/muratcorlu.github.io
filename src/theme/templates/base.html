@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
     <meta charset="utf-8">
         <title>{% block title %}{{ SITENAME }}{%endblock%}</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href='http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <link href="http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ SITEURL }}/theme/style/reset.css" type="text/css" />
         <link rel="stylesheet" href="{{ SITEURL }}/theme/style/screen.css" type="text/css" />
         <link rel="stylesheet" href="{{ SITEURL }}/theme/style/pygment.css" type="text/css" />
@@ -34,7 +36,12 @@
     <div class="splash">
         <div class="container">
             <ul>
-                <li><a href="#">JS Resources</a></li>
+                <li><a href="/">Home</a></li>
+            {% if DISPLAY_PAGES_ON_MENU %}
+                {% for page in PAGES %}
+                    <li><a href="/{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+            {% endif %}
             </ul>
         </div>
     </div>
@@ -93,7 +100,7 @@
             </span>
             <nav>
                 <ul>
-                    <li><a href="archives.html" title="Archive"><strong>Archive</strong></a></li>
+                    <li><a href="/archives.html" title="Archive"><strong>Archive</strong></a></li>
                     {% if SITE_SOURCE %}
                     <li><a href="{{ SITE_SOURCE }}" title="Source code">Source code</a></li>
                     {% endif %}

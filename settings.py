@@ -22,6 +22,7 @@ REVERSE_CAREGORY_ORDER = True
 LOCALE = ('usa', 'en_US')
 DEFAULT_LANG = 'tr'
 DEFAULT_PAGINATION = 5
+SITE_SOURCE = 'https://github.com/muratcorlu/muratcorlu.github.com/tree/source'
 
 GOOGLE_ANALYTICS = 'UA-790007-1'
 
@@ -37,6 +38,12 @@ RELATIVE_URLS = False
 ARTICLE_EXCLUDES = ('pages','drafts',)
 ARTICLE_URL = "post/{slug}/"
 ARTICLE_SAVE_AS = "post/{slug}/index.html"
+
+DISPLAY_PAGES_ON_MENU = True
+PAGE_URL = "{slug}/"
+PAGE_SAVE_AS = "{slug}/index.html"
+PAGE_LANG_URL = "{lang}/{slug}/"
+PAGE_LANG_SAVE_AS = "{lang}/{slug}/index.html"
 
 DEFAULT_PAGINATION = 10
 

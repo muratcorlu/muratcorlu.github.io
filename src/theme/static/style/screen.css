@@ -16,10 +16,15 @@ ul {
     list-style-type: none;
 }
 
-h2 {
+h1 {
     color: #003153;
     font-size: 25px;
     margin: 10px 0;
+}
+
+dd {
+    padding-left: 10px;
+    margin-bottom: 10px;
 }
 
 header, footer, nav, article, section, div {
@@ -117,9 +122,19 @@ article > header.float {
     padding: 10px 0;
 }
 
-.splash li:hover {
-    border-bottom:3px solid #003153;
+.splash li {
+    display: inline;
+    margin-right: 10px;
 }
+.splash li:after {
+    content: "|";
+    padding-left: 10px;
+}
+
+.splash li:last-child:after {
+    content: none;
+}
+
 .logo .welcome {
     color: #333;
     font-size: 16px;
@@ -148,13 +163,13 @@ article .body {
     line-height: 1.5em;
 }
 
-article .body h3 {
+article .body h2 {
     color: #003153;
     font-size: 21px;
     margin: 20px 0;
 }
 
-article .body h4 {
+article .body h3 {
     border-bottom: 1px #ddd solid;
     color: #2a5e82;
     font-size: 18px;
@@ -184,8 +199,14 @@ article .body-padding {
     padding-top: 58px;
 }
 
-article ul.tags {
-    float: right;
+article .tags li {
+    display: inline;
+}
+article .tags li:after {
+    content: ", "
+}
+article .tags li:last-child:after {
+    content: none;
 }
 
 .content article .share {
@@ -340,7 +361,6 @@ footer nav ul li {
 
 @media screen and (max-width: 700px) {
     .container {
-        width:auto;
-        padding:10px;
+        padding:0 10px;
     }
 }
