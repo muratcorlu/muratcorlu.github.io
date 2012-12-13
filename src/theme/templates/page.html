@@ -1,29 +1,19 @@
 {% extends "base.html" %}
-{% block title %}{{ article.title|striptags }} by Murat Çorlu{% endblock %}
+{% block title %}{{ page.title|striptags }} by Murat Çorlu{% endblock %}
 {% block content %}
 <article>
     <header>
-        {% include "article_header.html" %}
+        <h1><a href="/{{ page.url }}" rel="bookmark">{{ page.title|striptags }}</a></h1>
     </header>
 
     <div class="body">
-        {{ article.content }}
+        {{ page.content }}
     </div>
-
-    {% if article.tags %}
-    <footer>
-        <ul class="tags">
-        {% for tag in article.tags %}
-            <li><a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a></li>
-        {% endfor %}
-        </ul>
-    </footer>
-    {% endif %}
 
     {% if TWITTER_USERNAME %}
     <div class="share">
         <a href="https://twitter.com/share" class="twitter-share-button"
-           data-count="horizontal" data-text="{{ article.title|striptags|escape }}"
+           data-count="horizontal" data-text="{{ page.title|striptags|escape }}"
            data-via="{{ TWITTER_USERNAME }}">Tweet</a>
     </div>
     <script src="//platform.twitter.com/widgets.js"></script>
@@ -32,7 +22,7 @@
     {% if DISQUS_SITENAME %}
     <div id="disqus_thread"></div>
     <script>
-        var disqus_identifier = "http://muratcorlu.com/{{ article.url }}",
+        var disqus_identifier = "http://muratcorlu.com/{{ page.url }}",
             disqus_developer = "1";
 
         (function () {
