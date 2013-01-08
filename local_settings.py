@@ -26,6 +26,8 @@ SITE_SOURCE = 'https://github.com/muratcorlu/muratcorlu.github.com/tree/source'
 
 GOOGLE_ANALYTICS = 'UA-790007-1'
 
+MD_EXTENSIONS = ['codehilite','extra','headerid']
+
 THEME = "src/theme"
 
 OUTPUT_PATH = 'output'
