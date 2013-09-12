@@ -2,7 +2,7 @@
 <html>
     <head>
     <meta charset="utf-8">
-        <title>"Django geliştirme ortamı için basit statik sunucu" by Murat Çorlu</title>
+        <title>Django geliştirme ortamı için basit statik sunucu by Murat Çorlu</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="Pragma" content="no-cache" />
@@ -41,7 +41,7 @@
         <article>
     <header>
         <h1><a href="/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" rel="bookmark">
-    "Django geliştirme ortamı için basit statik sunucu"
+    Django geliştirme ortamı için basit statik sunucu
 </a></h1>
 <time datetime="2012-03-05 00:06:00" pubdate>Posted on
     Mon 05 March 2012
@@ -96,7 +96,7 @@
     
         <div class="share">
         <a href="https://twitter.com/share" class="twitter-share-button"
-           data-count="horizontal" data-text="&#34;Django geliştirme ortamı için basit statik sunucu&#34;"
+           data-count="horizontal" data-text="Django geliştirme ortamı için basit statik sunucu"
            data-via="muratcorlu">Tweet</a>
     </div>
     <script src="//platform.twitter.com/widgets.js"></script>
@@ -114,6 +114,35 @@
         })();
     </script>
     </article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
     </div>
 
     <div class="container footnote">
@@ -128,6 +157,7 @@
                 <p>
 I'm web developer at sahibinden.com. I love Javascript and Python.
 </p>
+
                                 <div class="github-badge">
                     <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
                             style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+        <title>AngularJS kullanmak için 10 neden by Murat Çorlu</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <link href="http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Duru+Sans&amp;subset=latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../theme/style/reset.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/screen.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment-monokai.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/print.css" type="text/css" media="print" />
+                                <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+    <header id="main">
+        <div class="container">
+            <div class="logo">
+                <p><a href="/" title="Home">web development notes</a> <span class="welcome">by Murat Çorlu</span></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="splash">
+        <div class="container">
+            <ul>
+                <li><a href="/">Home</a></li>
+                                                <li><a href="/contact/">Contact</a></li>
+                                    <li><a href="/javascript-resources/">Javascript Resources</a></li>
+                                    <li><a href="/projects/">Projects</a></li>
+                                    <li><a href="/python-resources/">Python Resources</a></li>
+                                        </ul>
+        </div>
+    </div>
+
+    <div class="container content">
+        <article>
+    <header>
+        <h1><a href="/post/angularjs-kullanmak-icin-10-neden/" rel="bookmark">
+    AngularJS kullanmak için 10 neden
+</a></h1>
+<time datetime="2013-09-13 00:28:00" pubdate>Posted on
+    Fri 13 September 2013
+</time>
+<address class="vcard author">
+    by <a class="url fn" href="../../author/murat-corlu.html">
+    Murat Çorlu</a>
+</address>
+<span class="category">in <a href="../../category/posts.html">
+    posts</a>.
+        </span>
+    </header>
+
+    <div class="body">
+        <p>5 ay kadar önce <a href="http://www.sahibinden.com">Sahibinden</a>'de <a href="http://angularjs.org">AngularJS</a> ile başlayan flörtleşmemiz şu ara nişan aşamasında ve birlikteliğimizi duyuracağımız nikahımızı heyecanla beklemekteyiz. AngularJS de bu arada müthiş bir ivmeyle popülerleşiyor. Ülkemizde henüz pek yaygın kullanılmadığını gördüğüm bu güzel kütüphanenin tercih edilmesinde en etkili olduğunu düşündüğüm 10 yönünü listeleyerek AngularJS'ye mesafeli duranları bu tarafa doğru çağırmak istedim.</p>
+<h2 id="1-gorsel-islemler-olmas-gereken-yerde">1. Görsel işlemler olması gereken yerde</h2>
+<p>Dünyanın en popüler javascript kütüphanesi jQuery'i en çok DOM manipulasyonu için kullanıyoruz. Zaten o da diğerlerinden farkını güçlü ve pratik DOM seçicisi motoru ve DOM gezinme imkanlarıyla ortaya koydu. Ancak acaba bir koşula göre sayfada birşeyin gösterilip gizlenmesi, javascript tarafında yapmamız gereken bir iş miydi? Yani, bir tab arayüzü düşünelim. Tabların kulakçıklarına basıldıkça ilgili içeriğin gösterilip diğerlerinin gizlenmesi işi için jQuery'de kod yazmak, DOM'da gezinmek Javascript kodlarımızı HTML ve CSS ile gereğinden fazla içli dışlı yaptığı gibi, kodu büyütüp, geliştirilebilirliği de düşürüyor. Ancak bu işi Angular'da tamamen template üzerinde tamamlayabiliyoruz:</p>
+<div class="codehilite"><pre><span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">&quot;tabs&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">ng-class=</span><span class="s">&quot;{active: activeTab==&#39;ilkTab&#39;}&quot;</span> <span class="na">ng-click=</span><span class="s">&quot;activeTab=&#39;ilkTab&#39;&quot;</span><span class="nt">&gt;</span>Ilk Tab<span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">ng-class=</span><span class="s">&quot;{active: activeTab==&#39;ikinciTab&#39;}&quot;</span> <span class="na">ng-click=</span><span class="s">&quot;activeTab=&#39;ikinciTab&#39;&quot;</span><span class="nt">&gt;</span>Ikinci Tab<span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;tabContents&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">ng-show=</span><span class="s">&quot;activeTab==&#39;ilkTab&#39;&quot;</span><span class="nt">&gt;</span> Ilk tab icerigi <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">ng-show=</span><span class="s">&quot;activeTab==&#39;ikinciTab&#39;&quot;</span><span class="nt">&gt;</span> Ikinci tab icerigi <span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+
+<p>Bir zaman sonra belki bu işi template'e de gerek kalmadan CSS ile yapabileceğiz. Ya da daha da güzeli, belki bir gün HTML'e <code>tab</code> diye bir etiket gelecek. Ama bu halinin jQuery'de click eventleri dinleyip class ekleme çıkarma yaptığımız halinden çok daha verimli olduğu aşikar.</p>
+<h2 id="2-htmli-gelistirmenin-en-kolay-yolu-directiveler">2. HTML'i geliştirmenin en kolay yolu: directive'ler</h2>
+<p>Yukarıdaki örnekte "belki bir gün HTML'e <code>tab</code> etiketi gelecek" cümlesini kasıtlı kurdum, zira Angular'ın sunduğu en büyük güzelliklerden biri de HTML'i geliştirebilme(extend) özelliği. Directive adını verdikleri yapı sayesinde HTML'e yeni etiketker veya attribute'lar eklemek mümkün. Bu özellik çok önemli çünkü "web uygulamaları" geliştirmeye çalıştığımız bir dünyada "list item" etiketleriyle tablar, menüler, akordionlar, div'lerle dialog kutuları geliştirmek çok "çakma" kalıyor. Halbuki, örneğin yukarıdaki tab template'i şöyle olsa daha güzel olmaz mıydı?</p>
+<div class="codehilite"><pre><span class="nt">&lt;tabs&gt;</span>
+    <span class="nt">&lt;pane</span> <span class="na">title=</span><span class="s">&quot;Ilk Tab&quot;</span><span class="nt">&gt;</span> ilk tab icerigi <span class="nt">&lt;/pane&gt;</span>
+    <span class="nt">&lt;pane</span> <span class="na">title=</span><span class="s">&quot;Ikinci Tab&quot;</span><span class="nt">&gt;</span> Ikinci tab icerigi <span class="nt">&lt;/pane&gt;</span>
+<span class="nt">&lt;/tabs&gt;</span>
+</pre></div>
+
+
+<p>HTML'e böyle bir etiket gelir mi bilinmez ama, bunu yapmak şu an <a href="http://angular-ui.github.io/bootstrap/">Angular ile mümkün</a>. Bu imkan web uygulaması geliştirme hızınızı katlayarak artırıyor.</p>
+<h2 id="3-test-dunyasna-girmek-icin-hersey-hazr">3. Test dünyasına girmek için herşey hazır</h2>
+<p>Test Driven Development, çok yazılımcının hayali ancak çok azının harcıdır. Test yazarak geliştirmeyi gereksiz bulanlar bir yana, faydalı bulduğu halde zor geldiği için uygulamayan da çok yazılımcı var(kendimden biliyorum). Angular, bu konuda da büyük fırsatlar sunuyor. Angular'da test yazmak özendirici derecede kolay ve bol örnekli. AngularJS dokümantasyon sitesini gezerken, bütün kod örneklerinin unit ya da e2e testler ile verildiğini gördüğümde şaşırmıştım. Bu Angular ekibi ve topluluğunun test yazımına gösterdiği önemi ortaya koyuyor. Siz de front-end'de TDD'ye Angular'la çok daha pratik şekilde girebilirsiniz.</p>
+<h2 id="4-az-kod-cok-is">4. Az kod çok iş</h2>
+<p>"Write less do more" size tanıdık gelmiştir. Evet, jQuery'nin sloganı da bu ve hakikaten jQuery ile de az kod ile çok iş yapıyorsunuz. Ancak Angular'da DOM manipulasyonlarının büyük oranda template'lere taşınması ve javascript kodlarının işlevsel modüllere bölünmesi sayesinde, javascript dosyalarınız genelde 40-50 satırı geçmiyor. Örneğin, jQuery'dekinin aksine Angular'da asenkron requestlerin template'de gösterimi için callback yazma, datayı çekip template'i tekrar render etme gibi bir çok işten muafsınız. Örneğin, <a href="http://docs.angularjs.org/api/ngResource.$resource">$resource</a> modülüyle bir rest kaynağından bir liste çekip göstermenin "Angularcası" şöyle:</p>
+<div class="codehilite"><pre><span class="n">angular</span><span class="p">.</span><span class="n">module</span><span class="p">(</span><span class="s">&#39;myApp&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;ngResource&#39;</span><span class="p">]).</span><span class="n">controller</span><span class="p">(</span><span class="s">&#39;MyCtrl&#39;</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span>$<span class="n">scope</span><span class="p">,</span> $<span class="n">resource</span><span class="p">)</span> <span class="p">{</span>
+    $<span class="n">scope</span><span class="p">.</span><span class="n">refresh</span> <span class="p">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+        $<span class="n">scope</span><span class="p">.</span><span class="n">myItems</span> <span class="p">=</span> $<span class="n">resource</span><span class="p">(</span><span class="s">&#39;/my/items&#39;</span><span class="p">).</span><span class="n">query</span><span class="p">();</span>
+    <span class="p">};</span>
+
+    $<span class="n">scope</span><span class="p">.</span><span class="n">refresh</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Template:</p>
+<div class="codehilite"><pre><span class="nt">&lt;ul&gt;</span>
+    <span class="nt">&lt;li</span> <span class="na">ng-repeat=</span><span class="s">&quot;item in myItems&quot;</span> <span class="na">ng-bind=</span><span class="s">&quot;item.name&quot;</span><span class="nt">&gt;</span>Item adi<span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;p&gt;&lt;a</span> <span class="na">ng-click=</span><span class="s">&quot;refresh()&quot;</span><span class="nt">&gt;</span>Yenile<span class="nt">&lt;/a&gt;&lt;/p&gt;</span>
+</pre></div>
+
+
+<p>5-6 satırlık javascript kodumuzda "/my/items" adresine AJAX request yapıp sonucunu template'e "myItems" adıyla döndük. Request tamamlandığında otomatik olarak template render edildi ve sayfada listemiz göründü. Refresh fonksiyonunu her çağırdığımız -ki bu fonksiyonun nasıl çağrılacağını da javascriptte değil template'te belirtiyoruz- template yine otomatik olarak güncelleniyor.</p>
+<h2 id="5-google-guveni-ve-hzl-buyuyen-topluluk">5. Google güveni ve hızlı büyüyen topluluk</h2>
+<p>Belki Google <a href="http://www.pinterest.com/googlegraveyard/google-graveyard/">batırdığı projelerle</a> de ün yapmış olabilir, ancak başarılı olduğu alan sayısının fazlalığı dikkate alındığında, liderliğini yaptığı bir açık kaynak projeye güvenmek için daha baştan çok büyük bir unsur elde ediyorsunuz. Bunun yanında özellikle <a href="https://twitter.com/muratcorlu/status/352904895944347648">2013 yılı başından itibaren</a> müthiş bir popülariteye ulaşan Angular'ın geliştirmeya katkıda bulunan topluluğunun büyüklüğü de <a href="https://github.com/angular/angular.js">Github'daki projesinin</a> hareketliliğinden görülebiliyor.</p>
+<h2 id="6-jquery-bagmsz">6. jQuery bağımsız</h2>
+<p>Sahibinden'in front-end'ini yeniden tasarlamayı düşünürken jQuery'siz bir front-end'in hayalini kuruyordum. İncelediğim alternatiflerde jQuery'siz yola devam etmenin pek mümkün olmadığını gördüğümde, Angular bir adım daha öne çıkmıştı. Angular'ın içerisinde basit ve sık kullanılan bazı jQuery özelliklerini barındıran bir <a href="http://docs.angularjs.org/api/angular.element">jQueryLite</a> versiyonu var. Directive'lerde kullandığımız bu özellikler işimizi kolaylaştırıyor. Ama daha fazlası yok; CSS selector, AJAX kütüphanesi, DOM'a eleman ekleme/çıkarma, event mimarisi... Hepsi bir "Angular'ca" içinde eriyip gidiyor.</p>
+<h2 id="7-cift-yonlu-degisiklik-dinleme">7. Çift yönlü değişiklik dinleme</h2>
+<p>Angular'da proje geliştirirken sizi en çok şaşırtan ve eğlendiren özellik, muhakkak bu "<a href="http://docs.angularjs.org/guide/dev_guide.templates.databinding">two way binding</a>" dedikleri özellik olacaktır. Buna göre, bir değişkeniniz template ve javascript kodunuz üzerinde kullandığınız her alanda değiştikçe, bu değişken üzerinde oluşturduğunuz koşulların da otomatik olarak güncellenmesi sağlanıyor, birbirinden bağımsız alanlardaki bu değişkene ait referansların güncellenebilmesi mümkün oluyor. Değişkenleri HTML form elementlerine bağlayarak kullanıcıya anlık olarak değiştirtebiliyor veya javascript ile değiştirdiğinizde bu form elemanlarının anında güncellenmesini sağlayabiliyorsunuz. Bu özellik sayesinde, oluşturduğunuz template'ler her an canlı ve güncel kalıyor, siz javascript'te veya template üzerindeki aksiyonlarda sadece durumları(state) değiştirip, bu duruma göre şablonlarınızın otomatik olarak şekil almasını sağlayabiliyorsunuz. Bu konuyu burada ayrıntılı bir şekile anlatamayacağım ancak bir düzenleme formu örneğinin burada iyi gideceğini düşünüyorum.</p>
+<p>HTML:</p>
+<div class="codehilite"><pre><span class="nt">&lt;form</span> <span class="na">ng-submit=</span><span class="s">&quot;update()&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Notunuz: <span class="nt">&lt;textarea</span> <span class="na">ng-bind=</span><span class="s">&quot;note.content&quot;</span><span class="nt">&gt;&lt;/textarea&gt;&lt;/p&gt;</span>
+    <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span>Guncelle<span class="nt">&lt;/button&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+
+
+<p>JS:</p>
+<div class="codehilite"><pre><span class="nx">$scope</span><span class="p">.</span><span class="nx">note</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nx">id</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nx">content</span><span class="o">:</span> <span class="s1">&#39;Mesaj iceriginiz&#39;</span>
+<span class="p">};</span>
+
+<span class="nx">$scope</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Burada $scope.note.content artik yeni yazilan deger</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2 id="8-basit-ve-esnek-url-yonetimi">8. Basit ve esnek URL yönetimi</h2>
+<p>"<a href="http://en.wikipedia.org/wiki/Single-page_application">Tek sayfa uygulamaları</a>" geliştirirken, uygulama içinde gezinirkenki kullanılabilirlik adına URL yönetimi önemli bir konu. Angular'ın <a href="http://docs.angularjs.org/tutorial/step_07">route modülü</a> -çok gelişmiş özellikleri olmasa da- problemsiz ve basit bir şekilde URL yönetimini kotarıyor. İster HTML5 pushstate ile ise hashbang kullanarak ve bunu da browser desteğine göre otomatik olarak yapıp, tarayıcı geçmişindeki gezintiyi de destekleyen, gönderdiği eventlerle url değişimlerini takip etmeyi kolaylaştıran oldukça kararlı ve esnek bir modül. <a href="https://github.com/sahibinden">Sahibinden Github hesabı</a>nda paylaştığımız <a href="https://github.com/sahibinden/angular-router-advanced">angular-router-advanced</a> adlı modülümüzde bu farklı dillere özgü farklı url tanımlamaları yapma ve url'leri isimlendirme özellikleri kattığımız haliyle, uygulamada gezinme işini sıfır problemle halletmiş bulunmaktayız.</p>
+<h2 id="9-buyudukce-guzellesen-projeler">9. Büyüdükçe güzelleşen projeler</h2>
+<p>jQuery ile geliştirdiğimiz arayüzlerde yaşadığımız en büyük sıkıntı, büyüyen uygulamalarda kodun okunabilir ve geliştirilebilir kalmasını sağlamak konusunda harcadığımız emeğin çok fazla olması, bu kadar uğraşa rağmen genelde de başaramadığımız gerçeği. Angular'da yerli yerine oturmuş parçalar, güçlü ve temiz template yapısı, harici kütüphane gereksinimlerinin olmaması ve test edilebilir modüller, işin büyüdükçe sarpa sarmasını engelliyor. <a href="http://en.wikipedia.org/wiki/JSDoc">JSDoc</a>'tan devşirme NGDoc dokümantasyon standardına kodlarınızda uyarsanız, koddan <a href="https://github.com/m7r/grunt-ngdocs">otomatik olarak</a> çok başarılı dokümantasyon arayüzleri çıkarma şansına sahip olmak(ki angularjs.org da bu şekilde oluşuyor) da cabası.</p>
+<h2 id="10-cok-eglenceli-cok-karizmatik">10. Çok eğlenceli, çok karizmatik</h2>
+<p>Kod yazarken konforuna özen gösteren biri olarak, yaptığımız işi eğlenceli ve ideale yakın tutabilmek de benim için önemli bir kriter. Angular ile iş yaparken içinize sinmeyen "mecburiyetler"le pek karşılaşmıyorsunuz. Kurallar çok az ve basit, ama kapsayıcılıkları oldukça geniş. Bir şeyi ne şekilde yapmak gerektiği konusunda flu alanlar az. Dolayısıyla Angular, mimari problemlerle ve etraftan dolanmalarla uğraşmadan ve bu etraftan dolanmaların verdiği motivasyon bozukluğunu da yaşamadan seri bir şekilde ilerleme şansı veriyor.</p>
+<p>Muhakkak bu maddeler artırılabilir, belki başkaları için buradakilerden daha öncelikli maddeler sayılabilir. Angular hakkında fikirlerinizle bu tartışmayı daha verimli hale getirebiliriz. Yorumlarınızı beklerim.</p>
+    </div>
+
+        <footer>
+        <ul class="tags">
+                    <li><a href="../../tag/angularjs.html">angularjs</a></li>
+                    <li><a href="../../tag/javascript.html">javascript</a></li>
+                </ul>
+    </footer>
+    
+        <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text="AngularJS kullanmak için 10 neden"
+           data-via="muratcorlu">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+    
+        <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "http://muratcorlu.com/post/angularjs-kullanmak-icin-10-neden/",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://muratcorlu.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+    </article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
+    </div>
+
+    <div class="container footnote">
+                            </div>
+
+    <div class="bottom">
+        <div class="container">
+            <div class="about">
+                <h3>About me</h3>
+                <img alt="Me!" class="avatar"
+                     src="http://www.gravatar.com/avatar/2906955ae59c795275979d3782d7bfca?size=64">
+                <p>
+I'm web developer at sahibinden.com. I love Javascript and Python.
+</p>
+
+                                <div class="github-badge">
+                    <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
+                            style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
+                </div>
+                                <p>
+                   You can contact me by emailing
+                   <a href="mailto:muratcorlu@gmail.com">muratcorlu@gmail.com</a>.
+                </p>
+                <p>
+                                        <a href="https://twitter.com/muratcorlu"
+                       title="@muratcorlu on Twitter">Follow me on Twitter</a> and
+                                                            <a href="https://github.com/muratcorlu"
+                       title="muratcorlu's Profile">fork me on GitHub
+                    </a>!
+                                    </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer">
+            <span>Powered by <a href="http://docs.getpelican.com">
+                Pelican</a> using <a href="https://github.com/BYK/pelican-neat">
+                neat theme</a>.
+            </span>
+            <nav>
+                <ul>
+                    <li><a href="/archives.html" title="Archive"><strong>Archive</strong></a></li>
+                                        <li><a href="https://github.com/muratcorlu/muratcorlu.github.com/tree/source" title="Source code">Source code</a></li>
+                                    </ul>
+            </nav>
+                    </div>
+    </footer>
+
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-790007-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    </body>
+</html>

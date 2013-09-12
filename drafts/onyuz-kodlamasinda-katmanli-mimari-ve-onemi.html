@@ -2,7 +2,7 @@
 <html>
     <head>
     <meta charset="utf-8">
-        <title>Javascript Resources by Murat Çorlu</title>
+        <title>Önyüz kodlamasında katmanlı mimari ve önemi by Murat Çorlu</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="Pragma" content="no-cache" />
@@ -40,54 +40,81 @@
     <div class="container content">
         <article>
     <header>
-        <h1><a href="/javascript-resources/" rel="bookmark">Javascript Resources</a></h1>
+        <h1><a href="/post/onyuz-kodlamasinda-katmanli-mimari-ve-onemi/" rel="bookmark">
+    Önyüz kodlamasında katmanlı mimari ve önemi
+</a></h1>
+<time datetime="2013-01-09 09:00:00" pubdate>Posted on
+    Wed 09 January 2013
+</time>
+<address class="vcard author">
+    by <a class="url fn" href="../author/murat-corlu.html">
+    Murat Çorlu</a>
+</address>
+<span class="category">in <a href="../category/posts.html">
+    posts</a>.
+        </span>
     </header>
 
     <div class="body">
-        <p>Here is a list of my favorite Javascript resources. Updates non-periodically...</p>
-<h2 id="frameworks-libraries">Frameworks - Libraries</h2>
-<dl>
-<dt><a href="http://jquery.org">jQuery</a></dt>
-<dd>Javascript library that more popular than Javascript</dd>
-<dt><a href="http://www.sencha.com/products/extjs/">Ext JS</a></dt>
-<dd>Javascript framework for rich apps(mostly for admin interfaces)</dd>
-</dl>
-<h2 id="mobile">Mobile</h2>
-<dl>
-<dt><a href="http://www.sencha.com/products/touch/">Sencha Touch</a></dt>
-<dd>Mobile app development framework that derived from Ext JS</dd>
-<dt><a href="http://jquerymobile.com">jQuery Mobile</a></dt>
-<dd>jQuery on mobile</dd>
-</dl>
-<h2 id="debugging">Debugging</h2>
-<dl>
-<dt><a href="http://jslint.com">JSLint</a></dt>
-<dd>Javascript code quality tool by Javascript's father.</dd>
-</dl>
-<h2 id="websites">Websites</h2>
-<dl>
-<dt><a href="http://microjs.com/">MicroJS</a></dt>
-<dd>Fantastic micro JS libraries collection</dd>
-</dl>
-<h2 id="out-of-browser">Out of coding for browser</h2>
-<dl>
-<dt><a href="http://nodejs.org/">NodeJS</a></dt>
-<dd>Javascript beauty on server side</dd>
-<dt><a href="http://phonegap.com">Phonegap</a></dt>
-<dd>Developing native mobile apps with HTML, CSS and Javascript</dd>
-</dl>
+        <p>Katmanlı mimari, bir yazılım projesinin farklı görevlerini(katman) üstlenen teknolojilerin, bu görevlerine sadık kalması ve diğerinin alanlarına da bulaşmaması, tabiri caizse "haddini bilmesi" olarak tanımlanabilir. Bariz olan konulardan örnek verirsek, çatalla çorba içmek, ütü ile mangal yapmak, java ile web sitesi yapmak, bazı güzelliklerin asıl görevlerinin dışında kullanımına örneklerdendir.</p>
+<p>Web önyüz(front-end) kodlamasında, elimizdeki 3 ana dil olan HTML, CSS ve Javascript'i, yerinde ve sınırında kullanmak, aslında çok zor gözükmese de başarabilenin az olduğu bir maharet halini almış durumda. HTML'de tablo ile tasarım yaptığımız yıllardan bu yana kurtulamadığımız bu hastalıkla ilgili düşüncelerimi paylaşmak istiyorum.</p>
+<p>Öncelikle önyüz kodlamasındaki bu 3 ana dilin temel görevlerini özetle belirtmek isterim:</p>
+<table>
+<thead>
+<tr>
+<th>Katman</th>
+<th>Görevi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTML</td>
+<td>Veri</td>
+</tr>
+<tr>
+<td>CSS</td>
+<td>Sunum</td>
+</tr>
+<tr>
+<td>Javascript</td>
+<td>İnteraktivite ve işlevsellik</td>
+</tr>
+</tbody>
+</table>
+<h2 id="html-veri-katmanmz">HTML - Veri katmanımız</h2>
+<p>HTML, bir web sayfasının veri sunma katmanıdır. Bu "sadece"dir ve ama "mutlaka"dır da<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>. Yani, sayfada bir veri sunulacaksa, bu mutlaka HTML içerisinde bulunmalı ve HTML'de veri sunumu dışında birşey olmamalı.</p>
+<p>Tablo ile tasarım yapmak, amacı tabular veri sunmak olan bir elementin kötüye kullanılması ve HTML'in işi olmamasına rağmen görsel bir unsur kazandırma çalışmasıdır. Oysa daha sonra değineceğim gibi, sayfadaki verinin nasıl görüneceği işi HTML'e değil, CSS'e ait bir görevdir. Görsel etkiyi artırmak için kullanılan tasarıma ait resimlerin de HTML içinde img etiketiyle belirtilmesi yine yanlıştır.</p>
+<p>Bununla birlikte, sayfanın içeriği olduğu halde bir verinin HTML'de belirtilmemesi de hatadır. Bir kullanıcının paylaştığı fotoğrafın sayfada javascript veya css ile değil, direkt olarak img etiketiyle sunulması gerekir.</p>
+<p>Bu kurallar, geliştirme ortamımıza düzen getirmek gibi birlikte, insanların hayatına daha somut faydalar da sağlamaktadır. Örneğin kör bir internet kullanıcısı için HTML kodunun standartlara uygun yazılması, onun web sitesinden faydalanabilmesi için neredeyse şarttır. Ayrıca sayfanızın içeriğini javascript ve css kodlarınızdan çıkarıp bulması oldukça zor olacak arama motorları için de, HTML'in kurallara uygun yazılması, sitenizin daha doğru indekslenebilmesi ve aramalarda hedef kitleye ulaştırılabilmesi adına oldukça önemlidir.</p>
+<h2 id="css-sunum-katman">CSS - Sunum katmanı</h2>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Bu "mutlakalık" kısmı "web uygulamaları"nda biraz daha tartışmalı gibi. Web uygulamalarında genelde hiç HTML yazmadan, Javascript ile DOM manipülasyonlarıyla işimizi görüyoruz. Ancak bu yazıda bu konuya girmeyeceğim.&#160;<a href="#fnref:1" rev="footnote" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
     </div>
 
+        <footer>
+        <ul class="tags">
+                    <li><a href="../tag/html.html">html</a></li>
+                    <li><a href="../tag/css.html">css</a></li>
+                    <li><a href="../tag/javascript.html">javascript</a></li>
+                </ul>
+    </footer>
+    
         <div class="share">
         <a href="https://twitter.com/share" class="twitter-share-button"
-           data-count="horizontal" data-text="Javascript Resources"
+           data-count="horizontal" data-text="Önyüz kodlamasında katmanlı mimari ve önemi"
            data-via="muratcorlu">Tweet</a>
     </div>
     <script src="//platform.twitter.com/widgets.js"></script>
     
         <div id="disqus_thread"></div>
     <script>
-        var disqus_identifier = "http://muratcorlu.com/javascript-resources/",
+        var disqus_identifier = "http://muratcorlu.com/post/onyuz-kodlamasinda-katmanli-mimari-ve-onemi/",
             disqus_developer = "1";
 
         (function () {
@@ -98,6 +125,35 @@
         })();
     </script>
     </article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
     </div>
 
     <div class="container footnote">

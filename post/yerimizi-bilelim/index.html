@@ -83,6 +83,35 @@
         })();
     </script>
     </article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
     </div>
 
     <div class="container footnote">
@@ -97,6 +126,7 @@
                 <p>
 I'm web developer at sahibinden.com. I love Javascript and Python.
 </p>
+
                                 <div class="github-badge">
                     <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
                             style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>

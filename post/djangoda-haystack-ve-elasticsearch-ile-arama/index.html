@@ -62,7 +62,7 @@
 <p>Elasticsearch, <a href="http://lucene.apache.org">Apache Lucene</a> projesinin üzerine bina edilmiş, kendini arama konusuna adamış, açık kaynak, REST arayüzlü, dağıtık çalışabilen, şema bağımsız veri taşıyabilen, Java tabanlı oldukça başarılı bir arama motoru. Elasticsearch REST tabanlı olduğu için, herhangi bir programlama diliyle kolayca entegre edilebiliyor. Python için yazılmış istemcilere verilecek ilk örnekler <a href="http://github.com/aparo/pyes">pyes</a> ve <a href="http://github.com/rhec/pyelasticsearch">pyelasticsearch</a>.<a href="http://www.elasticsearch.org/guide/appendix/clients.html" title="Diğer diller için liste [İngilizce]">*</a></p>
 <p><a href="http://haystacksearch.org/">Django-Haystack</a> uygulaması ise, Django'da Elasticsearch ve benzeri bir çok arama motorunu kolayca kullanabilmek için oluşturulmuş bir ara katman. Haystack uygulamasını kullanarak seçtiğimiz veya ileride seçeceğimiz arama motorumuz ne olursa olsun, aynı metodları kullanarak işimizi görebiliyoruz. Aynı anda birden fazla arama motorunu kullanmaya imkan vermesi sayesinde de, uygulamamızın bir kısmında Solr kullanırken, diğer bölümünde Elasticsearch kullanabiliyoruz ve bunun için atılması düşünülen bir çok takladan kurtulmuş oluyoruz.</p>
 <p>Şimdi kolları sıvayıp, django-haystack ve elasticsearch ile küçük bir arama uygulaması yapalım.</p>
-<h2>Kurulum</h2>
+<h2 id="kurulum">Kurulum</h2>
 <p>Django-haystack uygulamasını <code>pip install django-haystack</code> komutu ile kolayca kurabiliyoruz. Ancak, haystack uygulamasının şu anki(Mart 2012) son kararlı sürümü olan 1.2.6 sürümünün içinde elasticsearch arayüzü hazır olarak gelmediğinden ben burada şu an beta sürümünde olan 2.0 sürümü üzerinden anlatacağım. 2.0 sürümünü de haystack'in github deposundan, yine pip ile <code>pip install -e git+https://github.com/toastdriven/django-haystack.git@master#egg=django-haystack</code> komutu ile kurabiliriz.</p>
 <p>Elasticsearch Java ortamı gerektirmektedir ancak kendi içinde işini görebilecek boyutta bir Java ortamı ile beraber geliyor. Elasticsearch'ün dilediğiniz versiyonunun sıkıştırılmış dosyasını <a href="http://www.elasticsearch.org/download/">indirme sayfasından</a> edinip, bilgisayarınızda herhangi bir yere açtıktan sonra, açılan dosyalardan bin klasöründeki elasticsearch uygulamasını çalıştırarak kolayca başlatmış olursunuz.<a href="http://www.elasticsearch.org/guide/reference/setup/installation.html" title="Ayrıntılı bilgi [İngilizce]">*</a> Kurulu versiyon için MacOSX'de brew (<code>brew install elasticsearch</code>), Ubuntu'da da aptitude (<code>apt-get install elasticsearch</code>) kullanabilirsiniz. Elasticsearch'ü  kurduktan sonra python ile kullanabilmek için pyelasticsearch modülüne de ihtiyacımız olacak. Onun haystack uyumlu versiyonunu da aşağıdaki komutlarla kurabilirsiniz:</p>
 <div class="codehilite"><pre>git clone https://github.com/toastdriven/pyelasticsearch
@@ -71,7 +71,7 @@ python setup.py install
 </pre></div>
 
 
-<h2>Ayarlar</h2>
+<h2 id="ayarlar">Ayarlar</h2>
 <p>Haystack uygulamasını settings.py dosyasımızdaki INSTALLED_APPS listemize ekliyoruz. Buna ek olarak bir de HAYSTACK_CONNECTIONS değişkeni ile Elasticsearch bağlantı bilgilerimizi vermemiz gerekiyor:</p>
 <div class="codehilite"><pre><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">(</span>
     <span class="s">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
@@ -106,7 +106,7 @@ python setup.py install
 </pre></div>
 
 
-<h2>Verilerin indekslenmesi</h2>
+<h2 id="verilerin-indekslenmesi">Verilerin indekslenmesi</h2>
 <p>Örneğimizde bir blog uygulamamız olacak ve blog yazılarının başlıklarında bir arama yapacağız. Yazımız için modelimiz aşağıdaki gibi olsun:</p>
 <div class="codehilite"><pre><span class="kn">from</span> <span class="nn">django.db</span> <span class="kn">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="kn">import</span> <span class="n">User</span>
@@ -149,7 +149,7 @@ python setup.py install
 
 
 <p>Sonda verdiğimiz model parametresi opsiyoneldir. Eğer yazmazsanız varolan bütün indeksler güncellenir. Bu komutu çalıştırmadan önce elasticsearch'ün çalıştığından emin olun.</p>
-<h2>Arama sorgusu</h2>
+<h2 id="arama-sorgusu">Arama sorgusu</h2>
 <p>Verilerimiz indekslendiğine göre artık ilk sorgumuzu yapabiliriz. Bunun için önce bir url tanımlayalım:</p>
 <div class="codehilite"><pre><span class="n">urlpatterns</span> <span class="p">=</span> <span class="n">patterns</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span>
     <span class="n">url</span><span class="p">(</span><span class="n">r</span><span class="o">&#39;</span>^<span class="n">blog</span><span class="o">/</span><span class="n">search</span><span class="o">/</span>$<span class="s">&#39;, &#39;</span><span class="n">blog</span><span class="p">.</span><span class="n">search</span><span class="o">&#39;</span><span class="p">),</span>
@@ -175,7 +175,7 @@ python setup.py install
 
 <p>gibi zincirleme sorgular yapabiliriz.</p>
 <p>Tüm bu işlemleri başarıyla tamamladığınızda, django uygulamamızı çalıştırıp http://127.0.0.1:8000/blog/arama/?q=django gibi arama yaptığımızda başlığında veya yazar adında django ile başlayan kelimeler bulunan yazılardan ilk 10'unun başlıklarının listelendiğini göreceksiniz.</p>
-<h2>Sonuç</h2>
+<h2 id="sonuc">Sonuç</h2>
 <p>Benim de yeni tecrübe ettiğim ve çok sevdiğim bir alanda sizinle tecrübelerimi paylaşmak istedim. Umarım faydalı olmuştur. Konuyla ilgili soru veya katkılarınızla bu yazıyı daha da faydalı bir kaynağa dönüştürebiliriz.</p>
     </div>
 
@@ -210,6 +210,35 @@ python setup.py install
         })();
     </script>
     </article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
     </div>
 
     <div class="container footnote">
@@ -224,6 +253,7 @@ python setup.py install
                 <p>
 I'm web developer at sahibinden.com. I love Javascript and Python.
 </p>
+
                                 <div class="github-badge">
                     <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
                             style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
