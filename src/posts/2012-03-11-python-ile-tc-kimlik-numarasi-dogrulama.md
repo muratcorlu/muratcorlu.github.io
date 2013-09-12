@@ -1,4 +1,4 @@
-title: "Python ile TC Kimlik Numarası doğrulama"
+title: Python ile TC Kimlik Numarası doğrulama
 date: 2012-03-11 22:48
 categories: turkish
 tags: python

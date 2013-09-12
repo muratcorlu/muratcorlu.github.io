@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+        <title>"Django geliştirme ortamı için basit statik sunucu" by Murat Çorlu</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <link href="http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Duru+Sans&amp;subset=latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../theme/style/reset.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/screen.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment-monokai.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/print.css" type="text/css" media="print" />
+                                <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+    <header id="main">
+        <div class="container">
+            <div class="logo">
+                <p><a href="/" title="Home">web development notes</a> <span class="welcome">by Murat Çorlu</span></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="splash">
+        <div class="container">
+            <ul>
+                <li><a href="/">Home</a></li>
+                                                <li><a href="/contact/">Contact</a></li>
+                                    <li><a href="/javascript-resources/">Javascript Resources</a></li>
+                                    <li><a href="/projects/">Projects</a></li>
+                                    <li><a href="/python-resources/">Python Resources</a></li>
+                                        </ul>
+        </div>
+    </div>
+
+    <div class="container content">
+        <article>
+    <header>
+        <h1><a href="/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" rel="bookmark">
+    "Django geliştirme ortamı için basit statik sunucu"
+</a></h1>
+<time datetime="2012-03-05 00:06:00" pubdate>Posted on
+    Mon 05 March 2012
+</time>
+<address class="vcard author">
+    by <a class="url fn" href="../../author/murat-corlu.html">
+    Murat Çorlu</a>
+</address>
+<span class="category">in <a href="../../category/posts.html">
+    posts</a>.
+        </span>
+    </header>
+
+    <div class="body">
+        <p><a href="http://www.djangoproject.com">Django</a>'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python'un imdadımıza yetişen <a href="http://docs.python.org/library/simplehttpserver.html">SimpleHTTPServer modülü</a> ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:</p>
+<div class="codehilite"><pre>django-project/static<span class="nv">$ </span>&gt; python -m SimpleHTTPServer <span class="nv">$portnum</span>
+</pre></div>
+
+
+<p>Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:</p>
+<div class="codehilite"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">SITE_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">SITE_ROOT</span><span class="p">,</span> <span class="s">&#39;static&#39;</span><span class="p">)</span>
+<span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;http://127.0.0.1:9876/&#39;</span>
+</pre></div>
+
+
+<p>Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:</p>
+<div class="codehilite"><pre><span class="n">django</span><span class="o">-</span><span class="n">project</span>$ <span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">SimpleHTTPServer</span> 9876
+
+<span class="n">STATIC_URL</span> <span class="p">=</span> <span class="s">&#39;http://127.0.0.1:9876/static/&#39;</span>
+<span class="n">MEDIA_URL</span> <span class="p">=</span> <span class="s">&#39;http://127.0.0.1:9876/media/&#39;</span>
+</pre></div>
+
+
+<p>Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:</p>
+<div class="codehilite"><pre>django-project/static<span class="nv">$ </span>&gt; python -m SimpleHTTPServer <span class="nv">$portnum</span> &gt; ~/temp/static-server.log 2&gt;&amp;1 &amp;
+</pre></div>
+
+
+<p>Hatta yapılabilecek bir diğer güzellik de, django-admin.py'ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.</p>
+<p>Son olarak, bu yöntemi ağ üzerinden <a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html">dosya paylaşımı yapmak için</a> de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.</p>
+    </div>
+
+        <footer>
+        <ul class="tags">
+                    <li><a href="../../tag/django.html">django</a></li>
+                    <li><a href="../../tag/python.html">python</a></li>
+                    <li><a href="../../tag/server.html">server</a></li>
+                </ul>
+    </footer>
+    
+        <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text="&#34;Django geliştirme ortamı için basit statik sunucu&#34;"
+           data-via="muratcorlu">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+    
+        <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://muratcorlu.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+    </article>
+    </div>
+
+    <div class="container footnote">
+                            </div>
+
+    <div class="bottom">
+        <div class="container">
+            <div class="about">
+                <h3>About me</h3>
+                <img alt="Me!" class="avatar"
+                     src="http://www.gravatar.com/avatar/2906955ae59c795275979d3782d7bfca?size=64">
+                <p>
+I'm web developer at sahibinden.com. I love Javascript and Python.
+</p>
+                                <div class="github-badge">
+                    <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
+                            style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
+                </div>
+                                <p>
+                   You can contact me by emailing
+                   <a href="mailto:muratcorlu@gmail.com">muratcorlu@gmail.com</a>.
+                </p>
+                <p>
+                                        <a href="https://twitter.com/muratcorlu"
+                       title="@muratcorlu on Twitter">Follow me on Twitter</a> and
+                                                            <a href="https://github.com/muratcorlu"
+                       title="muratcorlu's Profile">fork me on GitHub
+                    </a>!
+                                    </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer">
+            <span>Powered by <a href="http://docs.getpelican.com">
+                Pelican</a> using <a href="https://github.com/BYK/pelican-neat">
+                neat theme</a>.
+            </span>
+            <nav>
+                <ul>
+                    <li><a href="/archives.html" title="Archive"><strong>Archive</strong></a></li>
+                                        <li><a href="https://github.com/muratcorlu/muratcorlu.github.com/tree/source" title="Source code">Source code</a></li>
+                                    </ul>
+            </nav>
+                    </div>
+    </footer>
+
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-790007-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    </body>
+</html>

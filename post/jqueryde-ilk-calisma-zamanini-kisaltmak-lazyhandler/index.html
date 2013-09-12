@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+        <title>jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler by Murat Çorlu</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <link href="http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Duru+Sans&amp;subset=latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../theme/style/reset.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/screen.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment-monokai.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/print.css" type="text/css" media="print" />
+                                <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+    <header id="main">
+        <div class="container">
+            <div class="logo">
+                <p><a href="/" title="Home">web development notes</a> <span class="welcome">by Murat Çorlu</span></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="splash">
+        <div class="container">
+            <ul>
+                <li><a href="/">Home</a></li>
+                                                <li><a href="/contact/">Contact</a></li>
+                                    <li><a href="/javascript-resources/">Javascript Resources</a></li>
+                                    <li><a href="/projects/">Projects</a></li>
+                                    <li><a href="/python-resources/">Python Resources</a></li>
+                                        </ul>
+        </div>
+    </div>
+
+    <div class="container content">
+        <article>
+    <header>
+        <h1><a href="/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/" rel="bookmark">
+    jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler
+</a></h1>
+<time datetime="2012-07-11 23:21:00" pubdate>Posted on
+    Wed 11 July 2012
+</time>
+<address class="vcard author">
+    by <a class="url fn" href="../../author/murat-corlu.html">
+    Murat Çorlu</a>
+</address>
+<span class="category">in <a href="../../category/posts.html">
+    posts</a>.
+        </span>
+    </header>
+
+    <div class="body">
+        <p>Javascript frameworkleri arasında neredeyse alternatifsiz kalan <a href="http://jquery.com">jQuery</a> frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi(<a href="http://sizzlejs.com/">Sizzle</a>). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodları bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.</p>
+<h2>Sorun nedir?</h2>
+<p>Olaylara fonksiyon atama işlemlerinde önemli bir süreyi CSS seçicileri çalıştırırken geçirebiliyoruz. Zira aşağıdaki tarzda bir seçiciden sayfa yükleme anında 10 tane çalıştırsak -HTML dokümanının büyüklüğüne ve tarayıcıya göre değişmekle birlikte- 200-300 milisaniye gibi bir süreyi sadece bu tarz olay dinleme atamaları ile geçirebiliriz:</p>
+<div class="codehilite"><pre><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#header li a.clickable&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Burada her seçicide sadece ID kullanmak bir çözüm olabilir, zira ID ile eleman seçmek oldukça hızlı. Ancak karmaşıklaşan dokümanlarımızda ve artan etkileşim sayılarında, her elemana ID üretmek de başka dezavantajlara sebep olacaktır.</p>
+<!--more-->
+
+<h2>Seçiciyi sayfa yüklenirken değil, tıklama anında çalıştırsak?</h2>
+<p>Aynı problemi <a href="http://www.sahibinden.com">sahibinden.com</a>'da geliştirme yaparken de yaşadık. Bir sayfada 8-10 tane elementin tıklamasına fonksiyon atadığımızda, eğer dokümanımız da biraz karmaşık ise, sayfanın ilk çalışma hızını(DOMReady) gözle görülür şekilde azaltıyorduk. Ve düşündüm ki, bu atadığımız 8-10 tıklama olayı, belki de çoğunlukla hiç kullanılmadan sayfadan çıkılıyordu. Yani, kullanılacağı garanti olmayan bir tıklama için kullanıcıyı sayfayı açarken fazladan 200 milisaniye daha bekletiyorduk.</p>
+<p>Bu sıralarda okuduğum kullanıcı tecrübesi(user experience) ile ilgili bir kitapta şunlar yazıyordu:</p>
+<blockquote>
+<p>Araştırmalara göre, internette gezinen bir kullanıcı, bir linke tıkladığında 500 milisaniye ve altındaki beklemelere tepki vermiyor. Bu kadarlık bir süreyi "işlem yapma süresi" olarak görüyor ve bekliyor. Eğer 500 milisaniye ile 1 sn arasında herhangi bir tepki gelmezse, tıklamanın algılanmadığı tereddütü hasıl oluyor ve tekrar tıklıyor. 1 sn'yi geçen işlemlerde ise bir hata olduğuna hükmediyor. Bu yüzden 500 milisaniyeden daha uzun sürecek işlemlerde kullanıcıya işlemin devam ettiğiyle ilgili mutlaka bir bilgi verilmeli. Bu bir "yükleniyor" yazısı veya bunu ifade eden hareketli bir resim de olabilir.</p>
+</blockquote>
+<p>Bu bilgilerden de kuvvet alarak, sayfa yüklenirkenki bu süreyi, tıklama anına aktarmak için denemelere başladım ve ortaya paket haline getirdiğim <a href="https://github.com/muratcorlu/lazyHandler">lazyHandler eklentisi</a> çıktı.</p>
+<h2>lazyHandler ne yapıyor?</h2>
+<p>lazyHandler ile olay atamanın kullanımı alışılagelmiş jQuery olay atamasına benzer:</p>
+<div class="codehilite"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">lh</span><span class="p">(</span><span class="s1">&#39;#header li a.clickable&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">text</span><span class="p">());</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Görüldüğü üzere sadece 3 karakterlik bir eklemeyle alışılagelmiş bir jQuery olay atamasını, lazyHandler yöntemine çevirmiş olduk. Peki böyle yapınca ne değişti?:</p>
+<p>Normal yöntemde bu kod çalıştığı anda "#header li a.clickable" CSS seçicisi çalışır, kurala uygun elementler dokümanda aranır ve bunların tıklama olaylarına bu fonksiyon atanırdı. lazyHandler yönteminde ise bu kodun çalışması sadece bir diziye(array) bu CSS seçicisinin ve fonksiyonun atanmasından ibaret oluyor(lazyHandler dokümanda ilk kez çağrılıyorsa dokümanın tıklama olayına da bir fonksiyon atanıyor). Daha sonra dokümanın herhangi bir yerine tıklandığında, bu dizideki CSS seçicilerin tıklanan bölgedeki eleman(lar)a uyup uymadığı kontrol ediliyor ve uyan durumlarda karşılığındaki fonksiyon çağrılıyor.</p>
+<h2>Ne faydası var?</h2>
+<p>Olay atamalarının bu yöntemle yapılması sayfa yüklenirken çalıştırdığınız olay ataması sayısı arttıkça faydasını daha çok gösteriyor. Çünkü bir CSS seçicinin çalışması 10 ms sürüyorsa ve bu şekilde 10 CSS seçici çalıştırıyorsanız, bu işlemleri lazyHandler ile yaptığınızda 99 ms kâra geçiyorsunuz, zira lazyHandler ile bu işlemi yapmak -yaklaşık- 1 ms sürüyor.</p>
+<p>Aradaki farkı daha belirgin şekilde göstermek için hazırladığım bir <a href="http://jsperf.com/jquery-lazyhandler-performance-comparison">benchmark</a>ı da inceleyebilirsiniz.</p>
+<h2>Dezavantajı yok mu?</h2>
+<ul>
+<li>lazyHandler ile atanan olaylar, dokümana her tıklamada -atanan olay sayısına bağlı olmakla birlikte- 50-60 milisaniyeye kadar ek süre getiriyor. Bunu şu ana kadarki kullanımlarımızda hiç problem etmedik.</li>
+<li>lazyHandler olayları dokümana atanarak dinlendiği için, mouseover, mouseenter vb. fare hareketlerini dinlemek için uygun bir yöntem değil. Belki klavye tuşlarını dinlemek için de kullanılabilir.</li>
+<li>lazyHandler <a href="http://www.quirksmode.org/js/events_order.html">bubbling</a>'i desteklemiyor. Dolayısıyla aynı kurala uyan iki elemanın içiçe olduğu durumlarda, fonksiyon sadece içteki element için çalıştırılıyor.</li>
+<li>Bunların yanında lazyHandler seçicilerde <a href="http://api.jquery.com/jQuery/#selector-context">context</a> verilmesini de şu anda desteklemiyor.</li>
+</ul>
+<h2>Sonuç</h2>
+<p>Bu kodu sahibinden.com'un bazı bölgelerinde 2 yıldır kullanıyoruz. Bu kadar zamandır lazyHandler'dan bahsetmeyi önce erteledim, sonrasında da unuttum veya vakit bulamadım. Bu yazıya gelen geri dönüşlerle bu konuda daha faydalı şeylerin ortaya çıkacağını umuyorum. Yorumlarınızı bekliyorum.</p>
+    </div>
+
+        <footer>
+        <ul class="tags">
+                    <li><a href="../../tag/javascript.html">javascript</a></li>
+                    <li><a href="../../tag/jquery.html">jquery</a></li>
+                    <li><a href="../../tag/tuning.html">tuning</a></li>
+                </ul>
+    </footer>
+    
+        <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text="jQuery&#39;de ilk çalışma zamanını kısaltmak: lazyHandler"
+           data-via="muratcorlu">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+    
+        <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://muratcorlu.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+    </article>
+    </div>
+
+    <div class="container footnote">
+                            </div>
+
+    <div class="bottom">
+        <div class="container">
+            <div class="about">
+                <h3>About me</h3>
+                <img alt="Me!" class="avatar"
+                     src="http://www.gravatar.com/avatar/2906955ae59c795275979d3782d7bfca?size=64">
+                <p>
+I'm web developer at sahibinden.com. I love Javascript and Python.
+</p>
+                                <div class="github-badge">
+                    <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
+                            style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
+                </div>
+                                <p>
+                   You can contact me by emailing
+                   <a href="mailto:muratcorlu@gmail.com">muratcorlu@gmail.com</a>.
+                </p>
+                <p>
+                                        <a href="https://twitter.com/muratcorlu"
+                       title="@muratcorlu on Twitter">Follow me on Twitter</a> and
+                                                            <a href="https://github.com/muratcorlu"
+                       title="muratcorlu's Profile">fork me on GitHub
+                    </a>!
+                                    </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer">
+            <span>Powered by <a href="http://docs.getpelican.com">
+                Pelican</a> using <a href="https://github.com/BYK/pelican-neat">
+                neat theme</a>.
+            </span>
+            <nav>
+                <ul>
+                    <li><a href="/archives.html" title="Archive"><strong>Archive</strong></a></li>
+                                        <li><a href="https://github.com/muratcorlu/muratcorlu.github.com/tree/source" title="Source code">Source code</a></li>
+                                    </ul>
+            </nav>
+                    </div>
+    </footer>
+
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-790007-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+        <title>HTML attribute'larında tek tırnak - çift tırnak kullanımı by Murat Çorlu</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <link href="http://fonts.googleapis.com/css?family=ABeeZee|Carrois+Gothic|Source+Code+Pro:400,700" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Duru+Sans&amp;subset=latin-ext" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../../theme/style/reset.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/screen.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/pygment-monokai.css" type="text/css" />
+        <link rel="stylesheet" href="../../theme/style/print.css" type="text/css" media="print" />
+                                <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+<body>
+    <header id="main">
+        <div class="container">
+            <div class="logo">
+                <p><a href="/" title="Home">web development notes</a> <span class="welcome">by Murat Çorlu</span></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="splash">
+        <div class="container">
+            <ul>
+                <li><a href="/">Home</a></li>
+                                                <li><a href="/contact/">Contact</a></li>
+                                    <li><a href="/javascript-resources/">Javascript Resources</a></li>
+                                    <li><a href="/projects/">Projects</a></li>
+                                    <li><a href="/python-resources/">Python Resources</a></li>
+                                        </ul>
+        </div>
+    </div>
+
+    <div class="container content">
+        <article>
+    <header>
+        <h1><a href="/post/html-attributelarinda-tek-tirnak-cift-tirnak-kullanimi/" rel="bookmark">
+    HTML attribute'larında tek tırnak - çift tırnak kullanımı
+</a></h1>
+<time datetime="2013-01-08 21:30:00" pubdate>Posted on
+    Tue 08 January 2013
+</time>
+<address class="vcard author">
+    by <a class="url fn" href="../../author/murat-corlu.html">
+    Murat Çorlu</a>
+</address>
+<span class="category">in <a href="../../category/posts.html">
+    posts</a>.
+        </span>
+    </header>
+
+    <div class="body">
+        <p>Son zamanlarda haricen aldığımız javascript hizmetlerinin örnek kodlarında HTML attribute'larının çift tırnak yerine tek tırnakla yazıldığını sıklıkla görüyorum.</p>
+<div class="codehilite"><pre><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">type=</span><span class="s">&#39;text/css&#39;</span> <span class="na">href=</span><span class="s">&#39;css/bootstrap.css&#39;</span> <span class="nt">/&gt;</span>
+</pre></div>
+
+
+<p>Bu benim genel alışkanlığımın tersine bir yaklaşım, zira ben -standartların da böyle olduğunu düşünerek- bu tek tırnak yazımlarını çift tırnakla değiştiriyordum. Geçenlerde bir başka sitenin daha örnek kodunda tek tırnak kullanımını görünce bu işin HTML yazım standartlarına uygunluğunu bir kontrol edeyim dedim ve <a href="http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.2">W3C'nin HTML4 dokümanlarında</a> şöyle bir metne ulaştım:</p>
+<blockquote>
+<p>By default, SGML requires that all attribute values be delimited using either double quotation marks (ASCII decimal 34) or single quotation marks (ASCII decimal 39). Single quote marks can be included within the attribute value when the value is delimited by double quote marks, and vice versa. Authors may also use numeric character references to represent double quotes (&#34;) and single quotes (&#39;). For double quotes authors can also use the character entity reference &quot;.</p>
+<p>In certain cases, authors may specify the value of an attribute without any quotation marks. The attribute value may only contain letters (a-z and A-Z), digits (0-9), hyphens (ASCII decimal 45), periods (ASCII decimal 46), underscores (ASCII decimal 95), and colons (ASCII decimal 58). We recommend using quotation marks even when it is possible to eliminate them.</p>
+</blockquote>
+<p>Yani tek tırnak veya çift tırnak kullanmak konusunda özgür olduğumuz hatta boşluk içermeyen değerleri tırnaksız bile verebileceğimiz belirtilmiş. XHTML referansının "<a href="http://www.w3.org/TR/xhtml1/Overview.html#diffs">HTML4 ile farklar</a>" bölümünde ise, sadece HTML4'de zorunlu olmayan tırnakların, XHTML ile birlikte zorunlu hale geldiği ve değeri belirtilmeyen attribute'ların(<code>&lt;input type="text" disabled&gt;</code> gibi) artık geçersiz olduğu yazılmış. Bu fark HTML5 dokümanındaki <a href="http://dev.w3.org/html5/html-author/#html-and-xhtml-comparison-1">HTML4 ve XHTML karşılaştırma tablosu</a>nda da gösteriliyor.</p>
+<p>Bunlardan anlaşıldığı üzere attribute'larda tek tırnak HTML4'den beri geçerli bir kullanımmış. HTML5'in "geriye uyumluluk(backward compatible)" olduğu göz önünde bulundurulduğunda HTML4'deki gibi, tek tırnaklı, çift tırnaklı veya tırnaksız attribute değeri vermenin geçerli bir yazım şekli olduğunu görmekteyiz. Ben en azından okunabilirlik açısından çift tırnak ile yazmayı daha makul buluyorum ancak bunun alışkanlığımız eseri olabileceği ihtimalini de kabul ediyorum.</p>
+<p>Siz hangisini tercih edersiniz?</p>
+    </div>
+
+        <footer>
+        <ul class="tags">
+                    <li><a href="../../tag/html.html">html</a></li>
+                </ul>
+    </footer>
+    
+        <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text="HTML attribute&#39;larında tek tırnak - çift tırnak kullanımı"
+           data-via="muratcorlu">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+    
+        <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "http://muratcorlu.com/post/html-attributelarinda-tek-tirnak-cift-tirnak-kullanimi/",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://muratcorlu.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+    </article>
+    </div>
+
+    <div class="container footnote">
+                            </div>
+
+    <div class="bottom">
+        <div class="container">
+            <div class="about">
+                <h3>About me</h3>
+                <img alt="Me!" class="avatar"
+                     src="http://www.gravatar.com/avatar/2906955ae59c795275979d3782d7bfca?size=64">
+                <p>
+I'm web developer at sahibinden.com. I love Javascript and Python.
+</p>
+                                <div class="github-badge">
+                    <iframe src="http://githubbadge.appspot.com/badge/muratcorlu?s=1"
+                            style="border: 0; height: 150px; width: 200px; overflow: hidden;"></iframe>
+                </div>
+                                <p>
+                   You can contact me by emailing
+                   <a href="mailto:muratcorlu@gmail.com">muratcorlu@gmail.com</a>.
+                </p>
+                <p>
+                                        <a href="https://twitter.com/muratcorlu"
+                       title="@muratcorlu on Twitter">Follow me on Twitter</a> and
+                                                            <a href="https://github.com/muratcorlu"
+                       title="muratcorlu's Profile">fork me on GitHub
+                    </a>!
+                                    </p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container footer">
+            <span>Powered by <a href="http://docs.getpelican.com">
+                Pelican</a> using <a href="https://github.com/BYK/pelican-neat">
+                neat theme</a>.
+            </span>
+            <nav>
+                <ul>
+                    <li><a href="/archives.html" title="Archive"><strong>Archive</strong></a></li>
+                                        <li><a href="https://github.com/muratcorlu/muratcorlu.github.com/tree/source" title="Source code">Source code</a></li>
+                                    </ul>
+            </nav>
+                    </div>
+    </footer>
+
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-790007-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    </body>
+</html>

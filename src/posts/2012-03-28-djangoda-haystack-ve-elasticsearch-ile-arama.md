@@ -1,4 +1,4 @@
-title: "Django'da Haystack ve Elasticsearch ile arama"
+title: Django'da Haystack ve Elasticsearch ile arama
 date: 2012-03-28 23:57
 categories: turkish
 tags: django, python, haystack, elasticsearch, fulltextsearch, arama

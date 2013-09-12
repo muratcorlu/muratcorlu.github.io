@@ -1,4 +1,4 @@
-title: "Yerimizi bilelim"
+title: Yerimizi bilelim
 date: 2012-01-06 01:57
 category: turkish
 

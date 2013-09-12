@@ -1,4 +1,4 @@
-title: "AngularJS kullanmak için 10 neden"
+title: AngularJS kullanmak için 10 neden
 date: 2013-09-13 00:28
 categories: turkish
 tags: angularjs, javascript

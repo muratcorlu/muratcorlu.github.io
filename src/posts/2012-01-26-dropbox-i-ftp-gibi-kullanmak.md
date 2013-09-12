@@ -1,4 +1,4 @@
-title: "Dropbox'ı FTP gibi kullanmak"
+title: Dropbox'ı FTP gibi kullanmak
 date: 2012-01-26 10:43
 categor: turkish
 

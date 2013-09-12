@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ page.title|striptags }} by Murat Çorlu{% endblock %}
+{% block content %}
+<article>
+    <header>
+        <h1><a href="/{{ page.url }}" rel="bookmark">{{ page.title|striptags }}</a></h1>
+    </header>
+
+    <div class="body">
+        {{ page.content }}
+    </div>
+
+    {% if TWITTER_USERNAME %}
+    <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text="{{ page.title|striptags|escape }}"
+           data-via="{{ TWITTER_USERNAME }}">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+    {% endif %}
+
+    {% if DISQUS_SITENAME %}
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "http://muratcorlu.com/{{ page.url }}",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://{{ DISQUS_SITENAME }}.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+    {% endif %}
+</article>
+{% endblock %}

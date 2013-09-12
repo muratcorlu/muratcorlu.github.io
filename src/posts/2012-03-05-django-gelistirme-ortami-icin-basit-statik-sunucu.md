@@ -1,4 +1,4 @@
-title: "Django geliştirme ortamı için basit statik sunucu"
+title: Django geliştirme ortamı için basit statik sunucu
 date: 2012-03-05 00:06
 categoy: turkish
 tags: django, python, server

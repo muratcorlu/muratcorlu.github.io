@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>web development notes</title><link href="http://muratcorlu.com/" rel="alternate"></link><link href="http://muratcorlu.com/feeds/posts.atom.xml" rel="self"></link><id>http://muratcorlu.com/</id><updated>2013-01-08T21:30:00+02:00</updated><entry><title>HTML attribute'larında tek tırnak - çift tırnak kullanımı</title><link href="http://muratcorlu.com/post/html-attributelarinda-tek-tirnak-cift-tirnak-kullanimi/" rel="alternate"></link><updated>2013-01-08T21:30:00+02:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2013-01-08:post/html-attributelarinda-tek-tirnak-cift-tirnak-kullanimi/</id><summary type="html">&lt;p&gt;Son zamanlarda haricen aldığımız javascript hizmetlerinin örnek kodlarında HTML attribute'larının çift tırnak yerine tek tırnakla yazıldığını sıklıkla görüyorum.&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;link&lt;/span&gt; &lt;span class="na"&gt;rel=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;stylesheet&amp;#39;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;text/css&amp;#39;&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;css/bootstrap.css&amp;#39;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bu benim genel alışkanlığımın tersine bir yaklaşım, zira ben -standartların da böyle olduğunu düşünerek- bu tek tırnak yazımlarını çift tırnakla değiştiriyordum. Geçenlerde bir başka sitenin daha örnek kodunda tek tırnak kullanımını görünce bu işin HTML yazım standartlarına uygunluğunu bir kontrol edeyim dedim ve &lt;a href="http://www.w3.org/TR/html4/intro/sgmltut.html#h-3.2.2"&gt;W3C'nin HTML4 dokümanlarında&lt;/a&gt; şöyle bir metne ulaştım:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;By default, SGML requires that all attribute values be delimited using either double quotation marks (ASCII decimal 34) or single quotation marks (ASCII decimal 39). Single quote marks can be included within the attribute value when the value is delimited by double quote marks, and vice versa. Authors may also use numeric character references to represent double quotes (&amp;#34;) and single quotes (&amp;#39;). For double quotes authors can also use the character entity reference &amp;quot;.&lt;/p&gt;
+&lt;p&gt;In certain cases, authors may specify the value of an attribute without any quotation marks. The attribute value may only contain letters (a-z and A-Z), digits (0-9), hyphens (ASCII decimal 45), periods (ASCII decimal 46), underscores (ASCII decimal 95), and colons (ASCII decimal 58). We recommend using quotation marks even when it is possible to eliminate them.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Yani tek tırnak veya çift tırnak kullanmak konusunda özgür olduğumuz hatta boşluk içermeyen değerleri tırnaksız bile verebileceğimiz belirtilmiş. XHTML referansının "&lt;a href="http://www.w3.org/TR/xhtml1/Overview.html#diffs"&gt;HTML4 ile farklar&lt;/a&gt;" bölümünde ise, sadece HTML4'de zorunlu olmayan tırnakların, XHTML ile birlikte zorunlu hale geldiği ve değeri belirtilmeyen attribute'ların(&lt;code&gt;&amp;lt;input type="text" disabled&amp;gt;&lt;/code&gt; gibi) artık geçersiz olduğu yazılmış. Bu fark HTML5 dokümanındaki &lt;a href="http://dev.w3.org/html5/html-author/#html-and-xhtml-comparison-1"&gt;HTML4 ve XHTML karşılaştırma tablosu&lt;/a&gt;nda da gösteriliyor.&lt;/p&gt;
+&lt;p&gt;Bunlardan anlaşıldığı üzere attribute'larda tek tırnak HTML4'den beri geçerli bir kullanımmış. HTML5'in "geriye uyumluluk(backward compatible)" olduğu göz önünde bulundurulduğunda HTML4'deki gibi, tek tırnaklı, çift tırnaklı veya tırnaksız attribute değeri vermenin geçerli bir yazım şekli olduğunu görmekteyiz. Ben en azından okunabilirlik açısından çift tırnak ile yazmayı daha makul buluyorum ancak bunun alışkanlığımız eseri olabileceği ihtimalini de kabul ediyorum.&lt;/p&gt;
+&lt;p&gt;Siz hangisini tercih edersiniz?&lt;/p&gt;</summary><category term="html"></category></entry><entry><title>jQuery'de ilk çalışma zamanını kısaltmak: lazyHandler</title><link href="http://muratcorlu.com/post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/" rel="alternate"></link><updated>2012-07-11T23:21:00+03:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2012-07-11:post/jqueryde-ilk-calisma-zamanini-kisaltmak-lazyhandler/</id><summary type="html">&lt;p&gt;Javascript frameworkleri arasında neredeyse alternatifsiz kalan &lt;a href="http://jquery.com"&gt;jQuery&lt;/a&gt; frameworkünü kullanmayan-bilmeyen web geliştirici yoktur sanırım. jQuery'i bu kadar popüler yapan şey sanırım herşeyden önce çok başarılı olan CSS seçicisi(&lt;a href="http://sizzlejs.com/"&gt;Sizzle&lt;/a&gt;). Ancak oldukça eğlenceli olan CSS seçicisi kullanmak, fazla bonkör davranınca pek hoş sonuçlar doğurmuyor. Çok fazla etkileşim barındıran günümüz web sayfalarında, sayfa yüklenirken bir çok elemanın tıklama olayına Javascript metodları bağlıyoruz(event handling). İşte bu durumlarda dikkatli olunmazsa, sayfamızın yüklenme süreleri uzayabiliyor, kullanıcıların sabrı zorlanabiliyor.&lt;/p&gt;
+&lt;h2&gt;Sorun nedir?&lt;/h2&gt;
+&lt;p&gt;Olaylara fonksiyon atama işlemlerinde önemli bir süreyi CSS seçicileri çalıştırırken geçirebiliyoruz. Zira aşağıdaki tarzda bir seçiciden sayfa yükleme anında 10 tane çalıştırsak -HTML dokümanının büyüklüğüne ve tarayıcıya göre değişmekle birlikte- 200-300 milisaniye gibi bir süreyi sadece bu tarz olay dinleme atamaları ile geçirebiliriz:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#header li a.clickable&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Burada her seçicide sadece ID kullanmak bir çözüm olabilir, zira ID ile eleman seçmek oldukça hızlı. Ancak karmaşıklaşan dokümanlarımızda ve artan etkileşim sayılarında, her elemana ID üretmek de başka dezavantajlara sebep olacaktır.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;h2&gt;Seçiciyi sayfa yüklenirken değil, tıklama anında çalıştırsak?&lt;/h2&gt;
+&lt;p&gt;Aynı problemi &lt;a href="http://www.sahibinden.com"&gt;sahibinden.com&lt;/a&gt;'da geliştirme yaparken de yaşadık. Bir sayfada 8-10 tane elementin tıklamasına fonksiyon atadığımızda, eğer dokümanımız da biraz karmaşık ise, sayfanın ilk çalışma hızını(DOMReady) gözle görülür şekilde azaltıyorduk. Ve düşündüm ki, bu atadığımız 8-10 tıklama olayı, belki de çoğunlukla hiç kullanılmadan sayfadan çıkılıyordu. Yani, kullanılacağı garanti olmayan bir tıklama için kullanıcıyı sayfayı açarken fazladan 200 milisaniye daha bekletiyorduk.&lt;/p&gt;
+&lt;p&gt;Bu sıralarda okuduğum kullanıcı tecrübesi(user experience) ile ilgili bir kitapta şunlar yazıyordu:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Araştırmalara göre, internette gezinen bir kullanıcı, bir linke tıkladığında 500 milisaniye ve altındaki beklemelere tepki vermiyor. Bu kadarlık bir süreyi "işlem yapma süresi" olarak görüyor ve bekliyor. Eğer 500 milisaniye ile 1 sn arasında herhangi bir tepki gelmezse, tıklamanın algılanmadığı tereddütü hasıl oluyor ve tekrar tıklıyor. 1 sn'yi geçen işlemlerde ise bir hata olduğuna hükmediyor. Bu yüzden 500 milisaniyeden daha uzun sürecek işlemlerde kullanıcıya işlemin devam ettiğiyle ilgili mutlaka bir bilgi verilmeli. Bu bir "yükleniyor" yazısı veya bunu ifade eden hareketli bir resim de olabilir.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Bu bilgilerden de kuvvet alarak, sayfa yüklenirkenki bu süreyi, tıklama anına aktarmak için denemelere başladım ve ortaya paket haline getirdiğim &lt;a href="https://github.com/muratcorlu/lazyHandler"&gt;lazyHandler eklentisi&lt;/a&gt; çıktı.&lt;/p&gt;
+&lt;h2&gt;lazyHandler ne yapıyor?&lt;/h2&gt;
+&lt;p&gt;lazyHandler ile olay atamanın kullanımı alışılagelmiş jQuery olay atamasına benzer:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;lh&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;#header li a.clickable&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;click&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;event&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+    &lt;span class="nx"&gt;console&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;text&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Görüldüğü üzere sadece 3 karakterlik bir eklemeyle alışılagelmiş bir jQuery olay atamasını, lazyHandler yöntemine çevirmiş olduk. Peki böyle yapınca ne değişti?:&lt;/p&gt;
+&lt;p&gt;Normal yöntemde bu kod çalıştığı anda "#header li a.clickable" CSS seçicisi çalışır, kurala uygun elementler dokümanda aranır ve bunların tıklama olaylarına bu fonksiyon atanırdı. lazyHandler yönteminde ise bu kodun çalışması sadece bir diziye(array) bu CSS seçicisinin ve fonksiyonun atanmasından ibaret oluyor(lazyHandler dokümanda ilk kez çağrılıyorsa dokümanın tıklama olayına da bir fonksiyon atanıyor). Daha sonra dokümanın herhangi bir yerine tıklandığında, bu dizideki CSS seçicilerin tıklanan bölgedeki eleman(lar)a uyup uymadığı kontrol ediliyor ve uyan durumlarda karşılığındaki fonksiyon çağrılıyor.&lt;/p&gt;
+&lt;h2&gt;Ne faydası var?&lt;/h2&gt;
+&lt;p&gt;Olay atamalarının bu yöntemle yapılması sayfa yüklenirken çalıştırdığınız olay ataması sayısı arttıkça faydasını daha çok gösteriyor. Çünkü bir CSS seçicinin çalışması 10 ms sürüyorsa ve bu şekilde 10 CSS seçici çalıştırıyorsanız, bu işlemleri lazyHandler ile yaptığınızda 99 ms kâra geçiyorsunuz, zira lazyHandler ile bu işlemi yapmak -yaklaşık- 1 ms sürüyor.&lt;/p&gt;
+&lt;p&gt;Aradaki farkı daha belirgin şekilde göstermek için hazırladığım bir &lt;a href="http://jsperf.com/jquery-lazyhandler-performance-comparison"&gt;benchmark&lt;/a&gt;ı da inceleyebilirsiniz.&lt;/p&gt;
+&lt;h2&gt;Dezavantajı yok mu?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;lazyHandler ile atanan olaylar, dokümana her tıklamada -atanan olay sayısına bağlı olmakla birlikte- 50-60 milisaniyeye kadar ek süre getiriyor. Bunu şu ana kadarki kullanımlarımızda hiç problem etmedik.&lt;/li&gt;
+&lt;li&gt;lazyHandler olayları dokümana atanarak dinlendiği için, mouseover, mouseenter vb. fare hareketlerini dinlemek için uygun bir yöntem değil. Belki klavye tuşlarını dinlemek için de kullanılabilir.&lt;/li&gt;
+&lt;li&gt;lazyHandler &lt;a href="http://www.quirksmode.org/js/events_order.html"&gt;bubbling&lt;/a&gt;'i desteklemiyor. Dolayısıyla aynı kurala uyan iki elemanın içiçe olduğu durumlarda, fonksiyon sadece içteki element için çalıştırılıyor.&lt;/li&gt;
+&lt;li&gt;Bunların yanında lazyHandler seçicilerde &lt;a href="http://api.jquery.com/jQuery/#selector-context"&gt;context&lt;/a&gt; verilmesini de şu anda desteklemiyor.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Sonuç&lt;/h2&gt;
+&lt;p&gt;Bu kodu sahibinden.com'un bazı bölgelerinde 2 yıldır kullanıyoruz. Bu kadar zamandır lazyHandler'dan bahsetmeyi önce erteledim, sonrasında da unuttum veya vakit bulamadım. Bu yazıya gelen geri dönüşlerle bu konuda daha faydalı şeylerin ortaya çıkacağını umuyorum. Yorumlarınızı bekliyorum.&lt;/p&gt;</summary><category term="javascript"></category><category term="jquery"></category><category term="tuning"></category></entry><entry><title>Disqus yorumlarının görünür olduklarında yüklenmesi</title><link href="http://muratcorlu.com/post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/" rel="alternate"></link><updated>2012-04-03T11:26:00+03:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2012-04-03:post/disqus-yorumlarinin-gorunur-olduklarinda-yuklenmesi/</id><summary type="html">&lt;p&gt;&lt;a href="http://disqus.com"&gt;Disqus&lt;/a&gt;, artık bir çok blogda kullanılan çok başarılı bir yorumlama hizmeti. Özellikle statik blogların yaygınlaştığı günümüzde, dinamik üretilmeyen sayfalarda bile yorum yazılabilmesi imkanı verdiği için hayat kurtarıcı bir çözüm.&lt;/p&gt;
+&lt;p&gt;Disqus'ın sunduğu javascript kodunu kullandığınızda sayfa yüklenirken yorumların olacağı yere gelindiğinde Disqus tarafından sunulan javascript dosyası yükleniyor ve bu dosya ihtiyaç duyduğu dosyaları da yükletip, yorumları sayfaya ekliyor. Bloglarda genelde bir yazı açıldığında yazının uzunluğundan dolayı yorumlar ilk anda görüntüde olmuyorlar. Ancak bu geleneksel yöntemimizde birşeyi değiştirmiyor ve görüntüde olmamasına rağmen yorumlar sayfa açılırken yükleniyor. İçinde başka öğelerin de bulunduğu(videolar, resimler ve başka javascriptler) uzun yazılı blog sayfalarını açarken, görüntüde olmadığı halde Disqus yorumlarının da ilk açılışta yükleniyor olması hissedilir bir yük oluşturuyor. İşte buna çözüm olarak, &lt;a href="http://jquery.com"&gt;jQuery&lt;/a&gt; kütüphanesinden ve Mike Green'in &lt;a href="http://www.myatus.com/2011/03/20/lazy-loading-disqus-in-wordpress/"&gt;bir yazısı&lt;/a&gt;ndan faydalanarak yazdığım aşağıdaki javascript dosyası ve HTML5'in data attribute özelliğinden faydalandığım aşağıdaki gibi bir HTML yazımı ile Disqus yorumlarını kullanıcı sayfayı yorumların olduğu bölümlere kaydırdığı anda yükletebilirsiniz:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt;* Load disqus comments when visitor scroll down page to comments&lt;/span&gt;
+&lt;span class="cm"&gt;*&lt;/span&gt;
+&lt;span class="cm"&gt;* Usage:&lt;/span&gt;
+&lt;span class="cm"&gt;* Add a div with id &amp;quot;disqus_thread&amp;quot; and data attributes for every disqus parameter:&lt;/span&gt;
+&lt;span class="cm"&gt;*&lt;/span&gt;
+&lt;span class="cm"&gt;* &amp;lt;div id=&amp;quot;disqus_thread&amp;quot; data-disqus-shortname=&amp;quot;username&amp;quot; data-disqus-url=&amp;quot;http://example.com/post/post-name/&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="cm"&gt;*&lt;/span&gt;
+&lt;span class="cm"&gt;* @author: Murat Corlu&lt;/span&gt;
+&lt;span class="cm"&gt;* @link: https://gist.github.com/gists/2290198&lt;/span&gt;
+&lt;span class="cm"&gt;*/&lt;/span&gt;
+&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;disqus_div&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;#disqus_thread&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;disqus_div&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ds_loaded&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nx"&gt;top&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;disqus_div&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;offset&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="nx"&gt;top&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// WHERE TO START LOADING&lt;/span&gt;
+            &lt;span class="nx"&gt;disqus_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;disqus_div&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;data&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+            &lt;span class="nx"&gt;check&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;ds_loaded&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;scrollTop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;height&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;top&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                    &lt;span class="nx"&gt;ds_loaded&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;key&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="nx"&gt;disqus_data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;disqus&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                            &lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;disqus_&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;disqus&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;toLowerCase&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;disqus_data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;key&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+                        &lt;span class="p"&gt;}&lt;/span&gt;
+                    &lt;span class="p"&gt;}&lt;/span&gt;
+
+                    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;dsq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                    &lt;span class="nx"&gt;dsq&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                    &lt;span class="nx"&gt;dsq&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                    &lt;span class="nx"&gt;dsq&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;disqus_shortname&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;.disqus.com/embed.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;dsq&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="p"&gt;};&lt;/span&gt;
+
+        &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;scroll&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;check&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;check&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bu da html tarafı:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;disqus_thread&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-disqus-shortname=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;muratcorlu&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-disqus-url=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://muratcorlu.com/post/post-name/&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;HTML5 ile gelen data attribute'ları bu tür ihtiyaçlar için biçilmiş kaftan. Ancak eğer HTML dokümanlarınızı HTML5 tipinde deklare etmiyorsanız bu attribute'ları kullanmak dosyanızın validasyonunu bozacaktır. Bunun yanında normalde IE7'nin data attribute desteği olmamasına rağmen jQuery bu problemi çözmektedir.&lt;/p&gt;
+&lt;p&gt;Bu çözümü &lt;del&gt;şu anki blog üretme motorum olan&lt;/del&gt; &lt;a href="http://octopress.org"&gt;Octopress&lt;/a&gt;'de nasıl uyguladığımı görmek isterseniz Github'daki bu iş için yaptığım değişikliklerden ibaret olan &lt;a href="https://github.com/muratcorlu/muratcorlu.github.com/commit/381b1eb24292db1436d83deeeacdceca836e901c"&gt;commitimi&lt;/a&gt; inceleyebilirsiniz.&lt;/p&gt;</summary><category term="disqus"></category><category term="javascript"></category><category term="octopress"></category><category term="jquery"></category></entry><entry><title>Django'da Haystack ve Elasticsearch ile arama</title><link href="http://muratcorlu.com/post/djangoda-haystack-ve-elasticsearch-ile-arama/" rel="alternate"></link><updated>2012-03-28T23:57:00+03:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2012-03-28:post/djangoda-haystack-ve-elasticsearch-ile-arama/</id><summary type="html">&lt;p&gt;Django, verilere hızlıca erişim ve düzenleme için çok güzel bir model katmanına sahip. Her ne kadar bu modellerde filtreleme imkanları oldukça kullanışlı görünse de, büyük veri ve yoğun kullanımlarda veritabanından sorgular yaparak arama yapma devri geçmişte kaldı. Çünkü artık küçük verilere çok daha hızlı erişebilen ve arama konusu üzerine uzmanlaşmış bir çok başarılı uygulama var. Bunlara en bilinen örnekler olarak &lt;a href="http://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt;, &lt;a href="http://sphinxsearch.com"&gt;Sphinx&lt;/a&gt; ve henüz bunlara göre toy olmasına rağmen performansı ve kullanım kolaylığıyla bir çok yazılımcıyı büyüleyen &lt;a href="http://elasticsearch.org"&gt;Elasticsearch&lt;/a&gt; uygulamalarını verebiliriz. Ben bu yazımda yakın zamanda kullanmaya başladığım Elasticsearch'den ve Elasticsearch'ü Django'da nasıl kullanabileceğimizden bahsedeceğim.&lt;/p&gt;
+&lt;!--more--&gt;
+
+&lt;p&gt;Elasticsearch, &lt;a href="http://lucene.apache.org"&gt;Apache Lucene&lt;/a&gt; projesinin üzerine bina edilmiş, kendini arama konusuna adamış, açık kaynak, REST arayüzlü, dağıtık çalışabilen, şema bağımsız veri taşıyabilen, Java tabanlı oldukça başarılı bir arama motoru. Elasticsearch REST tabanlı olduğu için, herhangi bir programlama diliyle kolayca entegre edilebiliyor. Python için yazılmış istemcilere verilecek ilk örnekler &lt;a href="http://github.com/aparo/pyes"&gt;pyes&lt;/a&gt; ve &lt;a href="http://github.com/rhec/pyelasticsearch"&gt;pyelasticsearch&lt;/a&gt;.&lt;a href="http://www.elasticsearch.org/guide/appendix/clients.html" title="Diğer diller için liste [İngilizce]"&gt;*&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://haystacksearch.org/"&gt;Django-Haystack&lt;/a&gt; uygulaması ise, Django'da Elasticsearch ve benzeri bir çok arama motorunu kolayca kullanabilmek için oluşturulmuş bir ara katman. Haystack uygulamasını kullanarak seçtiğimiz veya ileride seçeceğimiz arama motorumuz ne olursa olsun, aynı metodları kullanarak işimizi görebiliyoruz. Aynı anda birden fazla arama motorunu kullanmaya imkan vermesi sayesinde de, uygulamamızın bir kısmında Solr kullanırken, diğer bölümünde Elasticsearch kullanabiliyoruz ve bunun için atılması düşünülen bir çok takladan kurtulmuş oluyoruz.&lt;/p&gt;
+&lt;p&gt;Şimdi kolları sıvayıp, django-haystack ve elasticsearch ile küçük bir arama uygulaması yapalım.&lt;/p&gt;
+&lt;h2&gt;Kurulum&lt;/h2&gt;
+&lt;p&gt;Django-haystack uygulamasını &lt;code&gt;pip install django-haystack&lt;/code&gt; komutu ile kolayca kurabiliyoruz. Ancak, haystack uygulamasının şu anki(Mart 2012) son kararlı sürümü olan 1.2.6 sürümünün içinde elasticsearch arayüzü hazır olarak gelmediğinden ben burada şu an beta sürümünde olan 2.0 sürümü üzerinden anlatacağım. 2.0 sürümünü de haystack'in github deposundan, yine pip ile &lt;code&gt;pip install -e git+https://github.com/toastdriven/django-haystack.git@master#egg=django-haystack&lt;/code&gt; komutu ile kurabiliriz.&lt;/p&gt;
+&lt;p&gt;Elasticsearch Java ortamı gerektirmektedir ancak kendi içinde işini görebilecek boyutta bir Java ortamı ile beraber geliyor. Elasticsearch'ün dilediğiniz versiyonunun sıkıştırılmış dosyasını &lt;a href="http://www.elasticsearch.org/download/"&gt;indirme sayfasından&lt;/a&gt; edinip, bilgisayarınızda herhangi bir yere açtıktan sonra, açılan dosyalardan bin klasöründeki elasticsearch uygulamasını çalıştırarak kolayca başlatmış olursunuz.&lt;a href="http://www.elasticsearch.org/guide/reference/setup/installation.html" title="Ayrıntılı bilgi [İngilizce]"&gt;*&lt;/a&gt; Kurulu versiyon için MacOSX'de brew (&lt;code&gt;brew install elasticsearch&lt;/code&gt;), Ubuntu'da da aptitude (&lt;code&gt;apt-get install elasticsearch&lt;/code&gt;) kullanabilirsiniz. Elasticsearch'ü  kurduktan sonra python ile kullanabilmek için pyelasticsearch modülüne de ihtiyacımız olacak. Onun haystack uyumlu versiyonunu da aşağıdaki komutlarla kurabilirsiniz:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;git clone https://github.com/toastdriven/pyelasticsearch
+&lt;span class="nb"&gt;cd &lt;/span&gt;pyelasticsearch
+python setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Ayarlar&lt;/h2&gt;
+&lt;p&gt;Haystack uygulamasını settings.py dosyasımızdaki INSTALLED_APPS listemize ekliyoruz. Buna ek olarak bir de HAYSTACK_CONNECTIONS değişkeni ile Elasticsearch bağlantı bilgilerimizi vermemiz gerekiyor:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;INSTALLED_APPS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.auth&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.contenttypes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.sessions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.sites&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.messages&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.staticfiles&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="c"&gt;# Uncomment the next line to enable the admin:&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;django.contrib.admin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="c"&gt;# Uncomment the next line to enable admin documentation:&lt;/span&gt;
+    &lt;span class="c"&gt;# &amp;#39;django.contrib.admindocs&amp;#39;,&lt;/span&gt;
+
+    &lt;span class="s"&gt;&amp;#39;haystack&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;HAYSTACK_CONNECTIONS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;default&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;ENGINE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;URL&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://127.0.0.1:9200/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;INDEX_NAME&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;blog&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Elasticsearch varsayılan olarak 9200 portundan çalışıyor. INDEX_NAME değeri de veritabanı adı gibi düşünülebilir. Elasticsearch'ün varsayılan ayarlarında çalışması deneme yapabilmemiz için yeterli.&lt;/p&gt;
+&lt;p&gt;Haystack uygulamasının vereceğimiz index tanımlarını otomatik tanıması için, Django uygulamamızın ana klasörüne(settings.py ile aynı yere) aşağıdaki içerikte search_sites.py adlı dosyamızı oluşturalım:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;haystack&lt;/span&gt;
+
+&lt;span class="n"&gt;haystack&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;autodiscover&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Verilerin indekslenmesi&lt;/h2&gt;
+&lt;p&gt;Örneğimizde bir blog uygulamamız olacak ve blog yazılarının başlıklarında bir arama yapacağız. Yazımız için modelimiz aşağıdaki gibi olsun:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.db&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.contrib.auth.models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;User&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;BlogPost&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_length&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;200&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;author&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ForeignKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;User&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;TextField&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;create_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auto_now_add&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;modified_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;models&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DateTimeField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auto_now&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Modelimizi oluşturduktan sonra syncdb komutuyla veritabanını senkronize edip yönetici panelinden de deneme için birkaç yazı ekleyebilirsiniz.&lt;/p&gt;
+&lt;p&gt;Arama motorları aramada kullanılacak verileri kendi içine, belirledikleri algoritmalarla alırlar ve bu veriler üzerinde arama yapma imkanı verirler. Bu işleme indeksleme denir. Biz de şimdi BlogPost modelimizden hangi verileri indeksimize alacağımızı belirteceğiz. Bu işlemi uygulama klasörünün içine search_indexes.py adlı bir dosya açarak yapıyoruz:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;haystack&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;indexes&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;blog.models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BlogPost&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;PostIndex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;indexes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RealTimeSearchIndex&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;indexes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Indexable&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;indexes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;document&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;use_template&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;indexes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CharField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;model_attr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_model&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;BlogPost&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Örneğimizde PostIndex adlı bir indeks oluşturduk. Bunu haystack'in RealTimeSearchIndex sınıfını miras alarak oluşturduğumuz için modelimizdeki değişikliklerde(yazı eklenmesi, silinmesi gibi) Elasticsearch indeksimiz otomatik olarak güncellenecek. Haystack indeks tanımlamalarında get_model metodu yazılarak ilgili modelin belirtilmesi ve mutlaka bir adet text adlı alan bulunması zorunludur. Bu alan varsayılan olarak üzerinde arama yapılacak alandır. Bu alana verdiğimiz use_template parametresi bu alan için oluşturacağımız bir template dosyamızın var olduğunu belirtiyor. Bu dosyamızı da templates klasörümüzün içinde search/indexes/[uygulama adı]/[model adı]_[alan adı].txt yoluna(bu örneğimiz için: templates/search/indexes/blog/blogpost_text.txt) koymamız gerekiyor:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;literal&lt;/span&gt; &lt;span class="cp"&gt;%}{{&lt;/span&gt; &lt;span class="nv"&gt;object.title&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;object.author&lt;/span&gt; &lt;span class="cp"&gt;}}{%&lt;/span&gt; &lt;span class="k"&gt;endliteral&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bu şekilde text alanına modelimizden başlık ve yazar bilgilerini ekleyerek indeksletmiş olduk. Bu sayede yazılarımızda hem yazar adı hem de yazı başlığı ile arama yapma imkanına sahip olacağız.&lt;/p&gt;
+&lt;p&gt;"Yazı başlığını text alanına eklediysek, title alanını indekse eklemeye ne gerek var?" sorusu aklınıza gelmiş olabilir. text alanında sadece birebir yazı başlığını kullansak, tekrar title alanını eklemeye gerek kalmazdı, ancak, şu durumda arama yaptıktan sonra, arama sonucu olarak başlıkları listelerken yazı başlıklarına ihtiyaç olacağı için, text alanından yazı başlığını çıkartmaya çalışmak veya her sonuç satırı için veritabanına gidip yazı başlığını alma külfetine girmemek için yazı başlığını ayrıca indekse ekledik. Unutmayalım ki, aramayı elasticsearch gibi bir ortama almaktaki en önemli amaçlarımızdan biri arama işlerini veritabanının üzerinde alarak gereksiz yük oluşturmamak.&lt;/p&gt;
+&lt;p&gt;İndeksleme bilgilerini girerken burada hepsine değinemeyeceğim daha bir çok imkan var. Bunları &lt;a href="http://django-haystack.readthedocs.org/en/latest/searchindex_api.html"&gt;ilgili doküman&lt;/a&gt;dan inceleyebilir veya özellikle merak ettiğiniz bir konu olursa bu yazıya yorum girerek sorabilirsiniz.&lt;/p&gt;
+&lt;p&gt;Verilerimizin ilk kez indekslenmesi için aşağıdaki komutu çalıştırmamız gerekiyor:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="n"&gt;manage&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt; &lt;span class="n"&gt;update_index&lt;/span&gt; &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;BlogPost&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sonda verdiğimiz model parametresi opsiyoneldir. Eğer yazmazsanız varolan bütün indeksler güncellenir. Bu komutu çalıştırmadan önce elasticsearch'ün çalıştığından emin olun.&lt;/p&gt;
+&lt;h2&gt;Arama sorgusu&lt;/h2&gt;
+&lt;p&gt;Verilerimiz indekslendiğine göre artık ilk sorgumuzu yapabiliriz. Bunun için önce bir url tanımlayalım:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;urlpatterns&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="n"&gt;patterns&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;&lt;/span&gt;^&lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;$&lt;span class="s"&gt;&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="o"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Bu adrese gelecek talepleri alacak view metodumuzu da uygulama klasöründeki views.py dosyamıza ekliyoruz:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;django.http&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HttpResponse&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;haystack.query&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SearchQuerySet&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SearchQuerySet&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;content__startswith&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GET&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;q&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))[:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;results_text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;HttpResponse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results_text&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;content_type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/plain&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sorgular için haystack'in SearchQuerySet'ini kullanıyoruz. Kullanımı Django'nun model query'sine oldukça benziyor. Çok benzer şekilde çalışan filter metodunu kullanarak q querystringi ile gelen metinle başlayan kelimelerin bulunduğu 10 adet kaydı çekiyoruz. Burada text__startswith yazmak yerine content ismini kullanmamız dikkatinizi çekmiştir. content ismi, haystack tarafından sunulmuş özel bir alan adı ve tüm dokümanda arama yapma imkanı veriyor. filter'da Django'da olduğu gibi indeksteki diğer alanlara özgü filtrelemeler yapmamız da mümkün. Örneğin indeksimize user alanı da eklediğimizi varsayarsak:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;SearchQuerySet&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user__iexact&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;murat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;content__startswith&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;request&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;GET&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;q&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))[:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;gibi zincirleme sorgular yapabiliriz.&lt;/p&gt;
+&lt;p&gt;Tüm bu işlemleri başarıyla tamamladığınızda, django uygulamamızı çalıştırıp http://127.0.0.1:8000/blog/arama/?q=django gibi arama yaptığımızda başlığında veya yazar adında django ile başlayan kelimeler bulunan yazılardan ilk 10'unun başlıklarının listelendiğini göreceksiniz.&lt;/p&gt;
+&lt;h2&gt;Sonuç&lt;/h2&gt;
+&lt;p&gt;Benim de yeni tecrübe ettiğim ve çok sevdiğim bir alanda sizinle tecrübelerimi paylaşmak istedim. Umarım faydalı olmuştur. Konuyla ilgili soru veya katkılarınızla bu yazıyı daha da faydalı bir kaynağa dönüştürebiliriz.&lt;/p&gt;</summary><category term="django"></category><category term="python"></category><category term="haystack"></category><category term="elasticsearch"></category><category term="fulltextsearch"></category><category term="arama"></category></entry><entry><title>Python ile TC Kimlik Numarası doğrulama</title><link href="http://muratcorlu.com/post/python-ile-tc-kimlik-numarasi-dogrulama/" rel="alternate"></link><updated>2012-03-11T22:48:00+02:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2012-03-11:post/python-ile-tc-kimlik-numarasi-dogrulama/</id><summary type="html">&lt;p&gt;Merak edip TC Kimlik no algoritmasını araştırdığımda aşağıdaki kurallara &lt;a href="http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi"&gt;ulaştım&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;11 hanelidir.&lt;/li&gt;
+&lt;li&gt;Her hanesi rakamsal değer içerir.&lt;/li&gt;
+&lt;li&gt;İlk hane 0 olamaz.&lt;/li&gt;
+&lt;li&gt;1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı çıkartıldığında, elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 10. haneyi verir.&lt;/li&gt;
+&lt;li&gt;1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10'a bölümünden kalan, yani Mod10'u bize 11. haneyi verir.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Kütüphanemde bulunması için bu kurallara göre bir Python doğrulama metodu yazayım dedim. Ortaya şöyle birşey çıktı:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="c"&gt;# coding=utf-8&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Kurallar:&lt;/span&gt;
+&lt;span class="sd"&gt;* 11 hanelidir.&lt;/span&gt;
+&lt;span class="sd"&gt;* Her hanesi rakamsal değer içerir.&lt;/span&gt;
+&lt;span class="sd"&gt;* İlk hane 0 olamaz.&lt;/span&gt;
+&lt;span class="sd"&gt;* 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı &lt;/span&gt;
+&lt;span class="sd"&gt;  çıkartıldığında, elde edilen sonucun 10&amp;#39;a bölümünden kalan, yani Mod10&amp;#39;u bize 10. haneyi &lt;/span&gt;
+&lt;span class="sd"&gt;  verir.&lt;/span&gt;
+&lt;span class="sd"&gt;* 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun 10&amp;#39;a bölümünden &lt;/span&gt;
+&lt;span class="sd"&gt;  kalan, yani Mod10&amp;#39;u bize 11. haneyi verir.&lt;/span&gt;
+
+&lt;span class="sd"&gt;Kurallar http://www.kodaman.org/yazi/t-c-kimlik-no-algoritmasi adresinden alınmıştır.&lt;/span&gt;
+
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;isValidTCID&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;# 11 hanelidir.&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Sadece rakamlardan olusur.&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isdigit&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Ilk hanesi 0 olamaz.&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+    &lt;span class="n"&gt;digits&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+
+    &lt;span class="c"&gt;# 1. 2. 3. 4. 5. 6. 7. 8. 9. ve 10. hanelerin toplamından elde edilen sonucun&lt;/span&gt;
+    &lt;span class="c"&gt;# 10&amp;#39;a bölümünden kalan, yani Mod10&amp;#39;u bize 11. haneyi verir.&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+    &lt;span class="c"&gt;# 1. 3. 5. 7. ve 9. hanelerin toplamının 7 katından, 2. 4. 6. ve 8. hanelerin toplamı &lt;/span&gt;
+    &lt;span class="c"&gt;# çıkartıldığında, elde edilen sonucun 10&amp;#39;a bölümünden kalan, yani Mod10&amp;#39;u bize &lt;/span&gt;
+    &lt;span class="c"&gt;# 10. haneyi verir.&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="p"&gt;(((&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;::&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;digits&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+    &lt;span class="c"&gt;# Butun kontrollerden gecti.&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Herhangi bir hata ya da eksik gördüğünüzde iletin lütfen.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>"Django geliştirme ortamı için basit statik sunucu"</title><link href="http://muratcorlu.com/post/django-gelistirme-ortami-icin-basit-statik-sunucu/" rel="alternate"></link><updated>2012-03-05T00:06:00+02:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2012-03-05:post/django-gelistirme-ortami-icin-basit-statik-sunucu/</id><summary type="html">&lt;p&gt;&lt;a href="http://www.djangoproject.com"&gt;Django&lt;/a&gt;'da web uygulamaları geliştirirken, geliştirme ortamında her seferinde beni en çok sıkıntıya sokan mevzu css ve js dosyaları gibi statik dosyaların sunulması işiydi. Böyle bir iş için bilgisayarıma http sunucusu kurmaktan ve bunu konfigüre etmekten hep kaçtım. Ancak bugün tam da aradığım basitlikte bir çözüme ulaştım. Python'un imdadımıza yetişen &lt;a href="http://docs.python.org/library/simplehttpserver.html"&gt;SimpleHTTPServer modülü&lt;/a&gt; ile yazdığımız aşağıdaki tek satırlık komut, bulunduğum klasörü http üzerinden sunma imkanı veriyor:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;django-project/static&lt;span class="nv"&gt;$ &lt;/span&gt;&amp;gt; python -m SimpleHTTPServer &lt;span class="nv"&gt;$portnum&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Django projemde, statik dosyalarımın bulunduğu klasörde yukarıdaki komutu $portnum yerine herhangi bir port numarası yazarak çalıştırıyorum. Django projemin settings.py dosyasında da aşağıdaki şekilde statik dosyalarımın yerini ve sunucu adresini bildiriyorum:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;span class="n"&gt;SITE_ROOT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;dirname&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;realpath&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;__file__&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;STATIC_ROOT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SITE_ROOT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;static&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;STATIC_URL&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://127.0.0.1:9876/&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Dilerseniz komutu django projesinin kök dizininde çalıştırarak birden fazla klasör için tek bir portu kullanabilirsiniz de:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;&lt;span class="n"&gt;django&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;project&lt;/span&gt;$ &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;SimpleHTTPServer&lt;/span&gt; 9876
+
+&lt;span class="n"&gt;STATIC_URL&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://127.0.0.1:9876/static/&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;MEDIA_URL&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;http://127.0.0.1:9876/media/&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sunucunun loglarını bir dosyaya yazarak arka planda çalıştırmayı dilerseniz, komutu aşağıdaki şekilde de çalıştırabilirsiniz:&lt;/p&gt;
+&lt;div class="codehilite"&gt;&lt;pre&gt;django-project/static&lt;span class="nv"&gt;$ &lt;/span&gt;&amp;gt; python -m SimpleHTTPServer &lt;span class="nv"&gt;$portnum&lt;/span&gt; &amp;gt; ~/temp/static-server.log 2&amp;gt;&amp;amp;1 &amp;amp;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Hatta yapılabilecek bir diğer güzellik de, django-admin.py'ın runserver komutunu genişleterek, django geliştirme sunucusuyla beraber konfigürasyondaki bilgilere göre statik sunucuların da çalıştırılması olabilir.&lt;/p&gt;
+&lt;p&gt;Son olarak, bu yöntemi ağ üzerinden &lt;a href="http://www.harunseker.org/2011/12/python-simple-http-server-ile-dosya.html"&gt;dosya paylaşımı yapmak için&lt;/a&gt; de kullanabileceğinizi hatırlatmak isterim. Ağ üzerinde paylaşmak istediğiniz dizinde bu komutu çalıştırdığınızda ağdaki bir diğer bilgisayardan bilgisayarınızın ip adresi ve belirttiğiniz port numarası ile dizininizde gezilebilir ve dosyalar çekilebilir.&lt;/p&gt;</summary><category term="django"></category><category term="python"></category><category term="server"></category></entry><entry><title>Dropbox'ı FTP gibi kullanmak</title><link href="http://muratcorlu.com/post/dropboxi-ftp-gibi-kullanmak/" rel="alternate"></link><updated>2012-01-26T10:43:00+02:00</updated><author><name>Murat Çorlu</name></author><id>tag:muratcorlu.com,2012-01-26:post/dropboxi-ftp-gibi-kullanmak/</id><summary type="html">&lt;p&gt;&lt;a href="http://db.tt/1ImfZir"&gt;Dropbox&lt;/a&gt; birden fazla bilgisayar, telefon veya tablet üzerinde senkronize bir klasör sahibi olmanızı sağlayan, bu klasörden istediklerinizi başkalarıyla paylaşarak, üzerinde ortak çalışma şansı sunan, son zamanların en güzel yazılım çözümlerinden biri. Biraz daha açmak gerekirse; Dropbox'a ücretsiz üye olup, bilgisayarınıza kurduğunuzda, Belgelerim altında bir klasörünüz artık devamlı Dropbox sunucularına yedeklenmeye başlanıyor. Aynı üyelikle başka bir bilgisayara daha(mesela iş bilgisayarınıza) Dropbox kurduğunuzda, aynı dosyalar otomatik olarak buraya da kopyalanıyor. Herhangi bir bilgisayarda bu dosyalarda bir değişiklik yapıldığında, diğer bağlantılı bilgisayarlara da otomatik yansıtılıyor.&lt;/p&gt;
+&lt;p&gt;Bu tür teknoloji aslında yeni sayılmaz. Uzak disklerin bilgisayara bağlanması ve bu disk üzerinde çalışmak daha önce de kullanılan bir yöntemdi ancak Dropbox işi oldukça kolaylaştırdı. Aynı dosyalara web tarayıcısı üzerinden, &lt;a href="http://itunes.apple.com/us/app/dropbox/id327630330?mt=8"&gt;iPhone&lt;/a&gt; ve &lt;a href="https://market.android.com/details?id=com.dropbox.android"&gt;Android&lt;/a&gt; uygulamaları sayesinde mobilden de erişebilmek de Dropbox'ı temel ihtiyaç maddesine dönüştürebiliyor.&lt;/p&gt;
+&lt;p&gt;Bense bu yazıda size Dropbox'ın &lt;a href="http://www.dropboxwiki.com/Using_Dropbox_CLI"&gt;komut satırı istemcisi&lt;/a&gt;nin sağladığı bir nimetten bahsetmek istiyorum.
+&lt;!--more--&gt;&lt;/p&gt;
+&lt;h2&gt;Ne gerek var?&lt;/h2&gt;
+&lt;p&gt;Kişisel sanal sunucu ihtiyacım için yıllardır &lt;a href="http://www.linode.com/?r=c2c44c598b1a93f61a9aadc7eb9c1396b8456d08"&gt;Linode&lt;/a&gt;'u kullanıyorum. Sunucunun sistemini kendim yönetebilmek adına herhangi bir sunucu yönetim uygulaması(Plesk vs.) da kullanmıyorum. Sunucumdan yer verdiğim birkaç kişiye sitelerinin dosyalarını değiştirebilme imkanı vermem gerekiyor. FTP kurmak ve bunun güvenliğini sağlamak meşakkatli bir iş. Her FTP kullanıcısı için bir sistem kullanıcısı açmak falan... İşte bu konuda imdadıma Dropbox CLI yetişiyor.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.dropboxwiki.com/Using_Dropbox_CLI"&gt;Dropbox CLI&lt;/a&gt; sayesinde sunucuma da Dropbox kurabiliyorum. Arkadaşıma dosyalarını değiştirme imkanı vereceğim sitenin dosyalarını Dropbox klasörüne sembolik link yaparak ekliyorum. Sonra Dropbox yönetim panelinden arkadaşım ile bu klasörü paylaşıyorum(onun da Dropbox hesabı olması gerekiyor). Bu andan itibaren arkadaşımın bilgisayarında da sitenin dosyalarının bir kopyası oluyor. Her iki tarafta yapılan değişiklikler senkronize ediliyor. Böylece kişi siteyi kendi bilgisayarında düzenliyor, dosyayı kaydettikten sonra saniyeler içerisinde site de güncellenmiş oluyor.&lt;/p&gt;
+&lt;p&gt;Bu kullanımın bir diğer avantajı da Dropbox'ın dosyalarınızı versiyonlaması. Dropbox'da bulunan dosyalarınızın ilk oluşturulduğu tarihe kadar bütün versiyonlarına Dropbox yönetici panelinden erişebiliyorsunuz. Bu da yanlışlıkla silinebilecek veya bozulacak dosyalar için büyük bir güven kaynağı oluyor.&lt;/p&gt;
+&lt;p&gt;Aynı klasör aynı anda birçok dropbox kullanıcısıyla paylaşılabiliyor. Böylece bir ekipte sitede herhangi bir değişiklik yapıldığında ekipteki herkes haberdar olabiliyor.&lt;/p&gt;
+&lt;h2&gt;Avantajlar&lt;/h2&gt;
+&lt;p&gt;FTP yerine Dropbox kullanmanın sağlayacağı avantajları maddelersek:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;FTP'den çok daha basit bir kullanım şansı veriyor.&lt;/li&gt;
+&lt;li&gt;Dosyalar otomatik olarak versiyonlanıyor ve yedekleniyor.&lt;/li&gt;
+&lt;li&gt;Birden fazla kullanıcı ortak kullanabiliyor.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Dezavantajlar&lt;/h2&gt;
+&lt;p&gt;FTP yerine Dropbox kullanmanın dezavantajları da yok değil:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Dropbox CLI sistemde hatırı sayılır bir hafıza tüketiyor. İhtiyaç olmadığında uygulama durdurulabilir.&lt;/li&gt;
+&lt;li&gt;Dosya izinleri taşınmıyor. Dolayısıyla bir dosyaya örneğin 777 izni vermek gerekirse, bunu elle sunucuya girip yapmak gerekir.&lt;/li&gt;
+&lt;li&gt;Dropbox klasörlerine şifre koyma şansı yok. Dolayısıyla sitenin dosyaları bilgisayarda açıkda duruyor olacaklar. Ortak kullanılan bilgisayarlarda riskli olabilir.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Sonuç&lt;/h2&gt;
+&lt;p&gt;FTP olarak kullanmak elbette ki Dropbox'ın temel amacı değil ve Dropbox, bu amaç için kullanılmasa da oldukça faydalı. Ben bir özellik olarak sunulmayan ancak şartların kendiliğinden doğurduğu ve benim de faydalandığım böyle bir imkandan haberdar etmek istedim.&lt;/p&gt;
+&lt;p&gt;Dropbox'a üye olmayanlar için de aşağıdaki referans bağlantımla üye olmalarını tavsiye ederim. Referansım ile 250MB fazladan alan kazanacaksınız.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://db.tt/1ImfZir"&gt;http://db.tt/1ImfZir&lt;/a&gt;&lt;/p&gt;</summary></entry></feed>

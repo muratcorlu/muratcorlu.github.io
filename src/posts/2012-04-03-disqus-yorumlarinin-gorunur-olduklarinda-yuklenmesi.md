@@ -1,4 +1,4 @@
-title: "Disqus yorumlarının görünür olduklarında yüklenmesi"
+title: Disqus yorumlarının görünür olduklarında yüklenmesi
 date: 2012-04-03 11:26
 categories: turkish
 tags: disqus, javascript, octopress, jquery

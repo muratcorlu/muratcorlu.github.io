@@ -1,4 +1,4 @@
-title: "Mac OSX Lion'da SSHFS kullanımı"
+title: Mac OSX Lion'da SSHFS kullanımı
 date: 2012-03-04 19:28
 category: turkish
 tags: OSX
