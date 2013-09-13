@@ -66,7 +66,7 @@ Template:
 
 ## 5. Google güveni ve hızlı büyüyen topluluk
 
-Belki Google [batırdığı projelerle](http://www.pinterest.com/googlegraveyard/google-graveyard/) de ün yapmış olabilir, ancak başarılı olduğu alan sayısının fazlalığı dikkate alındığında, liderliğini yaptığı bir açık kaynak projeye güvenmek için daha baştan çok büyük bir unsur elde ediyorsunuz. Bunun yanında özellikle [2013 yılı başından itibaren](https://twitter.com/muratcorlu/status/352904895944347648) müthiş bir popülariteye ulaşan Angular'ın geliştirmeya katkıda bulunan topluluğunun büyüklüğü de [Github'daki projesinin](https://github.com/angular/angular.js) hareketliliğinden görülebiliyor.
+Belki Google [batırdığı projelerle](http://www.pinterest.com/googlegraveyard/google-graveyard/) de ün yapmış olabilir, ancak başarılı olduğu alan sayısının fazlalığı dikkate alındığında, liderliğini yaptığı bir açık kaynak projeye güvenmek için daha baştan çok büyük bir unsur elde ediyorsunuz. Bunun yanında özellikle [2013 yılı başından itibaren](https://twitter.com/muratcorlu/status/352904895944347648) müthiş bir popülariteye ulaşan Angular'ın geliştirmeye katkıda bulunan topluluğunun büyüklüğü de [Github'daki projesinin](https://github.com/angular/angular.js) hareketliliğinden görülebiliyor.
 
 ## 6. jQuery bağımsız
 
@@ -98,7 +98,7 @@ $scope.update = function() {
 
 ## 8. Basit ve esnek URL yönetimi
 
-"[Tek sayfa uygulamaları](http://en.wikipedia.org/wiki/Single-page_application)" geliştirirken, uygulama içinde gezinirkenki kullanılabilirlik adına URL yönetimi önemli bir konu. Angular'ın [route modülü](http://docs.angularjs.org/tutorial/step_07) -çok gelişmiş özellikleri olmasa da- problemsiz ve basit bir şekilde URL yönetimini kotarıyor. İster HTML5 pushstate ile ise hashbang kullanarak ve bunu da browser desteğine göre otomatik olarak yapıp, tarayıcı geçmişindeki gezintiyi de destekleyen, gönderdiği eventlerle url değişimlerini takip etmeyi kolaylaştıran oldukça kararlı ve esnek bir modül. [Sahibinden Github hesabı](https://github.com/sahibinden)nda paylaştığımız [angular-router-advanced](https://github.com/sahibinden/angular-router-advanced) adlı modülümüzde bu farklı dillere özgü farklı url tanımlamaları yapma ve url'leri isimlendirme özellikleri kattığımız haliyle, uygulamada gezinme işini sıfır problemle halletmiş bulunmaktayız.
+"[Tek sayfa uygulamaları](http://en.wikipedia.org/wiki/Single-page_application)" geliştirirken, uygulama içinde gezinirkenki kullanılabilirlik adına URL yönetimi önemli bir konu. Angular'ın [route modülü](http://docs.angularjs.org/tutorial/step_07) -çok gelişmiş özellikleri olmasa da- problemsiz ve basit bir şekilde URL yönetimini kotarıyor. İster HTML5 pushstate ile ister hashbang kullanarak ve bunu da browser desteğine göre otomatik olarak yapıp, tarayıcı geçmişindeki gezintiyi de destekleyen, gönderdiği eventlerle url değişimlerini takip etmeyi kolaylaştıran oldukça kararlı ve esnek bir modül. [Sahibinden Github hesabı](https://github.com/sahibinden)nda paylaştığımız [angular-router-advanced](https://github.com/sahibinden/angular-router-advanced) adlı modülümüzde bu farklı dillere özgü farklı url tanımlamaları yapma ve url'leri isimlendirme özellikleri kattığımız haliyle, uygulamada gezinme işini sıfır problemle halletmiş bulunmaktayız.
 
 ## 9. Büyüdükçe güzelleşen projeler
 
