@@ -283,7 +283,7 @@ article .tags li:last-child:after {
     margin: 10px 0 0 72px;
     text-shadow: 1px 1px 0 #fff;
     overflow: hidden;
-    clear: both;
+    clear: left;
 }
 
 .about .avatar + p {
@@ -307,6 +307,12 @@ article .tags li:last-child:after {
 
 .github-badge {
     float: right;
+}
+
+.about .stackoverflow-badge {
+    float: right;
+    margin: 0;
+    margin-top: -65px;
 }
 
 @media screen and (max-width: 622px) {
