@@ -3,7 +3,7 @@ from hashlib import md5
 
 AUTHOR = u"Murat Çorlu"
 AUTHOR_SHORTBIO = '''
-I'm web developer at sahibinden.com. I love Javascript and Python.
+I'm Principle Front-end developer at sahibinden.com. I love Javascript, AngularJS and Python.
 '''
 SITENAME = u"web development notes"
 SITEURL = 'http://muratcorlu.com'
