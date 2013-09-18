@@ -1,6 +1,6 @@
 body {
     color: #434343;
-    font: normal 14px 'Carrois Gothic', sans-serif;
+    font: normal 12px 'Duru Sans', sans-serif;
 }
 
 a {
@@ -75,6 +75,28 @@ pre {
 
 pre code {
     font-size: 15px;
+}
+
+table {
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 3px 5px;
+}
+
+th {
+    background-color: #efefef;
+    border-bottom: solid 2px #666;
+}
+
+td {
+    border-bottom: solid 1px #efefef;
+}
+
+tr:hover td {
+    background-color: #f8f8f8;
 }
 
 .container {
