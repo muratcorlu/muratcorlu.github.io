@@ -1,7 +1,5 @@
 name: web development notes
 description: by Murat Çorlu
-markdown: redcarpet
-pygments: true
 
 url: http://muratcorlu.com
 disqus_shortname: muratcorlu
@@ -34,8 +32,9 @@ links:
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    Europe/Istanbul
 future:      true
-pygments:    true
-markdown:    kramdown
+highlighter:    pygments
+#markdown:    kramdown
+markdown: redcarpet
 
 # https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink:   /post/:title/
