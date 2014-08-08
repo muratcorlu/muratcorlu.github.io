@@ -1,0 +1,57 @@
+---
+layout: default
+---
+<article>
+    <header>
+        <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title }}</a></h1>
+        <time datetime="{{ page.date | date_to_string }}" pubdate>Posted on {{ page.date | date_to_string }}</time>
+    </header>
+
+    <div class="body">
+        {{ content }}
+    </div>
+
+    {% if page.tags %}
+    <!--footer>
+        <ul class="tags">
+        {% for tag in page.tags %}
+            <li><a href="/tags/#{{ tag }}">{{ tag }}</a></li>
+        {% endfor %}
+        </ul>
+    </footer-->
+    {% endif %}
+
+    {% include share.html %}
+    {% include comments.html %}
+
+</article>
+
+<script>
+    (function () {
+        'use strict';
+        var titleElm = document.querySelector('article > header');
+        var bodyElm = document.querySelector('article > .body');
+        if (!titleElm || !bodyElm)
+            return;
+
+        var limit = titleElm.offsetTop;
+        var titleCls = titleElm.classList;
+        var bodyCls = bodyElm.classList;
+        var floating = false;
+        window.onscroll = function (evt) {
+            var scrollTop = Math.max(document.body.scrollTop,
+                    document.documentElement.scrollTop);
+            if (!floating && limit < scrollTop) {
+                titleCls.add('float');
+                bodyCls.add('body-padding');
+                floating = true;
+            }
+            else if (limit >= scrollTop) {
+                titleCls.remove('float');
+                bodyCls.remove('body-padding');
+                floating = false;
+            }
+        };
+    })();
+</script>
+

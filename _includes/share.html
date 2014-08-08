@@ -1,0 +1,8 @@
+{% if site.author.twitter %}
+    <div class="share">
+        <a href="https://twitter.com/share" class="twitter-share-button"
+           data-count="horizontal" data-text="{{ page.title|striptags|escape }}"
+           data-via="{{ site.author.twitter }}">Tweet</a>
+    </div>
+    <script src="//platform.twitter.com/widgets.js"></script>
+{% endif %}

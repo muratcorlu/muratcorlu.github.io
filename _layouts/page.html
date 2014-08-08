@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<article>
+    <header>
+        <h1><a href="{{ page.url }}" rel="bookmark">{{ page.title|striptags }}</a></h1>
+    </header>
+
+    <div class="body">
+        {{ content }}
+    </div>
+
+    {% include share.html %}
+    {% include comments.html %}
+</article>

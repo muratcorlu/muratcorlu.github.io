@@ -1,0 +1,60 @@
+name: web development notes
+description: by Murat Çorlu
+markdown: redcarpet
+pygments: true
+
+url: http://muratcorlu.com
+disqus_shortname: muratcorlu
+
+
+# Owner/author information
+author:
+  name:           Murat Çorlu
+  avatar:         avatar.jpg
+  bio:            "I'm Principal Front-end developer at sahibinden.com. I love Javascript, AngularJS and Python."
+  email:          muratcorlu@gmail.com
+  emailhash:      2906955ae59c795275979d3782d7bfca
+  twitter:        muratcorlu
+  facebook:
+  github:         muratcorlu
+  stackexchange:
+  linkedin: http://www.linkedin.com/in/muratcorlu
+  instagram: muratcorlu
+  flickr:
+  tumblr: http://muratcorlu.tumblr.com/
+  google_plus:
+
+# Analytics and webmaster tools stuff goes here
+google_analytics: UA-790007-1
+
+links:
+  - title: Contact
+    url: /contact
+
+# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone:    Europe/Istanbul
+future:      true
+pygments:    true
+markdown:    kramdown
+
+# https://github.com/mojombo/jekyll/wiki/Permalinks
+permalink:   /post/:title/
+
+# Amount of post to show on home page
+paginate: 5
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  use_coderay: true
+
+  coderay:
+    coderay_line_numbers: nil
+    coderay_line_numbers_start: 1
+    coderay_tab_width: 4
+    coderay_bold_every: 10
+    coderay_css: class
+
+exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]

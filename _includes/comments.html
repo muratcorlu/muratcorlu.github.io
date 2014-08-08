@@ -1,0 +1,14 @@
+{% if site.disqus_shortname %}
+    <div id="disqus_thread"></div>
+    <script>
+        var disqus_identifier = "http://muratcorlu.com{{ page.url }}",
+            disqus_developer = "1";
+
+        (function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.src = 'http://{{ site.disqus_shortname }}.disqus.com/embed.js';
+            (document.head || document.body).appendChild(dsq);
+        })();
+    </script>
+{% endif %}
