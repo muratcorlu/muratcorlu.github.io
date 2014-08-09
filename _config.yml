@@ -1,14 +1,10 @@
 name: web development notes
 description: by Murat Çorlu
-
 url: http://muratcorlu.com
 disqus_shortname: muratcorlu
 
-
-# Owner/author information
 author:
   name:           Murat Çorlu
-  avatar:         avatar.jpg
   bio:            "I'm Principal Front-end developer at sahibinden.com. I love Javascript, AngularJS and Python."
   email:          muratcorlu@gmail.com
   emailhash:      2906955ae59c795275979d3782d7bfca
@@ -29,15 +25,18 @@ links:
   - title: Contact
     url: /contact
 
-# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    Europe/Istanbul
-future:      true
 highlighter:    pygments
-#markdown:    kramdown
-markdown: redcarpet
+markdown:    kramdown
+#markdown: redcarpet
 
-# https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink:   /post/:title/
+
+codepen:
+  username: muratcorlu
+  height: 268
+  theme_id: 7772
+  tab: result
 
 # Amount of post to show on home page
 paginate: 5

@@ -278,13 +278,17 @@ article .tags li:last-child:after {
 }
 
 .footnote {
+    font-size: 11px;
+}
+
+.footnotes {
     border-top: 1px solid #ddd;
     font-size: 11px;
     margin-bottom: 25px;
     padding-top: 5px;
 }
 
-.footnote a {
+.footnotes a {
     color: #888;
 }
 
