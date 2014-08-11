@@ -6,7 +6,7 @@ layout: none
     <url>
         <loc>{{ site.url }}</loc>
     </url>
-    {% for page in site.pages %}
+    {% for page in site.links %}
     <url>
         <loc>{{ site.url }}{{ page.url }}</loc>
     </url>
