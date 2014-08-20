@@ -6,6 +6,7 @@ permalink: /contact/
 
 Your can find me on several social platforms:
 
+- Email: <muratcorlu@gmail.com>
 - [Twitter @muratcorlu](http://twitter.com/muratcorlu)
 - [Github: muratcorlu](http://github.com/muratcorlu)
 - [Linkedin: muratcorlu](http://www.linkedin.com/in/muratcorlu)
