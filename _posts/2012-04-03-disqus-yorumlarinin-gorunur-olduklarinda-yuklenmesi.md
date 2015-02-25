@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Disqus yorumlarının görünür olduklarında yüklenmesi
 categories: turkish
 tags: disqus, javascript, octopress, jquery
