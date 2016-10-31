@@ -1,0 +1,136 @@
+---
+layout: default
+title: Sayı Tahmin Oyunu
+---
+
+<style>
+  .correct {
+    color: green;
+  }
+
+  .wrong {
+    color: orange;
+  }
+
+  .no {
+    color: maroon;
+  }
+
+  .success {
+    color: green;
+    font-weight: bold;
+  }
+
+  #replay {
+    display: none;
+  }
+
+  form.finished input,
+  form.finished button {
+    display: none;
+  }
+
+  form.finished #replay {
+    display: inline;
+  }
+</style>
+
+<h1>Sayı Tahmin Oyunu</h1>
+
+<p>Aklımdan <span id="charCount"></span> haneli, her hanesi birbirinden farklı bir sayı tuttum. Yapacağın tahminlerinde yerini doğru bildiğin her rakam için +1, yerini yanlış bildiğin her rakam içinse -1 cevabı vereceğim. Hiçbir rakamı bilemediysen 0 cevabı döneceğim. Bakalım bu şekilde kaç tahminde bulabileceksin.</p>
+
+<form id="game">
+    <ol id="guesses"></ol>
+    <input type="number" id="guessInput"> <button>Dene</button>
+
+    <a id="replay" href="#">Yeniden oyna!</a>
+</form>
+<script type="text/javascript">
+(function () {
+    var charCount = 4;
+    var maxNumber = Math.pow(10, charCount) - 1;
+    var minNumber = Math.pow(10, charCount - 1);
+
+    var actualNumber = [1,2,3,4,5,6,7,8,9,0].sort(function() {
+        return Math.random() > 0.5 ? -1 : 1;
+    }).splice(0, charCount).join('');
+
+    function diff(guess) {
+        var actualNumberParts = actualNumber.toString().split('');
+        var guessParts = guess.toString().split('');
+
+        var correctCount = 0;
+        var wrongPosition = 0;
+
+        for(var i = 0; i < actualNumberParts.length; i++) {
+            if (actualNumberParts[i] == guessParts[i]) {
+                correctCount++;
+            } else if (actualNumberParts.indexOf(guessParts[i]) > -1) {
+                wrongPosition++;
+            }
+        }
+
+        return {
+          correct: correctCount,
+          wrong: wrongPosition
+        };
+    }
+    document.getElementById('charCount').innerText = charCount;
+
+    var form = document.getElementById('game');
+    var ul = document.getElementById('guesses');
+    var guessInput = document.getElementById('guessInput');
+
+    guessInput.setAttribute('max', Math.pow(10, charCount) - 1);
+
+    document.getElementById('replay').addEventListener('click', function () {
+      ul.innerHTML = '';
+      guessInput.value = '';
+      form.classList.remove('finished');
+    });
+
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var guess = guessInput.value;
+
+        if (guess < minNumber || guess > maxNumber) {
+          alert('Tahmininiz ' + minNumber + ' ve ' + maxNumber + ' arasında olmalıdır');
+          return;
+        }
+
+        if (guess.toString().split('').filter(onlyUnique).length < guess.toString().split('').length) {
+          alert('Tahmininizde her sayı sadece 1 kez kullanılmalıdır.');
+          return;
+        }
+
+        var result = diff(guess);
+
+        var li = document.createElement('li');
+        li.innerHTML = guess + ' - ';
+
+        if (result.correct == 4) {
+          li.classList.add('success');
+          li.innerHTML += 'Bildin!';
+          form.classList.add('finished');
+
+        } else if(result.correct > 0) {
+          li.innerHTML += '<span class="correct">+' + result.correct + '</span>';
+        }
+
+        if(result.wrong > 0) {
+          li.innerHTML += '<span class="wrong">-' + result.wrong + '</span>';
+        }
+
+        if (result.correct == 0 && result.wrong == 0) {
+          li.innerHTML += '<span class="no">0</span>';
+        }
+
+        ul.appendChild(li);
+    });
+})();
+</script>
