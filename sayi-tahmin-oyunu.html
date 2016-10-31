@@ -31,8 +31,25 @@
     display: none;
   }
 
-  form.finished input,
-  form.finished button {
+  .input-row {
+    width: 100%;
+    max-width: 500px; 
+    display: flex;
+  }
+
+  .input-row input {
+    flex: 4;
+    border: solid 1px #999;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .input-row button {
+    flex: 1;
+  }
+
+  form.finished .input-row {
     display: none;
   }
 
@@ -47,7 +64,9 @@
 
 <form id="game">
     <ol id="guesses"></ol>
-    <input type="number" id="guessInput"> <button>Dene</button>
+    <div class="input-row">
+      <input type="number" id="guessInput"> <button>Dene</button>
+    </div>
 
     <a id="replay" href="#">Yeniden oyna!</a>
 </form>
