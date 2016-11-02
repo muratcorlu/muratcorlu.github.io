@@ -75,10 +75,34 @@
     var charCount = 4;
     var maxNumber = Math.pow(10, charCount) - 1;
     var minNumber = Math.pow(10, charCount - 1);
+    var shuffle = function (array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
 
-    var actualNumber = [1,2,3,4,5,6,7,8,9,0].sort(function() {
-        return Math.random() > 0.5 ? -1 : 1;
-    }).splice(0, charCount).join('');
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    };
+
+    var generateActualNumber = function () {
+      var shuffled = shuffle([1,2,3,4,5,6,7,8,9,0]);
+      if (shuffled[0] === 0) {
+        shuffled.shift();
+      }
+      return shuffled.splice(0, charCount).join('');
+    };
+
+    var actualNumber = generateActualNumber();
 
     function diff(guess) {
         var actualNumberParts = actualNumber.toString().split('');
@@ -109,6 +133,7 @@
     guessInput.setAttribute('max', Math.pow(10, charCount) - 1);
 
     document.getElementById('replay').addEventListener('click', function () {
+      actualNumber = generateActualNumber();
       ul.innerHTML = '';
       guessInput.value = '';
       form.classList.remove('finished');
