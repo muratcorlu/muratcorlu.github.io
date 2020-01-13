@@ -5,7 +5,7 @@ disqus_shortname: muratcorlu
 
 author:
   name:           Murat Çorlu
-  bio:            "I'm Principal Front-end developer at sahibinden.com. I love Javascript, AngularJS and Python."
+  bio:            "Senior JavaScript Engineer at Frontmen"
   email:          muratcorlu@gmail.com
   emailhash:      2906955ae59c795275979d3782d7bfca
   twitter:        muratcorlu
@@ -26,8 +26,8 @@ links:
     url: /contact
 
 timezone:    Europe/Istanbul
-highlighter:    pygments
-markdown:    kramdown
+# highlighter:    pygments
+# markdown:    kramdown
 #markdown: redcarpet
 
 permalink:   /post/:title/
