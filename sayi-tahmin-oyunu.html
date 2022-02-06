@@ -1,75 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Sayı tahmin oyunu</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="-1">
+  <meta charset="utf-8">
+  <title>Sayı tahmin oyunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="-1">
+     
+  <style>
+    body {
+      font-family: Helvetica, Arial;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      width: 500px;
+      margin: 0 auto;
+      max-width: 90vw;
+    }
+    
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: orange;
+    }
+
+    .no {
+      color: maroon;
+    }
+
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+
+    #replay {
+      display: none;
+    }
+
+    .input-row {
+      text-align: center;
+    }
+
+    .input-row input {
+      border: solid 1px #999;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    .input-row button {
+      display: none;
+    }
+
+    form.finished .input-row {
+      display: none;
+    }
+
+    form.finished #replay {
+      display: inline;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: black;
+        color: white;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
-<style>
-  .correct {
-    color: green;
-  }
+<div class="container">
+  
+  <h1>Sayı Tahmin Oyunu</h1>
 
-  .wrong {
-    color: orange;
-  }
+  <p>Aklımdan <span id="charCount"></span> haneli, her hanesi birbirinden farklı bir sayı tuttum. Yapacağın tahminlerinde yerini doğru bildiğin her rakam için +1, yerini yanlış bildiğin her rakam içinse -1 cevabı vereceğim. Hiçbir rakamı bilemediysen 0 cevabı döneceğim. Bakalım bu şekilde kaç tahminde bulabileceksin.</p>
 
-  .no {
-    color: maroon;
-  }
-
-  .success {
-    color: green;
-    font-weight: bold;
-  }
-
-  #replay {
-    display: none;
-  }
-
-  .input-row {
-    width: 100%;
-    max-width: 500px; 
-    display: flex;
-  }
-
-  .input-row input {
-    flex: 4;
-    border: solid 1px #999;
-    border-radius: 4px;
-    font-size: 16px;
-    padding: 10px 20px;
-  }
-
-  .input-row button {
-    flex: 1;
-  }
-
-  form.finished .input-row {
-    display: none;
-  }
-
-  form.finished #replay {
-    display: inline;
-  }
-</style>
-
-<h1>Sayı Tahmin Oyunu</h1>
-
-<p>Aklımdan <span id="charCount"></span> haneli, her hanesi birbirinden farklı bir sayı tuttum. Yapacağın tahminlerinde yerini doğru bildiğin her rakam için +1, yerini yanlış bildiğin her rakam içinse -1 cevabı vereceğim. Hiçbir rakamı bilemediysen 0 cevabı döneceğim. Bakalım bu şekilde kaç tahminde bulabileceksin.</p>
-
-<form id="game">
+  <form id="game">
     <ol id="guesses"></ol>
     <div class="input-row">
-      <input type="number" id="guessInput"> <button>Dene</button>
+      <input type="number" id="guessInput" maxlength="4" autofocus> <button type="submit">Dene</button>
     </div>
 
     <a id="replay" href="#">Yeniden oyna!</a>
-</form>
+  </form>
+</div>
 <script type="text/javascript">
 (function () {
     var charCount = 4;
